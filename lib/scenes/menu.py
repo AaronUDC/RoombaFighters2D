@@ -5,10 +5,6 @@ import pygame
 from pygame.locals import *
 from lib.escena import *
 
-
-
-
-
 # -------------------------------------------------
 # Clase MenuPygame, la escena en sí, en Pygame
 
