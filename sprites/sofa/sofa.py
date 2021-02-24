@@ -6,10 +6,10 @@ pygame.init()
 screen = pygame.display.set_mode((800, 600))
 
 pygame.display.set_caption("Sofa")
-icon = pygame.image.load('sofa2.jpg')
+icon = pygame.image.load('sofa2.png')
 pygame.display.set_icon(icon)
 
-sofaImg = pygame.image.load('sofa2.jpg')
+sofaImg = pygame.image.load('sofa.png')
 sofaX = 0
 sofaY = 0
 
