@@ -12,13 +12,14 @@ class Test(EscenaPygame, pyglet.window.Window):
         EscenaPygame.__init__(self, director)
     
         
-    def update(self, *args):
-        raise NotImplemented("Tiene que implementar el metodo update.")
+    #def update(self, *args):
+    #    raise NotImplemented("Tiene que implementar el metodo update.")
 
-    def eventos(self, *args):
-        raise NotImplemented("Tiene que implementar el metodo eventos.")
+    #def eventos(self, *args):
+    #    raise NotImplemented("Tiene que implementar el metodo eventos.")
 
-    def dibujar(self):
-        raise NotImplemented("Tiene que implementar el metodo dibujar.")
+    def dibujar(self, *args):
+        pygame.display.update()
+        #raise NotImplemented("Tiene que implementar el metodo dibujar.")
         
     
