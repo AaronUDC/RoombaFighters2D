@@ -39,18 +39,47 @@ class EscenaPygame(Escena):
         icon = pygame.image.load('sofa2.png')
         pygame.display.set_icon(icon)
         sofaImg = pygame.image.load('sofa.png')
-        sofaX = 300
+        sofaX = 320
         sofaY = 0
 
         def sofa():
             screen.blit(sofaImg, (sofaX, sofaY))
 
+        sofa2Img = pygame.image.load('sofa2girado.png')
+        sofa2X = 650
+        sofa2Y = 175
+
+        def sofa2():
+            screen.blit(sofa2Img, (sofa2X, sofa2Y))
+
         mesaImg = pygame.image.load('mesa.png')
-        mesaX = 0
-        mesaY = 200
+        mesaX = 625
+        mesaY = 475
 
         def mesa():
             screen.blit(mesaImg, (mesaX, mesaY))
+
+        mesa2Img = pygame.image.load('mesa.png')
+        mesa2X = 625
+        mesa2Y = 0
+
+        def mesa2():
+            screen.blit(mesa2Img, (mesa2X, mesa2Y))
+
+        mesagatoImg = pygame.image.load('mesagato2.png')
+        mesagatoX = 300
+        mesagatoY = 150
+
+        def mesagato():
+            screen.blit(mesagatoImg, (mesagatoX, mesagatoY))
+
+        soporteImg = pygame.image.load('soporte.png')
+        soporteX = 335
+        soporteY = 500
+
+        def soporte():
+            screen.blit(soporteImg, (soporteX, soporteY))
+
         tipoLetra = pygame.font.SysFont('arial', 96)
         screen.blit(tipoLetra.render('TEST', True, BLANCO), (50, ALTO_PANTALLA/4, 200, 100))
         screen.blit(tipoLetra.render('Pulse calquer tecla', True, BLANCO), (20, ALTO_PANTALLA/2, 200, 100))
@@ -64,9 +93,12 @@ class EscenaPygame(Escena):
           for event in pygame.event.get():
                 if event.type == KEYDOWN:
                   running = False
-          
         sofa()
+        sofa2()
         mesa()
+        mesa2()
+        mesagato()
+        soporte()
         pygame.display.update()
 
     def eventos(self, *args):
@@ -79,7 +111,6 @@ class EscenaPygame(Escena):
           for event in pygame.event.get():
                 if event.type == KEYDOWN and event.key == K_ESCAPE:
                   running = False
-
         pygame.draw.circle(screen, BLANCO, (50,50),4,0)
         pygame.display.update()
 
@@ -98,7 +129,6 @@ class EscenaPygame(Escena):
           for event in pygame.event.get():
                 if event.type == KEYDOWN and event.key == K_ESCAPE:
                   running = False
-
         sofa()
         pygame.display.update()
 
