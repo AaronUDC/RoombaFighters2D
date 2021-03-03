@@ -40,7 +40,8 @@ class Director():
             escena.update(tiempo_pasado)
 
             # Se dibuja en pantalla
-            escena.dibujar(escena.screen)
+            escena.dibujar(escena.pantalla)
+            
             pygame.display.flip()
 
     def ejecutar(self):

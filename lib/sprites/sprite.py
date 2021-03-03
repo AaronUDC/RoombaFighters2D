@@ -2,7 +2,7 @@
 
 import pygame, sys, os
 from pygame.locals import *
-from escena import *
+from lib.escena import *
 from lib.gestorRecursos import *
 
 class MiSprite(pygame.sprite.Sprite):
@@ -31,8 +31,8 @@ class MiSprite(pygame.sprite.Sprite):
         self.establecerPosicion((posx+incrementox, posy+incrementoy))
 
     def update(self, tiempo):
-        incrementox = self.velocidad[0]*tiempo
-        incrementoy = self.velocidad[1]*tiempo
+        incrementox = self.velocidad[0]/tiempo
+        incrementoy = self.velocidad[1]/tiempo
         self.incrementarPosicion((incrementox, incrementoy))
 
 
