@@ -18,7 +18,7 @@ class Actor(MiSprite):
         MiSprite.__init__(self)
 
         self.hoja = GestorRecursos.CargarImagen(archivoImagen,-1)
-        
+        self.image = self.hoja.convert_alpha()
         self.movimiento = 0
 
         self.angulo = 0
@@ -28,18 +28,22 @@ class Actor(MiSprite):
         self.velocidadCarrera = velocidadCarrera
         
         
-        self.rect = pygame.rect.Rect(5,5, 64,64)
+        self.rect = self.image.get_rect()
         self.actualizarDireccion()
 
 
     def actualizarDireccion(self):
-        self.image, self.rect = self.rot_center(self.hoja,self.rect,self.angulo)
+        #self.image = pygame.transform.rotate(self.hoja,self.angulo)
+        self.image = self.rot_center(self.hoja,self.angulo)
 
-    def rot_center(self, image, rect, angle):
-        """rotate an image while keeping its center"""
+    def rot_center(self, image, angle):
+        """rotate an image while keeping its center and size"""
+        orig_rect = image.get_rect()
         rot_image = pygame.transform.rotate(image, angle)
-        rot_rect = rot_image.get_rect(center=rect.center)
-        return rot_image,rot_rect
+        rot_rect = orig_rect.copy()
+        rot_rect.center = rot_image.get_rect().center
+        rot_image = rot_image.subsurface(rot_rect).copy()
+        return rot_image
 
     def mover(self, movimientoLineal,movimientoAngular):
         self.movimientoLineal = movimientoLineal
