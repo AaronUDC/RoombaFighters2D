@@ -21,9 +21,11 @@ class Salon(EscenaPygame):
         #Paredes
         self.paredes = Paredes()
 
+
+        self.sofa = Sofa((500,100))
         #Agrupamos los elementos que no se mueven (paredes y muebles) para comprobar colisiones
         self.grupoElementosEstaticos = pygame.sprite.Group(self.paredes.paredTop,self.paredes.paredBot,self.paredes.paredLeft,self.paredes.paredRight)
-        
+        self.grupoElementosEstaticos.add(self.sofa)
 
 
         self.jugador = Jugador()
@@ -58,6 +60,7 @@ class Salon(EscenaPygame):
         self.grupoJugadores.draw(pantalla)
 
         self.paredes.dibujar(pantalla)
+        pantalla.blit(self.sofa.sprite,self.sofa.rect)
         pygame.display.update()
 
     def salirPrograma(self):
@@ -91,3 +94,14 @@ class Paredes:
         pantalla.blit(self.paredBot.sprite,self.paredBot.rect)
         pantalla.blit(self.paredLeft.sprite,self.paredLeft.rect)
         pantalla.blit(self.paredRight.sprite,self.paredRight.rect)
+
+
+class Sofa(MiSprite):
+
+    def __init__(self, pos):
+        
+        MiSprite.__init__(self)
+        self.sprite = GestorRecursos.CargarImagen('sofa/sofa.png',-1)
+        self.rect = self.sprite.get_rect()
+        self.rect.right = pos[0]
+        self.rect.top = pos[1]

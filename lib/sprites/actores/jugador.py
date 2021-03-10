@@ -33,7 +33,7 @@ class Jugador(Actor):
         Actor.mover(self,lineal,angular)
 
     def update(self, tiempo, grupoElementosEstaticos):
-        obstaculo = pygame.sprite.spritecollideany(self,grupoElementosEstaticos)
+       
 
         (velocidadX,velocidadY) = self.velocidad
 
@@ -51,13 +51,6 @@ class Jugador(Actor):
             velocidadY = 0
 
 
-        #Colisiones WIP
-        if(obstaculo != None):
-            newPosX = self.posicion[0]-(velocidadX)
-            newPosY = self.posicion[1]-(velocidadY)
-            
-            MiSprite.establecerPosicion(self, (newPosX,newPosY) )
-
         if self.movimientoAngular == IZQUIERDA:
             #Girar a la Izquierda
             self.girar(tiempo,1)
@@ -67,4 +60,39 @@ class Jugador(Actor):
         
         self.velocidad = (velocidadX, velocidadY)
 
+
+        (posAntX ,posAntY ) = self.posicion
+        
         Actor.update(self,tiempo)
+
+        (posActX, posActY) = self.posicion
+
+        obstaculos = pygame.sprite.spritecollide(self,grupoElementosEstaticos,False)
+        #Colisiones WIP
+        if(obstaculos != None):
+            for obstaculo in obstaculos:
+                if obstaculo.rect.left  < self.rect.right and obstaculo.rect.right < self.rect.right:
+                #if obstaculo.rect.left < self.rect.right:
+                    #Colision por la izquierda
+                    #print("obstL:", obstaculo.rect.right, " ", obstaculo.rect.right + self.image.get_width()," " ,  self.rect.right)
+                    posActX = posAntX
+
+                elif obstaculo.rect.left > self.rect.left and obstaculo.rect.right > self.rect.left:
+                #elif obstaculo.rect.left > self.rect.left:
+                    #Colision por la derecha
+                    posActX = posAntX
+
+                if obstaculo.rect.top < self.rect.bottom and obstaculo.rect.bottom  < self.rect.bottom:
+                #if obstaculo.rect.top < self.rect.bottom:
+                    #Colision por arriba
+                    posActY = posAntY
+
+                elif obstaculo.rect.top > self.rect.top and obstaculo.rect.bottom > self.rect.top:
+                #elif obstaculo.rect.top > self.rect.top:
+                    #Colision por abajo
+
+                    posActY = posAntY
+                
+
+                
+        MiSprite.establecerPosicion(self, (posActX,posActY))
