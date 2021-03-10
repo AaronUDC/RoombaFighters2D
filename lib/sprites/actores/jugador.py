@@ -3,7 +3,7 @@
 import pygame, sys, os
 from pygame.locals import *
 from lib.gestorRecursos import *
-from lib.sprites.actores import *
+from lib.sprites.actores.actores import *
 
 
 class Jugador(Actor):

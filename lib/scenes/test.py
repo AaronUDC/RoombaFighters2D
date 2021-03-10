@@ -3,7 +3,7 @@
 import pyglet
 from lib.escena import *
 from pygame.locals import *
-from lib.sprites.jugador import Jugador
+from lib.sprites.actores.jugador import Jugador
 from lib.gestorRecursos import GestorRecursos
 
 BLANCO = (255,255,255)
