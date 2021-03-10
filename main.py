@@ -2,7 +2,7 @@
 
 # Importar modulos
 from lib.director import Director
-from lib.scenes.test import Test
+from lib.scenes.salon import *
 
 
 if __name__ == '__main__':
@@ -11,7 +11,7 @@ if __name__ == '__main__':
     director = Director()
 
     # Creamos la escena con el menu
-    escena = Test(director)
+    escena = Salon(director)
     
     # Le decimos al director que apile esta escena
     director.apilarEscena(escena)

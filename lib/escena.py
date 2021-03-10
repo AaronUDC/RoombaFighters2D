@@ -3,7 +3,7 @@
 import pygame, sys
 
 ANCHO_PANTALLA = 800
-ALTO_PANTALLA = 600
+ALTO_PANTALLA = 608
 
 # -------------------------------------------------
 # Clase Escena con lo metodos abstractos

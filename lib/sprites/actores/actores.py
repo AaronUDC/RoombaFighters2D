@@ -57,30 +57,7 @@ class Actor(MiSprite):
         self.adelante = (adelanteY,adelanteX)
         
     def update(self, tiempo):
-        (velocidadX,velocidadY) = self.velocidad
-
-        if self.movimientoLineal == ADELANTE: 
-            # Mover hacia adelante
-            velocidadX = -self.adelante[0] * self.velocidadCarrera
-            velocidadY = -self.adelante[1] * self.velocidadCarrera
-        elif self.movimientoLineal == ATRAS:
-            # Mover hacia atras
-            velocidadX = self.adelante[0] * self.velocidadCarrera
-            velocidadY = self.adelante[1] * self.velocidadCarrera
-        elif self.movimientoLineal == QUIETO:
-            velocidadX = 0
-            velocidadY = 0
-
-        if self.movimientoAngular == IZQUIERDA:
-            #Girar a la Izquierda
-            self.girar(tiempo,1)
-        elif self.movimientoAngular == DERECHA:
-            #Girar a la Derecha
-            self.girar(tiempo,-1)
         
-        
-        self.velocidad = (velocidadX, velocidadY)
-
         self.actualizarDireccion()
         MiSprite.update(self,tiempo)
 
