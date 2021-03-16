@@ -41,10 +41,9 @@ class Salon(EscenaPygame):
         pygame.display.update()
 
     def update(self,tiempo):
-        
-        
 
         self.grupoJugadores.update(tiempo,self.grupoElementosEstaticos)
+        self.grupoEnemigos.update(tiempo, self.grupoElementosEstaticos)
 
     def eventos(self,listaEventos):
         for event in listaEventos:

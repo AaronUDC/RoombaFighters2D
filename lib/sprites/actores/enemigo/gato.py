@@ -12,10 +12,10 @@ class Gato(Enemigos):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Enemigos.__init__(self, 'roomba/roomba.png', None, [6, 12, 6], 20,50);
+        Enemigos.__init__(self, 'roomba/roomba.png', None, [6, 12, 6], 20,20);
 
     def mover_cpu(self, jugador):
-        sentido = IZQUIERDA
+        #sentido = IZQUIERDA
         """if jugador.posicion[0] < self.posicion[0] and jugador.posicion[1] < self.posicion[1] and jugador.movimientoLineal == ADELANTE:
             sentido = IZQUIERDA
         elif jugador.posicion[0] < self.posicion[0] and jugador.posicion[1] < self.posicion[1] and jugador.movimientoLineal == ATRAS:
@@ -49,9 +49,9 @@ class Gato(Enemigos):
         Enemigos.disparar(self, jugador.posicion[0], jugador.posicion[1], estado)
         return
 
-    def update(self, tiempo):
+    def update(self, tiempo, grupoElementosEstaticos):
         if self.angulo == DERECHA:
-            Enemigos.mover_cpu(self, tiempo, 1)
+            Enemigos.mover_cpu(self, tiempo, self.angulo)
         else:
-            Enemigos.mover_cpu(self, tiempo, -1)
-        Actor.update(self,tiempo)
+            Enemigos.mover_cpu(self, tiempo, self.angulo)
+        Enemigos.update(self,tiempo)
