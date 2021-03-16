@@ -10,8 +10,8 @@ class Jugador(Actor):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Actor.__init__(self,'roomba/roomba.png',None, [6, 12, 6], 50, 20);
-        self.
+        Actor.__init__(self,'roomba/roomba.png',None, [6, 12, 6], 50, 50);
+        self.mascara = pygame.mask.from_surface(self.image)
 
         
 
@@ -33,7 +33,7 @@ class Jugador(Actor):
             angular = QUIETO
         Actor.mover(self,lineal,angular)
 
-    def update(self, tiempo, grupoElementosEstaticos):
+    def update(self, tiempo, mascaraEstaticos):
        
 
         (velocidadX,velocidadY) = self.velocidad
@@ -68,32 +68,14 @@ class Jugador(Actor):
 
         (posActX, posActY) = self.posicion
 
-        obstaculos = pygame.sprite.spritecollide(self,grupoElementosEstaticos,False)
-        #Colisiones WIP
-        if(obstaculos != None):
-            for obstaculo in obstaculos:
-                if obstaculo.rect.left  < self.rect.right and obstaculo.rect.right < self.rect.right:
-                #if obstaculo.rect.left < self.rect.right:
-                    #Colision por la izquierda
-                    #print("obstL:", obstaculo.rect.right, " ", obstaculo.rect.right + self.image.get_width()," " ,  self.rect.right)
-                    posActX = posAntX
-
-                elif obstaculo.rect.left > self.rect.left and obstaculo.rect.right > self.rect.left:
-                #elif obstaculo.rect.left > self.rect.left:
-                    #Colision por la derecha
-                    posActX = posAntX
-
-                if obstaculo.rect.top < self.rect.bottom and obstaculo.rect.bottom  < self.rect.bottom:
-                #if obstaculo.rect.top < self.rect.bottom:
-                    #Colision por arriba
-                    posActY = posAntY
-
-                elif obstaculo.rect.top > self.rect.top and obstaculo.rect.bottom > self.rect.top:
-                #elif obstaculo.rect.top > self.rect.top:
-                    #Colision por abajo
-
-                    posActY = posAntY
-                
-
+        posMaskX = int(posActX)
+        posMaskY = int(posActY)-self.image.get_height()
+    
+        dx = mascaraEstaticos.overlap_area(self.mascara, (posMaskX+1,posMaskY)) - mascaraEstaticos.overlap_area(self.mascara, (posMaskX-1, posMaskY))
+        dy = mascaraEstaticos.overlap_area(self.mascara, (posMaskX,posMaskY+1)) - mascaraEstaticos.overlap_area(self.mascara, (posMaskX, posMaskY-1))
+        if mascaraEstaticos.overlap_area(self.mascara, (int(posActX) ,int(posActY)-self.image.get_height() ) ) > 0:
+            posActX = posActX -(dx)/25#self.image.get_width()
+            posActY = posActY -(dy)/25#self.image.get_height()
+        
                 
         MiSprite.establecerPosicion(self, (posActX,posActY))

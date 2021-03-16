@@ -27,7 +27,9 @@ class Salon(EscenaPygame):
         self.grupoElementosEstaticos = pygame.sprite.Group(self.paredes.paredTop,self.paredes.paredBot,self.paredes.paredLeft,self.paredes.paredRight)
         self.grupoElementosEstaticos.add(self.sofa)
 
-        self.mascaraImg = GestorRecursos.CargarImagen('mask.png', (350,400))
+        self.mascaraImg = GestorRecursos.CargarImagen('mask.png', -1)
+        self.mascaraImg.set_colorkey(self.mascaraImg.get_at((340, 430)), RLEACCEL)
+
 
         self.mascaraCol = pygame.mask.from_surface(self.mascaraImg)
 
@@ -42,7 +44,7 @@ class Salon(EscenaPygame):
         
         
 
-        self.grupoJugadores.update(tiempo,self.grupoElementosEstaticos)
+        self.grupoJugadores.update(tiempo,self.mascaraCol)
 
     def eventos(self,listaEventos):
         for event in listaEventos:
