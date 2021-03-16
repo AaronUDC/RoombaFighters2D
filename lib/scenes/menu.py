@@ -34,14 +34,29 @@ class ElementoGUI:
 class Boton(ElementoGUI):
     def __init__(self, pantalla, nombreImagen, posicion):
         # Se carga la imagen del boton
-        self.imagen = GestorRecursos.CargarImagen(nombreImagen,-1)
+        self.hoja = GestorRecursos.CargarImagen(nombreImagen,-1)
         #self.imagen = pygame.transform.scale(self.imagen, (, 20))
+        self.estadoMarcado = False
+        
+        self.imagenDesmarcado = self.hoja.subsurface(Rect(0,0,self.hoja.get_width(),self.hoja.get_height()/2))
+        self.imagenMarcado = self.hoja.subsurface(Rect(0,self.hoja.get_height()/2,self.hoja.get_width(),self.hoja.get_height()/2))
+
         # Se llama al método de la clase padre con el rectángulo que ocupa el botón
-        ElementoGUI.__init__(self, pantalla, self.imagen.get_rect())
+        ElementoGUI.__init__(self, pantalla, self.imagenDesmarcado.get_rect())
         # Se coloca el rectangulo en su posicion
         self.establecerPosicion(posicion)
     def dibujar(self, pantalla):
-        pantalla.blit(self.imagen, self.rect)
+        if self.estadoMarcado:
+            pantalla.blit(self.imagenMarcado, self.rect)
+        else: 
+            pantalla.blit(self.imagenDesmarcado, self.rect)
+
+    def update(self, posRaton):
+        if self.rect.collidepoint(posRaton):
+            self.estadoMarcado = True
+        else:
+            self.estadoMarcado = False
+        
 
 class BotonJugarFase(Boton):
     def __init__(self, pantalla, fase, posicion):
@@ -49,6 +64,12 @@ class BotonJugarFase(Boton):
         self.fase = fase
     def accion(self):
         self.pantalla.menu.ejecutarJuego(self.fase)
+
+class BotonSalir(Boton):
+    def __init__(self, pantalla, posicion):
+        Boton.__init__(self, pantalla, 'botonGUI.png', posicion)
+    def accion(self):
+        self.pantalla.menu.salirPrograma()
 
 # -------------------------------------------------
 # Clase TextoGUI y los distintos textos
@@ -67,7 +88,7 @@ class TextoGUI(ElementoGUI):
 class TextoJugarFase(TextoGUI):
     def __init__(self, pantalla, texto, fase, posicion):
         # La fuente la debería cargar el estor de recursos
-        fuente = pygame.font.Font('fuenteMenu.ttf', 26);
+        fuente = pygame.font.Font('fuenteMenu.ttf', 16);
         TextoGUI.__init__(self, pantalla, fuente, (0, 0, 0), texto,  posicion)
         self.fase = fase
     def accion(self):
@@ -76,7 +97,7 @@ class TextoJugarFase(TextoGUI):
 class TextoSalir(TextoGUI):
     def __init__(self, pantalla, posicion):
         # La fuente la debería cargar el estor de recursos
-        fuente = pygame.font.Font('fuenteMenu.ttf', 26);
+        fuente = pygame.font.Font('fuenteMenu.ttf', 16);
         TextoGUI.__init__(self, pantalla, fuente, (0, 0, 0), 'Salir', posicion)
     def accion(self):
         self.pantalla.menu.salirPrograma()
@@ -90,10 +111,18 @@ class PantallaGUI:
         # Se carga la imagen de fondo
         self.imagen = GestorRecursos.CargarImagen(nombreImagen)
         self.imagen = pygame.transform.scale(self.imagen, (ANCHO_PANTALLA, ALTO_PANTALLA))
+
+        self.logo = GestorRecursos.CargarImagen("logo.png",-1)
+        self.rectLogo = self.logo.get_rect()
+        self.rectLogo.left = ANCHO_PANTALLA/2 - self.logo.get_width()/2
+        self.rectLogo.bottom = 150
         # Se tiene una lista de elementos GUI
         self.elementosGUI = []
         # Se tiene una lista de animaciones
         self.animaciones = []
+
+    def update(self,*args):
+        return
 
     def eventos(self, lista_eventos):
         for evento in lista_eventos:
@@ -111,6 +140,8 @@ class PantallaGUI:
     def dibujar(self, pantalla):
         # Dibujamos primero la imagen de fondo
         pantalla.blit(self.imagen, self.imagen.get_rect())
+
+        pantalla.blit(self.logo,self.rectLogo)
         # Después las animaciones
         for animacion in self.animaciones:
             animacion.dibujar(pantalla)
@@ -121,16 +152,25 @@ class PantallaGUI:
 class PantallaInicialGUI(PantallaGUI):
     def __init__(self, menu):
         PantallaGUI.__init__(self, menu, 'suelo.png')
+        
         # Creamos los botones y los metemos en la lista
         botonJugarFase1 = BotonJugarFase(self, Salon, (ANCHO_PANTALLA/2,ALTO_PANTALLA/2))
-        #botonSalir = BotonSalir(self)
+        botonSalir = BotonSalir(self,(ANCHO_PANTALLA/2,ALTO_PANTALLA/2+ 100))
+
         self.elementosGUI.append(botonJugarFase1)
-        #self.elementosGUI.append(botonSalir)
+        self.elementosGUI.append(botonSalir)
+
         # Creamos el texto y lo metemos en la lista
-        textoJugar = TextoJugarFase(self, 'Jugar en el salón', Salon, (ANCHO_PANTALLA/2+ 10,ALTO_PANTALLA/2-50))
-        textoSalir = TextoSalir(self, (ANCHO_PANTALLA/2,ALTO_PANTALLA/2+ 100))
+        textoJugar = TextoJugarFase(self, 'Jugar en el salón', Salon, (ANCHO_PANTALLA/2+ 10,ALTO_PANTALLA/2-10))
+        textoSalir = TextoSalir(self, (ANCHO_PANTALLA/2+ 10 ,ALTO_PANTALLA/2 + 90))
         self.elementosGUI.append(textoJugar)
         self.elementosGUI.append(textoSalir)
+
+    def update(self,*args):
+        x, y = pygame.mouse.get_pos()
+        for boton in self.elementosGUI:
+            if isinstance(boton, Boton):
+                boton.update((x,y))
 
 
 # -------------------------------------------------
@@ -150,6 +190,7 @@ class Menu(EscenaPygame):
         self.mostrarPantallaInicial()
 
     def update(self, *args):
+        self.listaPantallas[self.pantallaActual].update(*args)
         return
 
     def eventos(self, lista_eventos):
