@@ -12,44 +12,18 @@ class Gato(Enemigos):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Enemigos.__init__(self, 'gato/gato.png', None, [6, 12, 6], 20,20);
+        Enemigos.__init__(self, 'gato/gato.png', None, [6, 12, 6], 10,10);
 
     def mover_cpu(self, jugador):
-        #sentido = IZQUIERDA
-        """if jugador.posicion[0] < self.posicion[0] and jugador.posicion[1] < self.posicion[1] and jugador.movimientoLineal == ADELANTE:
-            sentido = IZQUIERDA
-        elif jugador.posicion[0] < self.posicion[0] and jugador.posicion[1] < self.posicion[1] and jugador.movimientoLineal == ATRAS:
-            sentido = DERECHA
-        elif jugador.posicion[0] > self.posicion[0] and jugador.posicion[1] < self.posicion[1] and jugador.movimientoLineal == ADELANTE:
-            sentido = DERECHA
-        elif jugador.posicion[0] > self.posicion[0] and jugador.posicion[1] < self.posicion[1] and jugador.movimientoLineal == ATRAS:
-            sentido = IZQUIERDA
-        elif jugador.posicion[0] < self.posicion[0] and jugador.posicion[1] > self.posicion[1] and jugador.movimientoLineal == ADELANTE:
-            sentido = DERECHA
-        elif jugador.posicion[0] < self.posicion[0] and jugador.posicion[1] > self.posicion[1] and jugador.movimientoLineal == ATRAS:
-            sentido = IZQUIERDA
-        elif jugador.posicion[0] > self.posicion[0] and jugador.posicion[1] > self.posicion[1] and jugador.movimientoLineal == ADELANTE:
-            sentido = IZQUIERDA
-        elif jugador.posicion[0] > self.posicion[0] and jugador.posicion[1] > self.posicion[1] and jugador.movimientoLineal == ATRAS:
-            sentido = DERECHA"""
-        coordx = jugador.posicion[0] - self.posicion[0]
-        coordy = jugador.posicion[1] - self.posicion[1]
-        modulo = sqrt((coordx)**2 + (coordy)**2)
-        coordx = coordx / modulo
-        coordy = coordy / modulo
-        radian = math.atan2(coordy, coordx) * (180.0 / math.pi)
+
+        (centroJX,centroJY) = jugador.rect.center
+        (centroGX,centroGY) = self.rect.center
+        radian = math.atan2(centroGX - centroJX, centroGY - centroJY)
         angulo = degrees(radian)
-        Enemigos.mover_cpu(self,jugador,angulo)
+        Enemigos.mover_cpu(self,angulo,0)
 
-    def disparar(self, jugador):
-        if ((jugador.posicion[0] - self.posicion[0]) < 200 and (jugador.posicion[0] - self.posicion[0]) > -200 ) and ((jugador.posicion[1] - self.posicion[1]) < 200 and (jugador.posicion[1] - self.posicion[1]) > -200 ):
-            estado = 1
-        else:
-            estado = 0
-        Enemigos.disparar(self, jugador.posicion[0], jugador.posicion[1], estado)
-        return
 
-    def update(self, tiempo, grupoElementosEstaticos):
+    def update(self, tiempo, mascaraEstaticos):
        """ if self.angulo == DERECHA:
             Enemigos.mover_cpu(self, self.angulo)
         else:

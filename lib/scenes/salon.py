@@ -64,7 +64,7 @@ class Salon(EscenaPygame):
         teclasPulsadas = pygame.key.get_pressed()
         self.jugador.mover(teclasPulsadas, K_UP, K_DOWN, K_LEFT, K_RIGHT)
         self.gato.mover_cpu(self.jugador)
-        self.bala.disparar(self.jugador)
+        self.bala.mover_cpu(self.jugador)
 
 
     def dibujar(self,pantalla):

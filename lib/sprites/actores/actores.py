@@ -19,7 +19,6 @@ class Actor(MiSprite):
 
         self.hoja = GestorRecursos.CargarImagen(archivoImagen,-1)
         self.image = self.hoja.convert_alpha()
-        self.movimiento = 0
 
         self.angulo = 0
         self.adelante = (0,1)
@@ -55,7 +54,7 @@ class Actor(MiSprite):
         adelanteX = math.cos(math.radians(self.angulo))
         adelanteY = math.sin(math.radians(self.angulo))
         self.adelante = (adelanteY,adelanteX)
-        
+ 
     def update(self, tiempo):
         
         self.actualizarDireccion()

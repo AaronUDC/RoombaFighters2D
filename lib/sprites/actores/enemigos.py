@@ -13,26 +13,13 @@ class Enemigos(Actor):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         Actor.__init__(self, archivoImagen ,archivoCoordenadas, numImagenes, velocidadCarrera, velGiro);
 
-    def mover_cpu(self, jugador,angle):
-        self.angulo = ((1 * self.velGiro) / 200 * angle)
-        """"(adelanteY, adelanteX) = self.adelante
+    def mover_cpu(self, movimientoAngular,movimientoLineal):
+        self.angulo = movimientoAngular
         adelanteX = math.cos(math.radians(self.angulo))
         adelanteY = math.sin(math.radians(self.angulo))
-        self.adelante = (adelanteY, adelanteX)"""
-
-    def disparar(self, x,y, estado,angle):
-        if estado:
-            (velocidadX,velocidadY) = self.velocidad
-            velocidadX = -self.adelante[0] * self.velocidadCarrera
-            velocidadY = -self.adelante[1] * self.velocidadCarrera
-            self.velocidad = (velocidadX, velocidadY)
-            if self.posicion[1] < 200:
-               self.posicion = (450,350)
-        else:
-            self.posicion = (450, 350)
-            #self.angulo = ((100 * self.velGiro) / 1 + angle)
-
-
+        self.adelante = (adelanteY, adelanteX)
+        
+        self.movimientoLineal = movimientoLineal
 
 
     def update(self, tiempo):

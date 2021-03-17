@@ -74,8 +74,8 @@ class Jugador(Actor):
         dx = mascaraEstaticos.overlap_area(self.mascara, (posMaskX+1,posMaskY)) - mascaraEstaticos.overlap_area(self.mascara, (posMaskX-1, posMaskY))
         dy = mascaraEstaticos.overlap_area(self.mascara, (posMaskX,posMaskY+1)) - mascaraEstaticos.overlap_area(self.mascara, (posMaskX, posMaskY-1))
         if mascaraEstaticos.overlap_area(self.mascara, (int(posActX) ,int(posActY)-self.image.get_height() ) ) > 0:
-            posActX = posActX -(dx)/25#self.image.get_width()
-            posActY = posActY -(dy)/25#self.image.get_height()
+            posActX = posActX -(2*dx)/self.velocidadCarrera#self.image.get_width()
+            posActY = posActY -(2*dy)/self.velocidadCarrera#self.image.get_height()
         
                 
         MiSprite.establecerPosicion(self, (posActX,posActY))
