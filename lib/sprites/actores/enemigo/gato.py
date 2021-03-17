@@ -12,7 +12,7 @@ class Gato(Enemigos):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Enemigos.__init__(self, 'roomba/roomba.png', None, [6, 12, 6], 20,20);
+        Enemigos.__init__(self, 'gato/gato.png', None, [6, 12, 6], 20,20);
 
     def mover_cpu(self, jugador):
         #sentido = IZQUIERDA
@@ -39,10 +39,10 @@ class Gato(Enemigos):
         coordy = coordy / modulo
         radian = math.atan2(coordy, coordx) * (180.0 / math.pi)
         angulo = degrees(radian)
-        Enemigos.mover_cpu(self,self.hoja,angulo)
+        Enemigos.mover_cpu(self,jugador,angulo)
 
     def disparar(self, jugador):
-        if ((jugador.posicion[0] - self.posicion[0]) < 50 and (jugador.posicion[0] - self.posicion[0]) > -50 ) and ((jugador.posicion[1] - self.posicion[1]) < 50 and (jugador.posicion[1] - self.posicion[1]) > -50 ):
+        if ((jugador.posicion[0] - self.posicion[0]) < 200 and (jugador.posicion[0] - self.posicion[0]) > -200 ) and ((jugador.posicion[1] - self.posicion[1]) < 200 and (jugador.posicion[1] - self.posicion[1]) > -200 ):
             estado = 1
         else:
             estado = 0
@@ -50,8 +50,8 @@ class Gato(Enemigos):
         return
 
     def update(self, tiempo, grupoElementosEstaticos):
-        if self.angulo == DERECHA:
-            Enemigos.mover_cpu(self, tiempo, self.angulo)
+       """ if self.angulo == DERECHA:
+            Enemigos.mover_cpu(self, self.angulo)
         else:
-            Enemigos.mover_cpu(self, tiempo, self.angulo)
-        Enemigos.update(self,tiempo)
+            Enemigos.mover_cpu(self, self.angulo)"""
+       Enemigos.update(self,tiempo)

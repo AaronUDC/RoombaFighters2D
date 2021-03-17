@@ -2,6 +2,7 @@ from lib.escena import *
 from pygame.locals import *
 from lib.sprites.actores.jugador import Jugador
 from lib.sprites.actores.enemigo.gato import Gato
+from lib.sprites.actores.enemigo.bala import Bala
 from lib.sprites.sprite import MiSprite
 from lib.gestorRecursos import GestorRecursos
 
@@ -32,11 +33,15 @@ class Salon(EscenaPygame):
         self.jugador = Jugador()
         self.jugador.establecerPosicion((150,150))
 
+        self.bala = Bala()
+        self.bala.establecerPosicion((450, 350))
+
         self.gato = Gato()
         self.gato.establecerPosicion((400, 400))
 
         self.grupoJugadores = pygame.sprite.Group(self.jugador)
-        self.grupoEnemigos = pygame.sprite.Group(self.gato)
+        self.grupoEnemigos = pygame.sprite.Group(self.bala)
+        self.grupoEnemigos.add(self.gato)
 
         pygame.display.update()
 
@@ -54,7 +59,7 @@ class Salon(EscenaPygame):
         teclasPulsadas = pygame.key.get_pressed()
         self.jugador.mover(teclasPulsadas, K_UP, K_DOWN, K_LEFT, K_RIGHT)
         self.gato.mover_cpu(self.jugador)
-        self.gato.disparar(self.jugador)
+        self.bala.disparar(self.jugador)
 
 
     def dibujar(self,pantalla):
