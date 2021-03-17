@@ -52,12 +52,8 @@ class Salon(EscenaPygame):
 
     def update(self,tiempo):
 
-<<<<<<< HEAD
         self.grupoJugadores.update(tiempo,self.mascaraCol)
-=======
-        self.grupoJugadores.update(tiempo,self.grupoElementosEstaticos)
         self.grupoEnemigos.update(tiempo, self.grupoElementosEstaticos)
->>>>>>> origin/Tarea_Borja
 
     def eventos(self,listaEventos):
         for event in listaEventos:
