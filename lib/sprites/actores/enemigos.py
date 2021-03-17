@@ -26,9 +26,10 @@ class Enemigos(Actor):
             velocidadX = -self.adelante[0] * self.velocidadCarrera
             velocidadY = -self.adelante[1] * self.velocidadCarrera
             self.velocidad = (velocidadX, velocidadY)
-            if self.posicion[1] < 350:
-               (posAntX, posAntY) = self.posicion
-        #else:
+            if self.posicion[1] < 200:
+               self.posicion = (450,350)
+        else:
+            self.posicion = (450, 350)
             #self.angulo = ((100 * self.velGiro) / 1 + angle)
 
 

@@ -12,7 +12,7 @@ class Bala(Enemigos):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Actor.__init__(self, 'bala/bala.png', None, [6, 12, 6], 20, 0);
+        Actor.__init__(self, 'bala/bala.png', None, [6, 12, 6], 20, 10);
 
     def disparar(self, jugador):
         coordx = jugador.posicion[0] - self.posicion[0]
