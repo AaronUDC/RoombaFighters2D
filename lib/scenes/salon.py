@@ -49,8 +49,8 @@ class Salon(EscenaPygame):
         self.grupoEnemigos = pygame.sprite.Group(self.bala)
         self.grupoEnemigos.add(self.gato)
 
-        self.numBasuras, self.basuras = iniBasuras(3, 2, 1)
-        self.gestorbasura = GestorBasura(self.numBasuras, 100, (0, 1))
+        self.numBasuras, self.basuras = iniBasuras(8, 4, 2)
+        self.gestorbasura = GestorBasura(self.numBasuras, 60, (1, 3), self.mascaraCol, self.basuras, (ANCHO_PANTALLA,ALTO_PANTALLA))
         self.grupoBasuras = pygame.sprite.Group(self.basuras)
 
         pygame.display.update()

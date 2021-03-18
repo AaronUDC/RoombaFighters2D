@@ -82,12 +82,13 @@ class Jugador(Actor):
         MiSprite.establecerPosicion(self, (posActX,posActY))
 
 
-        colisionesBasura = pygame.sprite.spritecollide(self, lBasuras, False, pygame.sprite.collide_circle_ratio(0.5))
+        colisionesBasura = pygame.sprite.spritecollide(self, lBasuras, False, pygame.sprite.collide_circle_ratio(0.3))
         if colisionesBasura != None:
-            if colisionesBasura == True:
-                colisionesBasura.activo = False
-                self.puntuacion += colisionesBasura.puntuacion
-                print(self.puntuacion)
+            for basura in colisionesBasura:
+                if basura.activo == True:
+                    basura.activo = False
+                    self.puntuacion += basura.puntuacion
+                    print(self.puntuacion)
 
 
         
