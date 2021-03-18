@@ -12,6 +12,7 @@ class Jugador(Actor):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         Actor.__init__(self,'roomba/roomba.png',None, [6, 12, 6], 50, 50);
         self.mascara = pygame.mask.from_surface(self.image)
+        self.puntuacion = 0
 
         
 
@@ -33,7 +34,7 @@ class Jugador(Actor):
             angular = QUIETO
         Actor.mover(self,lineal,angular)
 
-    def update(self, tiempo, mascaraEstaticos):
+    def update(self, tiempo, mascaraEstaticos, lBasuras):
        
 
         (velocidadX,velocidadY) = self.velocidad
@@ -79,3 +80,14 @@ class Jugador(Actor):
         
                 
         MiSprite.establecerPosicion(self, (posActX,posActY))
+
+
+        colisionesBasura = pygame.sprite.spritecollide(self, lBasuras, False, pygame.sprite.collide_circle_ratio(0.5))
+        if colisionesBasura != None:
+            if colisionesBasura == True:
+                colisionesBasura.activo = False
+                self.puntuacion += colisionesBasura.puntuacion
+                print(self.puntuacion)
+
+
+        

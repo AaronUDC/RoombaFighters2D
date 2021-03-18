@@ -5,6 +5,7 @@ from lib.sprites.actores.enemigo.gato import Gato
 from lib.sprites.actores.enemigo.bala import Bala
 from lib.sprites.sprite import MiSprite
 from lib.gestorRecursos import GestorRecursos
+from lib.sprites.props.basura import *
 
 BLANCO = (255,255,255)
 
@@ -48,11 +49,16 @@ class Salon(EscenaPygame):
         self.grupoEnemigos = pygame.sprite.Group(self.bala)
         self.grupoEnemigos.add(self.gato)
 
+        self.numBasuras, self.basuras = iniBasuras(3, 2, 1)
+        self.gestorbasura = GestorBasura(self.numBasuras, 100, (0, 1))
+        self.grupoBasuras = pygame.sprite.Group(self.basuras)
+
         pygame.display.update()
 
     def update(self,tiempo):
 
-        self.grupoJugadores.update(tiempo,self.mascaraCol)
+        self.gestorbasura.update(tiempo,self.mascaraCol, self.basuras, (ANCHO_PANTALLA,ALTO_PANTALLA))
+        self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras)
         self.grupoEnemigos.update(tiempo, self.grupoElementosEstaticos)
 
     def eventos(self,listaEventos):
@@ -71,14 +77,16 @@ class Salon(EscenaPygame):
 
         pantalla.blit(self.suelo,self.suelo.get_rect())
         
+        for basura in self.basuras:
+            basura.dibujar(pantalla)
 
-        
         self.grupoJugadores.draw(pantalla)
         self.grupoEnemigos.draw(pantalla)
 
         self.paredes.dibujar(pantalla)
         pantalla.blit(self.sofa.sprite,self.sofa.rect)
         pygame.display.update()
+
 
     def salirPrograma(self):
         self.director.salirPrograma()
