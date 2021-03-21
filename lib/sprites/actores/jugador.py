@@ -10,7 +10,7 @@ class Jugador(Actor):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Actor.__init__(self,'roomba/roomba.png',None, [6, 12, 6], 50, 50);
+        Actor.__init__(self,'personajes/roomba/roomba.png',None, [6, 12, 6], 50, 50);
         self.mascara = pygame.mask.from_surface(self.image)
         self.puntuacion = 0
 

@@ -60,14 +60,14 @@ class Boton(ElementoGUI):
 
 class BotonJugarFase(Boton):
     def __init__(self, pantalla, fase, posicion):
-        Boton.__init__(self, pantalla, 'botonGUI.png', posicion)
+        Boton.__init__(self, pantalla, 'gui/botonGUI.png', posicion)
         self.fase = fase
     def accion(self):
         self.pantalla.menu.ejecutarJuego(self.fase)
 
 class BotonSalir(Boton):
     def __init__(self, pantalla, posicion):
-        Boton.__init__(self, pantalla, 'botonGUI.png', posicion)
+        Boton.__init__(self, pantalla, 'gui/botonGUI.png', posicion)
     def accion(self):
         self.pantalla.menu.salirPrograma()
 
@@ -112,7 +112,7 @@ class PantallaGUI:
         self.imagen = GestorRecursos.CargarImagen(nombreImagen)
         self.imagen = pygame.transform.scale(self.imagen, (ANCHO_PANTALLA, ALTO_PANTALLA))
 
-        self.logo = GestorRecursos.CargarImagen("logo.png",-1)
+        self.logo = GestorRecursos.CargarImagen("gui/logo.png",-1)
         self.rectLogo = self.logo.get_rect()
         self.rectLogo.left = ANCHO_PANTALLA/2 - self.logo.get_width()/2
         self.rectLogo.bottom = 150
@@ -151,7 +151,7 @@ class PantallaGUI:
 
 class PantallaInicialGUI(PantallaGUI):
     def __init__(self, menu):
-        PantallaGUI.__init__(self, menu, 'suelo.png')
+        PantallaGUI.__init__(self, menu, 'gui/fondoSalon.png')
         
         # Creamos los botones y los metemos en la lista
         botonJugarFase1 = BotonJugarFase(self, Salon, (ANCHO_PANTALLA/2,ALTO_PANTALLA/2))

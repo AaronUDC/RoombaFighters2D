@@ -12,7 +12,7 @@ class Gato(Enemigos):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Enemigos.__init__(self, 'gato/gato.png', None, [6, 12, 6], 10,10);
+        Enemigos.__init__(self, 'personajes/enemigos/gato/gato.png', None, [6, 12, 6], 10,10);
 
     def mover_cpu(self, jugador):
 
