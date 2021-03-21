@@ -16,21 +16,18 @@ class Salon(EscenaPygame):
         EscenaPygame.__init__(self,director);
 
         #Fondo de la escena
-        self.suelo = GestorRecursos.CargarImagen('suelo.png',-1)
+        self.suelo = GestorRecursos.CargarImagen('salon/suelo.png',-1)
         self.suelo = pygame.transform.scale(self.suelo,(ANCHO_PANTALLA,ALTO_PANTALLA))
         self.suelo = self.suelo.convert_alpha()
         self.suelo.set_alpha(None)
 
-        #Paredes
-        self.paredes = Paredes()
+        #Obstáculos
+        self.obstaculos = GestorRecursos.CargarImagen('salon/obstaculos.png', -1)
+        self.obstaculos = pygame.transform.scale(self.obstaculos,(ANCHO_PANTALLA,ALTO_PANTALLA))
+        self.obstaculos.set_colorkey(self.obstaculos.get_at((340, 430)), RLEACCEL)
 
 
-        self.sofa = Sofa((224,480))
-        #Agrupamos los elementos que no se mueven (paredes y muebles) para comprobar colisiones
-        self.grupoElementosEstaticos = pygame.sprite.Group(self.paredes.paredTop,self.paredes.paredBot,self.paredes.paredLeft,self.paredes.paredRight)
-        self.grupoElementosEstaticos.add(self.sofa)
-
-        self.mascaraImg = GestorRecursos.CargarImagen('mask.png', -1)
+        self.mascaraImg = GestorRecursos.CargarImagen('salon/mask.png', -1)
         self.mascaraImg.set_colorkey(self.mascaraImg.get_at((340, 430)), RLEACCEL)
 
 
@@ -59,7 +56,6 @@ class Salon(EscenaPygame):
 
         self.gestorbasura.update(tiempo,self.mascaraCol, self.basuras, (ANCHO_PANTALLA,ALTO_PANTALLA))
         self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras)
-        self.grupoEnemigos.update(tiempo, self.grupoElementosEstaticos)
 
     def eventos(self,listaEventos):
         for event in listaEventos:
@@ -83,50 +79,10 @@ class Salon(EscenaPygame):
         self.grupoJugadores.draw(pantalla)
         self.grupoEnemigos.draw(pantalla)
 
-        self.paredes.dibujar(pantalla)
-        pantalla.blit(self.sofa.sprite,self.sofa.rect)
+        
+        pantalla.blit(self.obstaculos,self.obstaculos.get_rect())
         pygame.display.update()
 
 
     def salirPrograma(self):
         self.director.salirPrograma()
-
-class Paredes:
-    
-    class Pared(MiSprite):
-
-        def __init__(self, ruta, flip, pos):
-
-            MiSprite.__init__(self)
-            self.sprite = GestorRecursos.CargarImagen(ruta,-1)
-            self.sprite = self.sprite.convert_alpha()
-            self.sprite.set_alpha(None)
-            self.sprite = pygame.transform.flip(self.sprite, flip[0], flip[1])
-            self.rect = self.sprite.get_rect()
-            self.rect.right = pos[0]
-            self.rect.top = pos[1]
-
-    def __init__(self):
-        
-        self.paredTop = Paredes.Pared('pared_H.png',(False,True),(ANCHO_PANTALLA,0))
-        self.paredBot = Paredes.Pared('pared_H.png',(False,False),(ANCHO_PANTALLA,ALTO_PANTALLA-32))
-        self.paredLeft = Paredes.Pared('pared_V.png',(False,False),(32,32))
-        self.paredRight = Paredes.Pared('pared_V.png',(True,False),(ANCHO_PANTALLA,32))
-    
-    
-    def dibujar(self,pantalla):
-        pantalla.blit(self.paredTop.sprite,self.paredTop.rect)
-        pantalla.blit(self.paredBot.sprite,self.paredBot.rect)
-        pantalla.blit(self.paredLeft.sprite,self.paredLeft.rect)
-        pantalla.blit(self.paredRight.sprite,self.paredRight.rect)
-
-
-class Sofa(MiSprite):
-
-    def __init__(self, pos):
-        
-        MiSprite.__init__(self)
-        self.sprite = GestorRecursos.CargarImagen('sofa/sofa.png',-1)
-        self.rect = self.sprite.get_rect()
-        self.rect.left = pos[0]
-        self.rect.top = pos[1]

@@ -11,7 +11,7 @@ class Basura(Prop):
     
     def __init__(self, tipo):
 
-        Prop.__init__(self, "Basura1.png", "", 1)
+        Prop.__init__(self, "basura/basura1.png", "", 1)
 
         self.mask = pygame.mask.from_surface(self.image)
 
