@@ -12,7 +12,7 @@ YELLOW = (255, 255, 51)
 
 class Thunder(Recolectables):
 
-    def __init__(self, tipo):
+    def __init__(self):
         Recolectables.__init__(self, "powerups/thunder.png", "powerups/thunderEffect.mp3", "powerups/thunderMusic.mp3")
         self.mask = pygame.mask.from_surface(self.image)
         self.activo = False
@@ -89,3 +89,7 @@ class ThunderGestor():
             while time.time() < endTimeEvent:
                 pass
             self.thunderMusic(False)'''
+
+def iniThunder():
+    thunder = Thunder()
+    return thunder

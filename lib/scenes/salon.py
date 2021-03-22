@@ -49,11 +49,13 @@ class Salon(EscenaPygame):
 
         self.numBasuras, self.basuras = iniBasuras(8, 4, 2)
         self.fSpawn = 60
-        self.gestorbasura = GestorBasura(self.numBasuras, self.fSpawn, (1, 3), self.mascaraCol, self.basuras, (ANCHO_PANTALLA,ALTO_PANTALLA))
+        self.gestorbasura = GestorBasura(self.numBasuras, self.fSpawn, (1, 3), self.mascaraCol, self.basuras, (ANCHO_PANTALLA, ALTO_PANTALLA))
         self.grupoBasuras = pygame.sprite.Group(self.basuras, self.fSpawn)
 
         self.simultaneouslyThunders = 1
-        self.thunderGestor = ThunderGestor(self.simultaneouslyThunders, 60, self.mascaraCol, self.thunder, (ANCHO_PANTALLA,ALTO_PANTALLA))
+        self.thunder = iniThunder()
+        self.thunderGestor = ThunderGestor(self.simultaneouslyThunders, 60, self.mascaraCol, self.thunder, (ANCHO_PANTALLA, ALTO_PANTALLA))
+        self.grupoThunders = pygame.sprite.Group(self.thunder, self.fSpawn)
 
         pygame.display.update()
 
@@ -82,7 +84,7 @@ class Salon(EscenaPygame):
         for basura in self.basuras:
             basura.dibujar(pantalla)
 
-        self.thunder.dibujar(pantalla) #???
+        self.thunder.dibujar(pantalla)
 
         self.grupoJugadores.draw(pantalla)
         self.grupoEnemigos.draw(pantalla)
