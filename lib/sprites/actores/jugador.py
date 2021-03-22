@@ -34,7 +34,7 @@ class Jugador(Actor):
             angular = QUIETO
         Actor.mover(self,lineal,angular)
 
-    def update(self, tiempo, mascaraEstaticos, lBasuras):
+    def update(self, tiempo, mascaraEstaticos, lBasuras, thunder):
        
 
         (velocidadX,velocidadY) = self.velocidad
@@ -89,6 +89,8 @@ class Jugador(Actor):
                     basura.activo = False
                     self.puntuacion += basura.puntuacion
                     print(self.puntuacion)
-
-
         
+        thunderColision = pygame.sprite.spritecollide(self, thunder, False, pygame.sprite.collide_circle_ratio(0.3))
+        if thunderColision != None:
+            if thunder.activo == True:
+                thunder.activo = False

@@ -6,6 +6,7 @@ from lib.sprites.actores.enemigo.bala import Bala
 from lib.sprites.sprite import MiSprite
 from lib.gestorRecursos import GestorRecursos
 from lib.sprites.props.basura import *
+from lib.sprites.recolectables.powerups import *
 
 BLANCO = (255,255,255)
 
@@ -13,7 +14,7 @@ class Salon(EscenaPygame):
 
     def __init__(self,director):
 
-        EscenaPygame.__init__(self,director);
+        EscenaPygame.__init__(self,director)
 
         #Fondo de la escena
         self.suelo = GestorRecursos.CargarImagen('salon/suelo.png',-1)
@@ -47,15 +48,20 @@ class Salon(EscenaPygame):
         self.grupoEnemigos.add(self.gato)
 
         self.numBasuras, self.basuras = iniBasuras(8, 4, 2)
-        self.gestorbasura = GestorBasura(self.numBasuras, 60, (1, 3), self.mascaraCol, self.basuras, (ANCHO_PANTALLA,ALTO_PANTALLA))
-        self.grupoBasuras = pygame.sprite.Group(self.basuras)
+        self.fSpawn = 60
+        self.gestorbasura = GestorBasura(self.numBasuras, self.fSpawn, (1, 3), self.mascaraCol, self.basuras, (ANCHO_PANTALLA,ALTO_PANTALLA))
+        self.grupoBasuras = pygame.sprite.Group(self.basuras, self.fSpawn)
+
+        self.simultaneouslyThunders = 1
+        self.thunderGestor = ThunderGestor(self.simultaneouslyThunders, 60, self.mascaraCol, self.thunder, (ANCHO_PANTALLA,ALTO_PANTALLA))
 
         pygame.display.update()
 
     def update(self,tiempo):
 
         self.gestorbasura.update(tiempo,self.mascaraCol, self.basuras, (ANCHO_PANTALLA,ALTO_PANTALLA))
-        self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras)
+        self.thunderGestor.update(tiempo, self.mascaraCol, self.thunder, (ANCHO_PANTALLA,ALTO_PANTALLA))
+        self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras, self.thunderGestor)
 
     def eventos(self,listaEventos):
         for event in listaEventos:
@@ -75,6 +81,8 @@ class Salon(EscenaPygame):
         
         for basura in self.basuras:
             basura.dibujar(pantalla)
+
+        self.thunder.dibujar(pantalla) #???
 
         self.grupoJugadores.draw(pantalla)
         self.grupoEnemigos.draw(pantalla)
