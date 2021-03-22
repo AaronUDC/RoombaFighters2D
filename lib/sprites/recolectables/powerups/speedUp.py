@@ -6,23 +6,14 @@ from lib.gestorRecursos import *
 from lib.sprites.recolectables.powerups import *
 from math import *
 
-"""pygame.display.set_caption("Thunder")
-icon = pygame.image.load('thunder.png')
-pygame.display.set_icon(icon)
-thunderImg = pygame.image.load('thunder.png')
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 YELLOW = (255, 255, 51)
-thunderX = 100
-thunderY = 100
-speedIncrease = 2
-angularIncrease = 2"""
 
 class Thunder(Recolectables):
 
     def __init__(self, tipo):
-        #Recolectables.__init__(self, 'thunder/thunder.png', "", 1, "thunderEffect/thunderEffect.mp3", "thunderMusic/thunderMusic.mp3")
-        Recolectables.__init__(self, 'thunder/thunder.png', "", 1)
+        Recolectables.__init__(self, "powerups/thunder.png", "powerups/thunderEffect.mp3", "powerups/thunderMusic.mp3")
         self.mask = pygame.mask.from_surface(self.image)
         self.activo = False
 
@@ -30,16 +21,16 @@ class Thunder(Recolectables):
         if self.activo:
             pantalla.blit(self.image, self.rect)
 
-    '''def thunderSoundEffect(self): 
-        thunderSound = pygame.mixer.Sound('thunderEffect.mp3')
-        thunderSound.play()'''
+    def thunderSoundEffect(self):
+        thunderSound = pygame.mixer.Sound("powerups/thunderEffect.mp3")
+        thunderSound.play()
 
-    '''def thunderMusic(self, play):
+    def thunderMusic(self, play):
         if play:
-            pygame.mixer.music.load("thunderMusic.mp3")
+            pygame.mixer.music.load("powerups/thunderMusic.mp3")
             pygame.mixer.music.play(-1)
         else:
-            pygame.mixer.stop()'''
+            pygame.mixer.stop()
 
     def update(self, tiempo):
         return
@@ -63,12 +54,12 @@ class ThunderGestor():
         self.contador += tiempo/60
         if self.contador > self.fSpawn:
             self.contador = 0.0
-            #total = random.randint(self.spawnCount[0], self.spawnCount[1])
-        if not thunder.activo:
+        if not thunder.activo and self.cantidad < 1:
             thunder.establecerPosicion((random.randint(0, tamanoV[0]), random.randint(0, tamanoV[1])))
             (thunderX, thunderY) = thunder.posicion
             if mascaraCol.overlap_area(thunder.mask, (int(thunderX), int(thunderY - thunder.image.get_height()))) == 0:
                 thunder.activo = True
+                cantidad = 1
 
     '''def increaseSpeeds(self): #TODO
         #Crear función en clase jugador para modificar la velocidad y llamarla aquí

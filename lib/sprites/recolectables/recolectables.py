@@ -10,21 +10,13 @@ WHITE = (255, 255, 255)
 
 class Recolectables(MiSprite):
 
-    def __init__(self, archivoImagen, archivoCoordenadas, numImagenes):
-        # Constructor sin música
-        MiSprite.__init__(self)
-        self.hoja = GestorRecursos.CargarImagen(archivoImagen,-1)
-        self.image = self.hoja.convert_alpha()
-        self.rect = self.image.get_rect()
-
-    '''def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, efectoSonido, archivoMusica):
-        #Constructor con música
+    def __init__(self, archivoImagen, efectoSonido, archivoMusica):
         MiSprite.__init__(self)
         self.hoja = GestorRecursos.CargarImagen(archivoImagen,-1)
         self.image = self.hoja.convert_alpha()
         self.sound = efectoSonido
         self.music = archivoMusica
-        self.rect = self.image.get_rect()'''
+        self.rect = self.image.get_rect()
 
     '''def drawText (self, surface, text, size, x, y):
         font = pygame.font.SysFont("serif", size)

@@ -12,7 +12,7 @@ class Prop(MiSprite):
 
         MiSprite.__init__(self)
 
-        self.hoja = GestorRecursos.CargarImagen(archivoImagen,-1)
+        self.hoja = GestorRecursos.CargarImagen(archivoImagen, -1)
         self.image = self.hoja.convert_alpha()
 
         self.rect = self.image.get_rect()
