@@ -6,7 +6,7 @@ from lib.sprites.actores.enemigo.bala import Bala
 from lib.sprites.sprite import MiSprite
 from lib.gestorRecursos import GestorRecursos
 from lib.sprites.props.basura import *
-from lib.sprites.recolectables.powerups import *
+from lib.sprites.recolectables.powerups.speedUp import *
 
 BLANCO = (255,255,255)
 
@@ -50,8 +50,9 @@ class Salon(EscenaPygame):
         self.numBasuras, self.basuras = iniBasuras(8, 4, 2)
         self.fSpawn = 60
         self.gestorbasura = GestorBasura(self.numBasuras, self.fSpawn, (1, 3), self.mascaraCol, self.basuras, (ANCHO_PANTALLA,ALTO_PANTALLA))
-        self.grupoBasuras = pygame.sprite.Group(self.basuras, self.fSpawn)
+        self.grupoBasuras = pygame.sprite.Group(self.basuras)
 
+        self.thunder = Thunder(0)
         self.simultaneouslyThunders = 1
         self.thunderGestor = ThunderGestor(self.simultaneouslyThunders, 60, self.mascaraCol, self.thunder, (ANCHO_PANTALLA,ALTO_PANTALLA))
 

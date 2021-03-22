@@ -3,7 +3,7 @@
 import pygame, sys, os, time, random
 from pygame.locals import *
 from lib.gestorRecursos import *
-from lib.sprites.recolectables.powerups import *
+from lib.sprites.recolectables.recolectables import *
 from math import *
 
 """pygame.display.set_caption("Thunder")
@@ -22,7 +22,7 @@ class Thunder(Recolectables):
 
     def __init__(self, tipo):
         #Recolectables.__init__(self, 'thunder/thunder.png', "", 1, "thunderEffect/thunderEffect.mp3", "thunderMusic/thunderMusic.mp3")
-        Recolectables.__init__(self, 'thunder/thunder.png', "", 1)
+        Recolectables.__init__(self, 'powerups/thunder.png', "", 1)
         self.mask = pygame.mask.from_surface(self.image)
         self.activo = False
 
