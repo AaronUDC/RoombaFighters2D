@@ -98,7 +98,7 @@ class Jugador(Actor):
                 if basura.activo == True:
                     basura.activo = False
                     self.puntuacion += basura.puntuacion
-                    print(self.puntuacion)
+                    #print(self.puntuacion)
         
         thunderColision = pygame.sprite.spritecollide(self, thunder, False, pygame.sprite.collide_circle_ratio(0.3))
         if thunderColision != None:
