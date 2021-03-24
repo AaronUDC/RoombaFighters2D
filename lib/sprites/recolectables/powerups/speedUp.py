@@ -13,7 +13,7 @@ YELLOW = (255, 255, 51)
 class Thunder(Recolectables):
 
     def __init__(self):
-        Recolectables.__init__(self, "powerups/thunder.png", "powerups/thunderEffect.mp3", "powerups/thunderMusic.mp3")
+        Recolectables.__init__(self, "powerups/thunder.png", "", 1, "powerups/thunderEffect.mp3", "powerups/thunderMusic.mp3")
         self.mask = pygame.mask.from_surface(self.image)
         self.activo = False
 
@@ -43,23 +43,22 @@ class ThunderGestor():
         self.contador = 0.0
         random.seed()
 
-        if not thunder.activo and cantidad < 1:
+        if not thunder.activo:
             thunder.establecerPosicion((random.randint(0, tamanoV[0]), random.randint(0, tamanoV[1])))
             (thunderX, thunderY) = thunder.posicion
             if mascaraCol.overlap_area(thunder.mask, (int(thunderX), int(thunderY - thunder.image.get_height()))) == 0:
                 thunder.activo = True
-                cantidad = 1
 
     def update(self, tiempo, mascaraCol, thunder, tamanoV):
         self.contador += tiempo/60
         if self.contador > self.fSpawn:
             self.contador = 0.0
-            if not thunder.activo and self.cantidad < 1:
+            if not thunder.activo:
                 thunder.establecerPosicion((random.randint(0, tamanoV[0]), random.randint(0, tamanoV[1])))
                 (thunderX, thunderY) = thunder.posicion
                 if mascaraCol.overlap_area(thunder.mask, (int(thunderX), int(thunderY - thunder.image.get_height()))) == 0:
                     thunder.activo = True
-                    cantidad = 1
+
 
     
 

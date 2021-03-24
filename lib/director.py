@@ -1,10 +1,11 @@
 # -*- encoding: utf-8 -*-
 
 # Modulos
-import pygame, pyglet
+import pygame
 import sys
 from lib.escena import *
 from pygame.locals import *
+from lib.sprites.actores.jugador import *
 
 FPS = 60
 
@@ -15,6 +16,7 @@ class Director():
         self.pila = []
         # Flag que nos indica cuando quieren salir de la escena de pygame
         self.salir_escena_pygame = False
+        self.jugador = None
 
     def buclePygame(self, escena):
 
@@ -51,7 +53,8 @@ class Director():
         # Creamos la pantalla de pygame (si no esta creada ya)
         self.screen = pygame.display.set_mode((ANCHO_PANTALLA, ALTO_PANTALLA))
         # Estas dos lineas realmente no son necesarias, se ponen aqui por seguridad,
-
+        
+        self.jugador = Jugador()
         # Mientras haya escenas en la pila, ejecutaremos la de arriba
         while (len(self.pila)>0):
 
@@ -63,15 +66,6 @@ class Director():
 
                 # Ejecutamos el bucle
                 self.buclePygame(escena)
-
-            # Si no, si la escena es de pyglet
-            elif isinstance(escena, EscenaPyglet):
-
-                # Ejecutamos la aplicacion de pyglet
-                pyglet.app.run()
-
-                # Cuando hayamos terminado la animacion con pyglet, cerramos la ventana
-                escena.close()
 
             else:
                 raise Exception('No se que tipo de escena es')
@@ -87,10 +81,6 @@ class Director():
             if isinstance(escena, EscenaPygame):
                 # Indicamos en el flag que se quiere salir de la escena
                 self.salir_escena_pygame = True
-            # Si es una escena de pyglet
-            elif isinstance(escena, EscenaPyglet):
-                # Salimos del bucle de pyglet
-                pyglet.app.exit()
             else:
                 raise Exception('No se que tipo de escena es')
 

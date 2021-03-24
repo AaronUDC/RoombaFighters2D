@@ -10,7 +10,7 @@ WHITE = (255, 255, 255)
 
 class Recolectables(MiSprite):
 
-    def __init__(self, archivoImagen, efectoSonido, archivoMusica):
+    def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, efectoSonido, archivoMusica):
         MiSprite.__init__(self)
         self.hoja = GestorRecursos.CargarImagen(archivoImagen,-1)
         self.image = self.hoja.convert_alpha()

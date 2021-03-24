@@ -5,7 +5,7 @@ from lib.sprites.actores.enemigo.gato import Gato
 from lib.sprites.actores.enemigo.bala import Bala
 from lib.sprites.sprite import MiSprite
 from lib.gestorRecursos import GestorRecursos
-from lib.sprites.props.basura import *
+from lib.sprites.recolectables.basura import *
 from lib.sprites.recolectables.powerups.speedUp import *
 
 BLANCO = (255,255,255)
@@ -27,15 +27,14 @@ class Salon(EscenaPygame):
         self.obstaculos = pygame.transform.scale(self.obstaculos,(ANCHO_PANTALLA,ALTO_PANTALLA))
         self.obstaculos.set_colorkey(self.obstaculos.get_at((340, 430)), RLEACCEL)
 
-
+        #Máscara
         self.mascaraImg = GestorRecursos.CargarImagen('salon/mask.png', -1)
         self.mascaraImg.set_colorkey(self.mascaraImg.get_at((340, 430)), RLEACCEL)
-
-
         self.mascaraCol = pygame.mask.from_surface(self.mascaraImg)
 
-        self.jugador = Jugador()
-        self.jugador.establecerPosicion((150,150))
+        #Jugador
+        self.jugador = director.jugador
+        self.jugador.establecerPosicion((600,570))
 
         self.bala = Bala()
         self.bala.establecerPosicion((450, 350))
@@ -81,8 +80,8 @@ class Salon(EscenaPygame):
 
         pantalla.blit(self.suelo,self.suelo.get_rect())
         
-        #for basura in self.basuras:
-        #    basura.dibujar(pantalla)
+        for basura in self.basuras:
+            basura.dibujar(pantalla)
 
         self.thunder.dibujar(pantalla)
 

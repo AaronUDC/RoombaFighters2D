@@ -13,6 +13,8 @@ class Jugador(Actor):
         Actor.__init__(self,'personajes/roomba/roomba.png',None, [6, 12, 6], 50, 50)
         self.mascara = pygame.mask.from_surface(self.image)
         self.puntuacion = 0
+        self.modificadorVel = 1
+        self.modificadorGiro = 1
 
         
 
@@ -41,13 +43,13 @@ class Jugador(Actor):
 
         if self.movimientoLineal == ADELANTE: 
             # Mover hacia adelante
-            velocidadX = -self.adelante[0] * self.velocidadCarrera
-            velocidadY = -self.adelante[1] * self.velocidadCarrera
+            velocidadX = -self.adelante[0] * self.velocidadCarrera * self.modificadorVel
+            velocidadY = -self.adelante[1] * self.velocidadCarrera * self.modificadorVel
 
         elif self.movimientoLineal == ATRAS:
             # Mover hacia atras
-            velocidadX = self.adelante[0] * self.velocidadCarrera
-            velocidadY = self.adelante[1] * self.velocidadCarrera
+            velocidadX = self.adelante[0] * self.velocidadCarrera * self.modificadorVel
+            velocidadY = self.adelante[1] * self.velocidadCarrera * self.modificadorVel
         elif self.movimientoLineal == QUIETO:
             velocidadX = 0
             velocidadY = 0
@@ -55,10 +57,10 @@ class Jugador(Actor):
 
         if self.movimientoAngular == IZQUIERDA:
             #Girar a la Izquierda
-            self.girar(tiempo,1)
+            self.girar(tiempo,self.modificadorGiro)
         elif self.movimientoAngular == DERECHA:
             #Girar a la Derecha
-            self.girar(tiempo,-1)
+            self.girar(tiempo,-self.modificadorGiro)
         
         self.velocidad = (velocidadX, velocidadY)
 
@@ -75,8 +77,8 @@ class Jugador(Actor):
         dx = mascaraEstaticos.overlap_area(self.mascara, (posMaskX+1,posMaskY)) - mascaraEstaticos.overlap_area(self.mascara, (posMaskX-1, posMaskY))
         dy = mascaraEstaticos.overlap_area(self.mascara, (posMaskX,posMaskY+1)) - mascaraEstaticos.overlap_area(self.mascara, (posMaskX, posMaskY-1))
         if mascaraEstaticos.overlap_area(self.mascara, (int(posActX) ,int(posActY)-self.image.get_height() ) ) > 0:
-            posActX = posActX -(2*dx)/self.velocidadCarrera#self.image.get_width()
-            posActY = posActY -(2*dy)/self.velocidadCarrera#self.image.get_height()
+            posActX = posActX -((2*dx)/self.velocidadCarrera)* self.modificadorVel
+            posActY = posActY -((2*dy)/self.velocidadCarrera)* self.modificadorVel
         
                 
         MiSprite.establecerPosicion(self, (posActX,posActY))

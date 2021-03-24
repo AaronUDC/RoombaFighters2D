@@ -31,7 +31,3 @@ class EscenaPygame(Escena):
         # Creamos la pantalla (si no esta creada ya)
         self.pantalla = pygame.display.set_mode((ANCHO_PANTALLA, ALTO_PANTALLA),flags=pygame.DOUBLEBUF)
 
-class EscenaPyglet(Escena):
-
-    def __init__(self, director):
-        Escena.__init__(self, director)

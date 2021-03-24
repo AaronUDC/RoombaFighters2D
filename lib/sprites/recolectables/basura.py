@@ -3,15 +3,15 @@
 import pygame, sys, os, math, random
 from pygame.locals import *
 from lib.gestorRecursos import *
-from lib.sprites.props.props import *
+from lib.sprites.recolectables.recolectables import *
 
 
-class Basura(Prop):
+class Basura(Recolectables):
 
     
     def __init__(self, tipo):
 
-        Prop.__init__(self, "basura/basura1.png", "", 1)
+        Recolectables.__init__(self, "basura/basura1.png", "", 1, "", "")
 
         self.mask = pygame.mask.from_surface(self.image)
 
