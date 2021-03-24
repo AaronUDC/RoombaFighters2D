@@ -10,5 +10,11 @@ class UI(MiSprite):
 
     #   Init
     #   Update()
-    #   
-    # #
+
+    def __init__(self, posicion):
+    
+        MiSprite.__init__(self)
+        self.posicionUI = posicion
+
+    def dibujar(self, pantalla):
+        pantalla.blit(self.image, self.image.get_rect())

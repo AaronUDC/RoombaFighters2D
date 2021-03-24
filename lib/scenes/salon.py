@@ -7,6 +7,7 @@ from lib.sprites.sprite import MiSprite
 from lib.gestorRecursos import GestorRecursos
 from lib.sprites.recolectables.basura import *
 from lib.sprites.recolectables.powerups.speedUp import *
+from lib.sprites.ui.puntos import *
 
 BLANCO = (255,255,255)
 
@@ -56,6 +57,8 @@ class Salon(EscenaPygame):
         self.thunderGestor = ThunderGestor(self.simultaneouslyThunders, 1, self.mascaraCol, self.thunder, (ANCHO_PANTALLA, ALTO_PANTALLA))
         self.grupoThunders = pygame.sprite.Group(self.thunder)
 
+        self.marcadorPuntuacion = Puntos((100,0))
+
         pygame.display.update()
 
     def update(self,tiempo):
@@ -63,6 +66,7 @@ class Salon(EscenaPygame):
         self.gestorbasura.update(tiempo,self.mascaraCol, self.basuras, (ANCHO_PANTALLA,ALTO_PANTALLA))
         self.thunderGestor.update(tiempo, self.mascaraCol, self.thunder, (ANCHO_PANTALLA,ALTO_PANTALLA))
         self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras, self.grupoThunders)
+        self.marcadorPuntuacion.update(tiempo, self.jugador)
 
     def eventos(self,listaEventos):
         for event in listaEventos:
@@ -90,6 +94,8 @@ class Salon(EscenaPygame):
 
         
         pantalla.blit(self.obstaculos,self.obstaculos.get_rect())
+
+        self.marcadorPuntuacion.dibujar(pantalla)
         pygame.display.update()
 
 
