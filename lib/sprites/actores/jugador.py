@@ -15,6 +15,8 @@ class Jugador(Actor):
         self.puntuacion = 0
         self.modificadorVel = 1
         self.modificadorGiro = 1
+        
+        self.vida = 3
 
         
 
