@@ -10,15 +10,21 @@ class Jugador(Actor):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Actor.__init__(self,'personajes/roomba/roomba.png',None, [6, 12, 6], 50, 50)
-        self.mascara = pygame.mask.from_surface(self.image)
+        Actor.__init__(self,'personajes/roomba/roomba.png','personajes/roomba/coordRoomba.txt', [3,3,3], 50, 50)
+        
         self.puntuacion = 0
         self.modificadorVel = 1
         self.modificadorGiro = 1
-        
+        self.powerupActual = 0
         self.vida = 3
-
+        self.maxVida = 3
+        self.mascara = pygame.mask.from_surface(self.image)
         
+        self.actualizarPostura()
+
+    def actualizarPostura(self):
+        self.numImagenPostura = self.maxVida - (self.vida)
+        self.numPostura = self.powerupActual
 
     def mover(self, teclasPulsadas, arriba, abajo, izquierda, derecha):
         # Indicamos la acción a realizar segun la tecla pulsada para el jugador

@@ -36,15 +36,15 @@ class Salon(EscenaPygame):
         self.jugador = director.jugador
         self.jugador.establecerPosicion((600,570))
 
-        self.bala = Bala()
-        self.bala.establecerPosicion((450, 350))
+        #self.bala = Bala()
+        #self.bala.establecerPosicion((450, 350))
 
-        self.gato = Gato()
-        self.gato.establecerPosicion((400, 400))
+        #self.gato = Gato()
+        #self.gato.establecerPosicion((400, 400))
 
         self.grupoJugadores = pygame.sprite.Group(self.jugador)
-        self.grupoEnemigos = pygame.sprite.Group(self.bala)
-        self.grupoEnemigos.add(self.gato)
+        #self.grupoEnemigos = pygame.sprite.Group(self.bala)
+        #self.grupoEnemigos.add(self.gato)
 
         self.numBasuras, self.basuras = iniBasuras(8, 4, 2)
         self.fSpawn = 60
@@ -72,8 +72,8 @@ class Salon(EscenaPygame):
         
         teclasPulsadas = pygame.key.get_pressed()
         self.jugador.mover(teclasPulsadas, K_UP, K_DOWN, K_LEFT, K_RIGHT)
-        self.gato.mover_cpu(self.jugador)
-        self.bala.mover_cpu(self.jugador)
+        #self.gato.mover_cpu(self.jugador)
+        #self.bala.mover_cpu(self.jugador)
 
 
     def dibujar(self,pantalla):

@@ -26,14 +26,28 @@ class Actor(MiSprite):
         self.velGiro = velGiro
         self.velocidadCarrera = velocidadCarrera
         
+        self.numPostura = 0
+        self.numImagenPostura = 0
+        self.coordenadasHoja = []
+        if archivoCoordenadas != None:
+            datos = GestorRecursos.CargarArchivoCoordenadas(archivoCoordenadas)
+            datos = datos.split()
+            cont = 0
+            for linea in range(0,3):
+                self.coordenadasHoja.append([])
+                tmp = self.coordenadasHoja[linea]
+                for postura in range(1, numImagenes[linea]+1):
+                    tmp.append(pygame.Rect((int(datos[cont]), int(datos[cont+1])), (int(datos[cont+2]), int(datos[cont+3]))))
+                    cont += 4
         
-        self.rect = self.image.get_rect()
+        self.rect = pygame.Rect(0,0,self.coordenadasHoja[self.numPostura][self.numImagenPostura][2],self.coordenadasHoja[self.numPostura][self.numImagenPostura][3])
+
         self.actualizarDireccion()
-
-
+        
+        
     def actualizarDireccion(self):
         #self.image = pygame.transform.rotate(self.hoja,self.angulo)
-        self.image = self.rot_center(self.hoja,self.angulo)
+        self.image = self.rot_center(self.hoja.subsurface(self.coordenadasHoja[self.numPostura][self.numImagenPostura]).copy(),self.angulo)
 
     def rot_center(self, image, angle):
         """rotate an image while keeping its center and size"""
