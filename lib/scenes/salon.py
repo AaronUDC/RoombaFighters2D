@@ -6,7 +6,7 @@ from lib.sprites.actores.enemigo.bala import Bala
 from lib.sprites.sprite import MiSprite
 from lib.gestorRecursos import GestorRecursos
 from lib.sprites.props.basura import *
-from lib.sprites.recolectables.powerups import *
+from lib.sprites.recolectables.powerups.speedUp import *
 
 BLANCO = (255,255,255)
 
@@ -50,12 +50,12 @@ class Salon(EscenaPygame):
         self.numBasuras, self.basuras = iniBasuras(8, 4, 2)
         self.fSpawn = 60
         self.gestorbasura = GestorBasura(self.numBasuras, self.fSpawn, (1, 3), self.mascaraCol, self.basuras, (ANCHO_PANTALLA, ALTO_PANTALLA))
-        self.grupoBasuras = pygame.sprite.Group(self.basuras, self.fSpawn)
+        self.grupoBasuras = pygame.sprite.Group(self.basuras)
 
         self.simultaneouslyThunders = 1
-        self.thunder = iniThunder()
-        self.thunderGestor = ThunderGestor(self.simultaneouslyThunders, 60, self.mascaraCol, self.thunder, (ANCHO_PANTALLA, ALTO_PANTALLA))
-        self.grupoThunders = pygame.sprite.Group(self.thunder, self.fSpawn)
+        self.thunder = Thunder()
+        self.thunderGestor = ThunderGestor(self.simultaneouslyThunders, 1, self.mascaraCol, self.thunder, (ANCHO_PANTALLA, ALTO_PANTALLA))
+        self.grupoThunders = pygame.sprite.Group(self.thunder)
 
         pygame.display.update()
 
@@ -63,7 +63,7 @@ class Salon(EscenaPygame):
 
         self.gestorbasura.update(tiempo,self.mascaraCol, self.basuras, (ANCHO_PANTALLA,ALTO_PANTALLA))
         self.thunderGestor.update(tiempo, self.mascaraCol, self.thunder, (ANCHO_PANTALLA,ALTO_PANTALLA))
-        self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras, self.thunderGestor)
+        self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras, self.grupoThunders)
 
     def eventos(self,listaEventos):
         for event in listaEventos:
@@ -81,13 +81,13 @@ class Salon(EscenaPygame):
 
         pantalla.blit(self.suelo,self.suelo.get_rect())
         
-        for basura in self.basuras:
-            basura.dibujar(pantalla)
+        #for basura in self.basuras:
+        #    basura.dibujar(pantalla)
 
         self.thunder.dibujar(pantalla)
 
         self.grupoJugadores.draw(pantalla)
-        self.grupoEnemigos.draw(pantalla)
+        #self.grupoEnemigos.draw(pantalla)
 
         
         pantalla.blit(self.obstaculos,self.obstaculos.get_rect())

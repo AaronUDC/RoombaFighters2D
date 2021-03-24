@@ -3,7 +3,7 @@
 import pygame, sys, os, time, random
 from pygame.locals import *
 from lib.gestorRecursos import *
-from lib.sprites.recolectables.powerups import *
+from lib.sprites.recolectables.recolectables import *
 from math import *
 
 BLACK = (0, 0, 0)
@@ -17,7 +17,7 @@ class Thunder(Recolectables):
         self.mask = pygame.mask.from_surface(self.image)
         self.activo = False
 
-    def drawThunder(self, pantalla):
+    def dibujar(self, pantalla):
         if self.activo:
             pantalla.blit(self.image, self.rect)
 
@@ -54,12 +54,14 @@ class ThunderGestor():
         self.contador += tiempo/60
         if self.contador > self.fSpawn:
             self.contador = 0.0
-        if not thunder.activo and self.cantidad < 1:
-            thunder.establecerPosicion((random.randint(0, tamanoV[0]), random.randint(0, tamanoV[1])))
-            (thunderX, thunderY) = thunder.posicion
-            if mascaraCol.overlap_area(thunder.mask, (int(thunderX), int(thunderY - thunder.image.get_height()))) == 0:
-                thunder.activo = True
-                cantidad = 1
+            if not thunder.activo and self.cantidad < 1:
+                thunder.establecerPosicion((random.randint(0, tamanoV[0]), random.randint(0, tamanoV[1])))
+                (thunderX, thunderY) = thunder.posicion
+                if mascaraCol.overlap_area(thunder.mask, (int(thunderX), int(thunderY - thunder.image.get_height()))) == 0:
+                    thunder.activo = True
+                    cantidad = 1
+
+    
 
     '''def increaseSpeeds(self): #TODO
         #Crear función en clase jugador para modificar la velocidad y llamarla aquí
@@ -89,7 +91,3 @@ class ThunderGestor():
             while time.time() < endTimeEvent:
                 pass
             self.thunderMusic(False)'''
-
-def iniThunder():
-    thunder = Thunder()
-    return thunder

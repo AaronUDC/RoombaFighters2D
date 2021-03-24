@@ -92,5 +92,6 @@ class Jugador(Actor):
         
         thunderColision = pygame.sprite.spritecollide(self, thunder, False, pygame.sprite.collide_circle_ratio(0.3))
         if thunderColision != None:
-            if thunder.activo == True:
-                thunder.activo = False
+            for thunder in thunderColision:
+                if thunder.activo == True:
+                    thunder.activo = False
