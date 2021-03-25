@@ -6,6 +6,8 @@ import sys
 from lib.escena import *
 from pygame.locals import *
 from lib.sprites.actores.jugador import *
+from lib.sprites.actores.enemigo.bala import *
+from lib.sprites.actores.enemigo.gato import *
 
 FPS = 60
 
@@ -17,6 +19,8 @@ class Director():
         # Flag que nos indica cuando quieren salir de la escena de pygame
         self.salir_escena_pygame = False
         self.jugador = None
+        self.bala = None
+        self.gato = None
 
     def buclePygame(self, escena):
 
@@ -55,6 +59,8 @@ class Director():
         # Estas dos lineas realmente no son necesarias, se ponen aqui por seguridad,
         
         self.jugador = Jugador()
+        #self.bala = Bala()
+        #self.gato = Gato()
         # Mientras haya escenas en la pila, ejecutaremos la de arriba
         while (len(self.pila)>0):
 
