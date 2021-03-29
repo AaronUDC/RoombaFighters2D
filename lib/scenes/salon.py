@@ -2,6 +2,7 @@ from lib.escena import *
 from pygame.locals import *
 from lib.sprites.actores.jugador import Jugador
 from lib.sprites.actores.enemigo.gato import Gato
+from lib.sprites.actores.enemigo.pelo import Pelo
 from lib.sprites.actores.enemigo.bala import Bala
 from lib.sprites.sprite import MiSprite
 from lib.gestorRecursos import GestorRecursos
@@ -40,15 +41,15 @@ class Salon(EscenaPygame):
         self.jugador = director.jugador
         self.jugador.establecerPosicion((600,570))
 
-        #self.bala = Bala()
-        #self.bala.establecerPosicion((450, 350))
+        self.bala = Pelo(360,310)
+        self.bala.establecerPosicion((360, 310))
 
-        #self.gato = Gato()
-        #self.gato.establecerPosicion((400, 400))
+        self.gato = Gato()
+        self.gato.establecerPosicion((300, 370))
 
         self.grupoJugadores = pygame.sprite.Group(self.jugador)
-        #self.grupoEnemigos = pygame.sprite.Group(self.bala)
-        #self.grupoEnemigos.add(self.gato)
+        self.grupoEnemigos = pygame.sprite.Group(self.bala)
+        self.grupoEnemigos.add(self.gato)
 
         self.numBasuras, self.basuras = iniBasuras(8, 4, 2)
         self.fSpawn = 60
@@ -68,8 +69,8 @@ class Salon(EscenaPygame):
 
         self.gestorbasura.update(tiempo,self.mascaraCol, self.basuras, (ANCHO_PANTALLA,ALTO_PANTALLA))
         self.thunderGestor.update(tiempo, self.mascaraCol, self.thunder, (ANCHO_PANTALLA,ALTO_PANTALLA))
-        self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras, self.grupoThunders)
-
+        self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras, self.grupoThunders,self.grupoEnemigos)
+        self.grupoEnemigos.update(tiempo,self.mascaraCol)
         self.marcadorPuntuacion.update(tiempo, self.jugador)
         self.marcadorTiempo.update(tiempo)
 
@@ -87,25 +88,24 @@ class Salon(EscenaPygame):
         
         teclasPulsadas = pygame.key.get_pressed()
         self.jugador.mover(teclasPulsadas, K_UP, K_DOWN, K_LEFT, K_RIGHT)
-        #self.gato.mover_cpu(self.jugador)
-        #self.bala.mover_cpu(self.jugador)
+        self.gato.mover_cpu(self.jugador)
+        self.bala.mover_cpu(self.jugador)
 
 
     def dibujar(self,pantalla):
 
         pantalla.blit(self.suelo,self.suelo.get_rect())
-        
+
         for basura in self.basuras:
             basura.dibujar(pantalla)
 
         self.thunder.dibujar(pantalla)
 
         self.grupoJugadores.draw(pantalla)
-        #self.grupoEnemigos.draw(pantalla)
 
         
         pantalla.blit(self.obstaculos,self.obstaculos.get_rect())
-
+        self.grupoEnemigos.draw(pantalla)
         self.marcadorPuntuacion.dibujar(pantalla)
         self.marcadorTiempo.dibujar(pantalla)
         pygame.display.update()

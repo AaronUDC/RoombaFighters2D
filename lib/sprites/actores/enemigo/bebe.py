@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 import pygame, sys, os
 from pygame.locals import *
@@ -9,7 +8,7 @@ from lib.sprites.actores.enemigo.torreta import *
 from math import *
 
 
-class Gato(Torreta):
+class Bebe(Torreta):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto

@@ -39,7 +39,7 @@ class Actor(MiSprite):
                 for postura in range(1, numImagenes[linea]+1):
                     tmp.append(pygame.Rect((int(datos[cont]), int(datos[cont+1])), (int(datos[cont+2]), int(datos[cont+3]))))
                     cont += 4
-        
+
         self.rect = pygame.Rect(0,0,self.coordenadasHoja[self.numPostura][self.numImagenPostura][2],self.coordenadasHoja[self.numPostura][self.numImagenPostura][3])
 
         self.actualizarDireccion()
