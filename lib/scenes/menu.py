@@ -5,7 +5,6 @@ import pygame
 from pygame.locals import *
 from lib.escena import *
 from lib.scenes.salon import Salon
-from lib.scenes.test import Test
 from lib.gestorRecursos import *
 from lib.ui.ui import *
 from lib.scenes.cocina import Cocina
