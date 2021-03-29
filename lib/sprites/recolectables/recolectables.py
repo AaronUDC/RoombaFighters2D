@@ -14,8 +14,8 @@ class Recolectables(MiSprite):
         MiSprite.__init__(self)
         self.hoja = GestorRecursos.CargarImagen(archivoImagen,-1)
         self.image = self.hoja.convert_alpha()
-        self.sound = efectoSonido
-        self.music = archivoMusica
+        self.sound = GestorRecursos.CargarSonido(efectoSonido)
+        self.music = GestorRecursos.CargarMusica(archivoMusica)
         self.rect = self.image.get_rect()
 
     '''def drawText (self, surface, text, size, x, y):

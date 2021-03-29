@@ -16,6 +16,7 @@ class Thunder(Recolectables):
         Recolectables.__init__(self, "powerups/thunder.png", "", 1, "powerups/thunderEffect.mp3", "powerups/thunderMusic.mp3")
         self.mask = pygame.mask.from_surface(self.image)
         self.activo = False
+        self.cantidad = 0
 
     def dibujar(self, pantalla):
         if self.activo:
@@ -43,37 +44,32 @@ class ThunderGestor():
         self.contador = 0.0
         random.seed()
 
-        if not thunder.activo:
+        if not thunder.activo and cantidad < 1:
             thunder.establecerPosicion((random.randint(0, tamanoV[0]), random.randint(0, tamanoV[1])))
             (thunderX, thunderY) = thunder.posicion
             if mascaraCol.overlap_area(thunder.mask, (int(thunderX), int(thunderY - thunder.image.get_height()))) == 0:
                 thunder.activo = True
+                thunder.cantidad = 1
 
-    def update(self, tiempo, mascaraCol, thunder, tamanoV):
-        self.contador += tiempo/60
-        if self.contador > self.fSpawn:
-            self.contador = 0.0
-            if not thunder.activo:
-                thunder.establecerPosicion((random.randint(0, tamanoV[0]), random.randint(0, tamanoV[1])))
-                (thunderX, thunderY) = thunder.posicion
-                if mascaraCol.overlap_area(thunder.mask, (int(thunderX), int(thunderY - thunder.image.get_height()))) == 0:
-                    thunder.activo = True
-
-
-    
-
-    '''def increaseSpeeds(self): #TODO
-        #Crear función en clase jugador para modificar la velocidad y llamarla aquí
-        return True'''
-
-    '''def drawSpeedBar(self, surface, x, y, percentage):
+    def drawSpeedBar(self, surface, x, y, percentage):
         barLength = 50
         barHeight = 10
         fill = (percentage / 100) * barHeight
         border = pygame.Rect(x, y, barLength, barHeight)
         fill = pygame.Rect(x, y, fill, barHeight)
         pygame.draw.rect(surface, YELLOW, fill)
-        pygame.draw.rect(surface, BLACK, border, 2)'''
+        pygame.draw.rect(surface, BLACK, border, 2)
+
+    def update(self, tiempo, mascaraCol, thunder, tamanoV):
+        self.contador += tiempo/60
+        if self.contador > self.fSpawn:
+            self.contador = 0.0
+            apparition = random.randint(0, 100)
+            if not thunder.activo and apparition < 50:
+                thunder.establecerPosicion((random.randint(0, tamanoV[0]), random.randint(0, tamanoV[1])))
+                (thunderX, thunderY) = thunder.posicion
+                if mascaraCol.overlap_area(thunder.mask, (int(thunderX), int(thunderY - thunder.image.get_height()))) == 0:
+                    thunder.activo = True
 
     '''def thunderCollision(self): #TODO
         #obstaculos = pygame.sprite.spritecollide(self, grupoElementosEstaticos, False)

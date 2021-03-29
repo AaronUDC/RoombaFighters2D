@@ -105,8 +105,11 @@ class Jugador(Actor):
             for thunder in thunderColision:
                 if thunder.activo == True:
                     thunder.activo = False
+                    thunder.cantidad = 0
+                    thunder.thunderSoundEffect()
+                    thunder.thunderMusic(True)
                     self.powerupActual = 1
-                    self.modificadorVel = 1.2
+                    self.modificadorVel = 2
                     self.actualizarPostura()
 
         balaColision = pygame.sprite.spritecollide(self, bala, False, pygame.sprite.collide_circle_ratio(0.6))
