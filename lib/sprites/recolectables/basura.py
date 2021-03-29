@@ -11,7 +11,7 @@ class Basura(Recolectables):
     
     def __init__(self, tipo):
 
-        Recolectables.__init__(self, 'basura/Basura-Sheet.png','basura/coordBasura.txt', [3,3,3], "", "")
+        Recolectables.__init__(self, 'basura/Basura-Sheet.png','basura/coordBasura.txt', [3,0,0], "", "", tipo)
 
         self.mask = pygame.mask.from_surface(self.image)
         self.tipo = tipo

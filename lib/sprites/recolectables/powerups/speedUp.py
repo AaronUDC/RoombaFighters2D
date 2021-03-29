@@ -13,9 +13,12 @@ YELLOW = (255, 255, 51)
 class Thunder(Recolectables):
 
     def __init__(self):
-        Recolectables.__init__(self, "powerups/thunder.png", "", 1, "powerups/thunderEffect.mp3", "powerups/thunderMusic.mp3")
+        Recolectables.__init__(self, "powerups/powerUps.png", "powerups/coordPowerUps.txt", [2,0,0], "powerups/thunderEffect.mp3", "powerups/thunderMusic.mp3", 0)
         self.mask = pygame.mask.from_surface(self.image)
         self.activo = False
+
+        print(self.coordenadasHoja)
+        print(self.rect)
 
     def dibujar(self, pantalla):
         if self.activo:
