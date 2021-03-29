@@ -18,6 +18,7 @@ class Temporizador(TextoGUI):
     def update(self, tiempo):
         if int(self.tiempoLimite) >= 0:
             self.tiempoLimite -= (tiempo/1000)
+            
         
             self.imagen = self.fuente.render(str(int(self.tiempoLimite)), True, self.color)
         else:

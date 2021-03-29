@@ -9,6 +9,7 @@ from lib.sprites.recolectables.basura import *
 from lib.sprites.recolectables.powerups.speedUp import *
 from lib.ui.puntos import *
 from lib.ui.temporizador import * 
+from lib.scenes.cocina import *
 
 BLANCO = (255,255,255)
 
@@ -59,7 +60,7 @@ class Salon(EscenaPygame):
         self.grupoThunders = pygame.sprite.Group(self.thunder)
 
         self.marcadorPuntuacion = Puntos(None,(50,30))
-        self.marcadorTiempo = Temporizador(None, (500,30), 60)
+        self.marcadorTiempo = Temporizador(None, (500,30), 10)
         pygame.display.update()
 
     def update(self,tiempo):
@@ -70,6 +71,10 @@ class Salon(EscenaPygame):
 
         self.marcadorPuntuacion.update(tiempo, self.jugador)
         self.marcadorTiempo.update(tiempo)
+
+        if self.marcadorTiempo.tiempoLimite < 0:
+            self.director.apilarEscena(Cocina)
+
 
     def eventos(self,listaEventos):
         for event in listaEventos:
@@ -101,6 +106,11 @@ class Salon(EscenaPygame):
         self.marcadorPuntuacion.dibujar(pantalla)
         self.marcadorTiempo.dibujar(pantalla)
         pygame.display.update()
+
+    def cambiarScena(self, scenes):
+        if self.marcadorPuntuacion == 10:
+            if self.marcadorTiempo == 50:
+                self.apilarEscena(Cocina)
 
 
     def salirPrograma(self):

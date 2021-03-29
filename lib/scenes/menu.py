@@ -8,6 +8,8 @@ from lib.scenes.salon import Salon
 from lib.scenes.test import Test
 from lib.gestorRecursos import *
 from lib.ui.ui import *
+from lib.scenes.cocina import Cocina
+from lib.scenes.sotano import Sotano
 
 class BotonJugarFase(Boton):
     def __init__(self, pantalla, fase, posicion):
