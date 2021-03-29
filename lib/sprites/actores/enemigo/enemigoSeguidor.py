@@ -46,7 +46,7 @@ class Fantasma(EnemigoSeguidor):
 
         if jugadores != None:
             for jugador in jugadores:
-                jugador.vida -= 1
+                jugador.perderVida()
 
                 #Lado de la pantalla al que se teletransportara
                 cuadrante = random.randint(0,3)

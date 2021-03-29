@@ -44,7 +44,7 @@ class Jugador(Actor):
             angular = QUIETO
         Actor.mover(self,lineal,angular)
 
-    def update(self, tiempo, mascaraEstaticos, lBasuras, thunder,bala):
+    def update(self, tiempo, mascaraEstaticos, lBasuras, thunder):
        
 
         (velocidadX,velocidadY) = self.velocidad
@@ -109,11 +109,9 @@ class Jugador(Actor):
                     self.modificadorVel = 1.2
                     self.actualizarPostura()
 
-        balaColision = pygame.sprite.spritecollide(self, bala, False, pygame.sprite.collide_circle_ratio(0.6))
-        if balaColision != None:
-            for bala in balaColision:
-                if bala.activo == True:
-                    bala.activo = False
-                    self.vida -= 1
-                    if (self.vida >= 1):
-                        self.actualizarPostura()
+        
+
+    def perderVida(self):
+        self.vida -= 1
+        if (self.vida >= 1):
+            self.actualizarPostura()

@@ -23,7 +23,7 @@ class Torreta(Enemigos):
         Enemigos.mover_cpu(self,angulo,0)
 
 
-    def update(self, tiempo, mascaraEstaticos):
+    def update(self, tiempo, mascaraEstaticos, grupoJugadores):
        """ if self.angulo == DERECHA:
             Enemigos.mover_cpu(self, self.angulo)
         else:

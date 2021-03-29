@@ -46,16 +46,27 @@ class Bala(Enemigos):
             self.posicion = (centroGX, centroGY)
             # self.angulo = ((100 * self.velGiro) / 1 + angle)
 
-    def update(self, tiempo, mascaraEstaticos):
+    def update(self, tiempo, mascaraEstaticos, grupoJugadores):
 
-        (velocidadX,velocidadY) = self.velocidad
+        if self.activo == True:
+            (velocidadX,velocidadY) = self.velocidad
 
-        if self.movimientoLineal == ADELANTE:
-            velocidadX = -self.adelante[0] * self.velocidadCarrera
-            velocidadY = -self.adelante[1] * self.velocidadCarrera
-            self.velocidad = (velocidadX, velocidadY)
-        else:
-            self.velocidad = (0,0)
-        Actor.update(self,tiempo)
+            if self.movimientoLineal == ADELANTE:
+                velocidadX = -self.adelante[0] * self.velocidadCarrera
+                velocidadY = -self.adelante[1] * self.velocidadCarrera
+                self.velocidad = (velocidadX, velocidadY)
+            else:
+                self.velocidad = (0,0)
+            
+
+            jugadores = pygame.sprite.spritecollide(self, grupoJugadores, False, pygame.sprite.collide_circle_ratio(0.6))
+            if jugadores != None:
+                for jugador in jugadores:
+                    if self.activo == True:
+                        self.activo = False
+                        jugador.perderVida()
+            Actor.update(self,tiempo)
         
-        return
+    def draw(self,pantalla):
+        if self.activo == True:
+            pantalla.blit(self.image,self.rect)

@@ -48,8 +48,7 @@ class Salon(EscenaPygame):
         self.gato.establecerPosicion((300, 370))
 
         self.grupoJugadores = pygame.sprite.Group(self.jugador)
-        self.grupoEnemigos = pygame.sprite.Group(self.bala)
-        self.grupoEnemigos.add(self.gato)
+        self.grupoEnemigos = pygame.sprite.Group(self.gato)
 
         self.numBasuras, self.basuras = iniBasuras(8, 4, 2)
         self.fSpawn = 60
@@ -62,15 +61,19 @@ class Salon(EscenaPygame):
         self.grupoThunders = pygame.sprite.Group(self.thunder)
 
         self.marcadorPuntuacion = Puntos(None,(50,30))
-        self.marcadorTiempo = Temporizador(None, (500,30), 5)
+        self.marcadorTiempo = Temporizador(None, (500,30), 20)
         pygame.display.update()
 
     def update(self,tiempo):
 
         self.gestorbasura.update(tiempo,self.mascaraCol, self.basuras, (ANCHO_PANTALLA,ALTO_PANTALLA))
         self.thunderGestor.update(tiempo, self.mascaraCol, self.thunder, (ANCHO_PANTALLA,ALTO_PANTALLA))
-        self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras, self.grupoThunders,self.grupoEnemigos)
-        self.grupoEnemigos.update(tiempo,self.mascaraCol)
+
+        self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras, self.grupoThunders)
+
+        self.bala.update(tiempo,self.mascaraCol,self.grupoJugadores)
+        self.grupoEnemigos.update(tiempo,self.mascaraCol,self.grupoJugadores)
+
         self.marcadorPuntuacion.update(tiempo, self.jugador)
         self.marcadorTiempo.update(tiempo)
 
@@ -105,7 +108,11 @@ class Salon(EscenaPygame):
 
         
         pantalla.blit(self.obstaculos,self.obstaculos.get_rect())
+        self.grupoJugadores.draw(pantalla)
+        self.bala.draw(pantalla)
         self.grupoEnemigos.draw(pantalla)
+
+        
         self.marcadorPuntuacion.dibujar(pantalla)
         self.marcadorTiempo.dibujar(pantalla)
         pygame.display.update()
