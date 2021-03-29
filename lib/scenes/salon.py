@@ -19,6 +19,7 @@ class Salon(EscenaPygame):
 
         EscenaPygame.__init__(self,director)
 
+
         #Fondo de la escena
         self.suelo = GestorRecursos.CargarImagen('salon/suelo.png',-1)
         self.suelo = pygame.transform.scale(self.suelo,(ANCHO_PANTALLA,ALTO_PANTALLA))
@@ -60,7 +61,7 @@ class Salon(EscenaPygame):
         self.grupoThunders = pygame.sprite.Group(self.thunder)
 
         self.marcadorPuntuacion = Puntos(None,(50,30))
-        self.marcadorTiempo = Temporizador(None, (500,30), 10)
+        self.marcadorTiempo = Temporizador(None, (500,30), 5)
         pygame.display.update()
 
     def update(self,tiempo):
@@ -73,7 +74,9 @@ class Salon(EscenaPygame):
         self.marcadorTiempo.update(tiempo)
 
         if self.marcadorTiempo.tiempoLimite < 0:
-            self.director.apilarEscena(Cocina)
+            pantalla = Cocina(self.director)
+            self.director.apilarEscena(pantalla)
+            
 
 
     def eventos(self,listaEventos):
