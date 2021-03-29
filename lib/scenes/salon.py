@@ -2,6 +2,7 @@ from lib.escena import *
 from pygame.locals import *
 from lib.sprites.actores.jugador import Jugador
 from lib.sprites.actores.enemigo.gato import Gato
+from lib.sprites.actores.enemigo.pelo import Pelo
 from lib.sprites.actores.enemigo.bala import Bala
 from lib.sprites.sprite import MiSprite
 from lib.gestorRecursos import GestorRecursos
@@ -38,7 +39,7 @@ class Salon(EscenaPygame):
         self.jugador = director.jugador
         self.jugador.establecerPosicion((600,570))
 
-        self.bala = Bala()
+        self.bala = Pelo(360,310)
         self.bala.establecerPosicion((360, 310))
 
         self.gato = Gato()
@@ -86,18 +87,17 @@ class Salon(EscenaPygame):
     def dibujar(self,pantalla):
 
         pantalla.blit(self.suelo,self.suelo.get_rect())
-        
+
         for basura in self.basuras:
             basura.dibujar(pantalla)
 
         self.thunder.dibujar(pantalla)
 
         self.grupoJugadores.draw(pantalla)
-        self.grupoEnemigos.draw(pantalla)
 
         
         pantalla.blit(self.obstaculos,self.obstaculos.get_rect())
-
+        self.grupoEnemigos.draw(pantalla)
         self.marcadorPuntuacion.dibujar(pantalla)
         self.marcadorTiempo.dibujar(pantalla)
         pygame.display.update()
