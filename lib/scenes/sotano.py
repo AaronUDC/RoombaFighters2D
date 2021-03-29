@@ -1,6 +1,7 @@
 from lib.escena import *
 from pygame.locals import *
 from lib.sprites.actores.jugador import Jugador
+from lib.sprites.actores.enemigo.enemigoSeguidor import Fantasma
 from lib.sprites.sprite import MiSprite
 from lib.gestorRecursos import GestorRecursos
 from lib.sprites.recolectables.basura import *
@@ -36,8 +37,11 @@ class Sotano(EscenaPygame):
         self.jugador = director.jugador
         self.jugador.establecerPosicion((600,570))
 
-#fantasma
-        #self.fantasma = Fantasma()
+        #fantasma
+        self.fantasma = Fantasma(self.jugador)
+        self.fantasma.establecerPosicion((300,400))
+
+        self.grupoEnemigos = pygame.sprite.Group(self.fantasma)
 
         self.grupoJugadores = pygame.sprite.Group(self.jugador)
         
@@ -60,9 +64,12 @@ class Sotano(EscenaPygame):
 
     def update(self,tiempo):
 
+        self.fantasma.update(tiempo, self.grupoJugadores)
+
         self.gestorbasura.update(tiempo,self.mascaraCol, self.basuras, (ANCHO_PANTALLA,ALTO_PANTALLA))
         self.thunderGestor.update(tiempo, self.mascaraCol, self.thunder, (ANCHO_PANTALLA,ALTO_PANTALLA))
         self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras, self.grupoThunders)
+        
         
         self.marcadorPuntuacion.update(tiempo, self.jugador)
         self.marcadorTiempo.update(tiempo)
@@ -75,6 +82,7 @@ class Sotano(EscenaPygame):
         
         teclasPulsadas = pygame.key.get_pressed()
         self.jugador.mover(teclasPulsadas, K_UP, K_DOWN, K_LEFT, K_RIGHT)
+        self.fantasma.mover_cpu()
 
 
     def dibujar(self,pantalla):
@@ -87,13 +95,16 @@ class Sotano(EscenaPygame):
         self.thunder.dibujar(pantalla)
 
         self.grupoJugadores.draw(pantalla)
-        #self.grupoEnemigos.draw(pantalla)
 
         
         pantalla.blit(self.obstaculos,self.obstaculos.get_rect())
 
+
+        self.grupoEnemigos.draw(pantalla)
+
         self.marcadorPuntuacion.dibujar(pantalla)
         self.marcadorTiempo.dibujar(pantalla)
+
         pygame.display.update()
 
 

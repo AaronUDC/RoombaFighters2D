@@ -14,6 +14,7 @@ class Enemigos(Actor):
         Actor.__init__(self, archivoImagen ,archivoCoordenadas, numImagenes, velocidadCarrera, velGiro);
 
     def mover_cpu(self, movimientoAngular,movimientoLineal):
+        
         self.angulo = movimientoAngular
         adelanteX = math.cos(math.radians(self.angulo))
         adelanteY = math.sin(math.radians(self.angulo))
