@@ -7,52 +7,57 @@ from lib.sprites.actores.actores import *
 from lib.sprites.actores.enemigos import *
 from math import *
 
+ESTADO_ESPERA = 0
+ESTADO_DISPARO = 1
+ESTADO_AVANCE = 2
 
 class Bala(Enemigos):
 
-    def __init__(self, archivoImagen, archivoCoordenadas,tipoBala):
+
+    def __init__(self, archivoImagen, archivoCoordenadas,tipoBala, posicionDisparo):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Actor.__init__(self,archivoImagen, archivoCoordenadas, [1,0,0], 20, 10);
-        self.activo = True
-        self.tipoBala = tipoBala
-        self.mascara = pygame.mask.from_surface(self.image)
+        Actor.__init__(self,archivoImagen, archivoCoordenadas, [2,0,0], 20, 10);
+        self.visible = True
+        self.numImagenPostura = tipoBala
+        self.posicionDisparo = posicionDisparo
+        self.establecerPosicion(self.posicionDisparo)
+        self.estado = ESTADO_ESPERA
+
+        self.distanciaMax = 300
 
     def mover_cpu(self,jugador):
-        (centroJX, centroJY) = jugador.rect.center
-        (centroGX, centroGY) = self.centroT
-        (centroBX, centroBY) = self.rect.center
-        if (self.posicion[0] == centroGX and self.posicion[1] == centroGY):
-            radian = math.atan2(centroBX - centroJX, centroBY - centroJY)
+
+        if self.estado == ESTADO_ESPERA:
+            #No se mueve
+            Enemigos.mover_cpu(self,0,0)
+        elif self.estado == ESTADO_DISPARO:
+            #Actualiza su direccion a la del jugador en ese frame
+            (centroJX,centroJY) = jugador.rect.center
+            (centroGX,centroGY) = self.rect.center
+            radian = math.atan2(centroGX - centroJX, centroGY - centroJY)
             self.angulo = degrees(radian)
-            adelanteX = math.cos(math.radians(self.angulo))
-            adelanteY = math.sin(math.radians(self.angulo))
-            self.adelante = (adelanteY, adelanteX)
-        if ((jugador.posicion[0] - self.posicion[0]) < 250 and (jugador.posicion[0] - self.posicion[0]) > -250) and (
-                (jugador.posicion[1] - self.posicion[1]) < 200 and (jugador.posicion[1] - self.posicion[1]) > -200):
-            self.movimientoLineal = 1
-        else:
-            self.movimientoLineal = 0
+            Enemigos.mover_cpu(self,self.angulo,0)
+        elif self.estado == ESTADO_AVANCE:
+            # No actualizamos el movimiento
+            Enemigos.mover_cpu(self,self.angulo,1)
 
-        if self.movimientoLineal:
-            if self.posicion[1] < centroGY - 150 or self.posicion[1] > centroGY + 150:
-                self.posicion = (centroGX, centroGY)
-                self.movimientoLineal = 0
-                self.activo = True
-            if self.posicion[0] < centroGX - 200 or self.posicion[0] > centroGX + 200:
-                self.posicion = (centroGX, centroGY)
-                self.movimientoLineal = 0
-                self.activo = True
-        else:
-            self.activo = True
-            self.posicion = (centroGX, centroGY)
-            # self.angulo = ((100 * self.velGiro) / 1 + angle)
+    def update(self, tiempo, grupoJugadores):
 
-    def actualizarPostura(self):
-        self.numImagenPostura = self.tipoBala
+        Actor.update(self,tiempo)
 
-    def update(self, tiempo, mascaraEstaticos, grupoJugadores):
+        if self.estado == ESTADO_ESPERA:
+            # La bala es invisible, y se queda en la posicion inicial
+            self.establecerPosicion(self.posicionDisparo)
+            self.visible = False
 
-        if self.activo == True:
+        elif self.estado == ESTADO_DISPARO:
+            # La bala es visible, se queda en la posicion inicial e inicia el estado de avance
+            self.establecerPosicion(self.posicionDisparo)
+            self.visible = True
+            self.estado = ESTADO_AVANCE
+
+        elif self.estado == ESTADO_AVANCE:
+            # La bala avanza hacia adelante
             (velocidadX,velocidadY) = self.velocidad
 
             if self.movimientoLineal == ADELANTE:
@@ -61,32 +66,43 @@ class Bala(Enemigos):
                 self.velocidad = (velocidadX, velocidadY)
             else:
                 self.velocidad = (0,0)
-            
 
             jugadores = pygame.sprite.spritecollide(self, grupoJugadores, False, pygame.sprite.collide_circle_ratio(0.6))
             if jugadores != None:
                 for jugador in jugadores:
-                    if self.activo == True:
-                        self.activo = False
                         jugador.perderVida()
-            Actor.update(self,tiempo)
-        
+                        self.estado = ESTADO_ESPERA
+                        break
+                
+
+            (posX,posY) = self.rect.center
+            (origX,origY) = self.posicionDisparo
+            distancia = sqrt(pow((posX-origX),2) + pow((posY-origY),2))
+            if  distancia > self.distanciaMax:
+                self.estado = ESTADO_ESPERA
+            
     def draw(self,pantalla):
-        if self.activo == True:
+        if self.visible:
             pantalla.blit(self.image,self.rect)
+
+    
+    def disparar(self, objetivo):
+        self.estado = ESTADO_DISPARO
+        self.objetivo = objetivo
+
+    def estaEspera(self):
+        return self.estado == ESTADO_ESPERA
 
 
 class Vomito(Bala):
 
-    def __init__(self,coordx,coordy):
+    def __init__(self,posicionDisparo):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        self.centroT = (coordx,coordy)
-        Bala.__init__(self, 'personajes/enemigos/bala/proyectiles.png','personajes/enemigos/bala/coordBala.txt',1);
+        Bala.__init__(self, 'personajes/enemigos/bala/proyectiles.png','personajes/enemigos/bala/coordBala.txt',1, posicionDisparo);
 
 
 class Pelo(Bala):
 
-    def __init__(self,coordx,coordy):
+    def __init__(self,posicionDisparo):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        self.centroT = (coordx,coordy)
-        Bala.__init__(self, 'personajes/enemigos/bala/proyectiles.png','personajes/enemigos/bala/coordBala.txt',0);
+        Bala.__init__(self, 'personajes/enemigos/bala/proyectiles.png','personajes/enemigos/bala/coordBala.txt',0, posicionDisparo);

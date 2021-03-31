@@ -17,9 +17,6 @@ class Thunder(Recolectables):
         self.mask = pygame.mask.from_surface(self.image)
         self.activo = False
 
-        print(self.coordenadasHoja)
-        print(self.rect)
-
     def dibujar(self, pantalla):
         if self.activo:
             pantalla.blit(self.image, self.rect)

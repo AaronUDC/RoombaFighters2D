@@ -4,15 +4,19 @@ from pygame.locals import *
 from lib.gestorRecursos import *
 from lib.sprites.actores.actores import *
 from lib.sprites.actores.enemigos import *
+from lib.sprites.actores.enemigo.bala import Bala
 from math import *
 
 
 class Torreta(Enemigos):
 
-    def __init__(self, archivoImagen, archivoCoordenadas,numImagenes):
+    def __init__(self, archivoImagen, archivoCoordenadas,numImagenes, bala, areaDeteccion):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         self.activo = False
+        self.bala = bala
+        self.areaDeteccion = areaDeteccion
         Enemigos.__init__(self, archivoImagen,archivoCoordenadas, numImagenes, 10,10);
+        self.jugadorFuera = False
 
     def mover_cpu(self, jugador):
 
@@ -23,41 +27,57 @@ class Torreta(Enemigos):
         Enemigos.mover_cpu(self,angulo,0)
 
 
-    def update(self, tiempo, mascaraEstaticos, grupoJugadores):
-
-        self.current_frame = 0
-        self.actualizarPostura()
+    def update(self, tiempo, grupoJugadores):
+        
+        if self.bala.estaEspera():
+            for jugador in grupoJugadores:
+                if self.areaDeteccion.colliderect(jugador.rect):
+                    if not self.jugadorFuera:
+                        self.bala.disparar(jugador)
+                    self.jugadorFuera = True
+                    break
+                else:
+                    self.jugadorFuera = False
 
         Enemigos.update(self,tiempo)
+
+
 
 class Gato(Torreta):
 
-    def __init__(self):
+    def __init__(self,bala,areaDeteccion):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        self.activo = False
         self.tipo = 0
-        Torreta.__init__(self, 'personajes/enemigos/gato/gato.png','personajes/enemigos/gato//coordGato.txt', [1,0,0]);
+        Torreta.__init__(self, 'personajes/enemigos/gato/gato.png','personajes/enemigos/gato/coordGato.txt', [1,0,0],bala,areaDeteccion);
 
 class Bebe(Torreta):
 
-    def __init__(self):
+    def __init__(self,bala,areaDeteccion):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        self.activo = False
         self.tipo = 1
-        Torreta.__init__(self, 'personajes/enemigos/bebe/BebeCabeza-Sheet.png','personajes/enemigos/bebe/coordBebe.txt',[3,0,0]);
+        Torreta.__init__(self, 'personajes/enemigos/bebe/BebeCabeza-Sheet.png','personajes/enemigos/bebe/coordBebe.txt',[16,0,0],bala,areaDeteccion);
+        self.numFrames = 15
+        self.duracionFrame = 0.07
+        self.contadorFrame = 0
+        self.disparando = False
 
-    def update(self, tiempo):
-        '''#(posActX, posActY) = self.posicion
-        #MiSprite.establecerPosicion(self, (posActX,posActY))
-        if self.current_frame >= self.frames - 1:
-            self.current_frame = 0
-        else:
-            if self.contador == 6:
-                self.current_frame += 1
-                self.contador = 0
+    def update(self, tiempo, grupoJugadores):
+        
+        if self.disparando:
+            if self.contadorFrame > self.duracionFrame:
+                self.contadorFrame = 0
+                if self.numImagenPostura >= self.numFrames:
+                    self.numImagenPostura = 0
+                    self.disparando = False
+                else:
+                    self.numImagenPostura += 1
             else:
-                self.contador += 1
-        #new_area = pygame.Rect((self.current_frame * self.frame_width, 0, self.frame_width, self.frame_height))
-        if (self.current_frame*64) % 64 == 0:
-            self.image = self.rot_center(self.hoja.subsurface(self.current_frame*64, 0, 64, 64), self.angulo)'''
-        Enemigos.update(self,tiempo)
+                self.contadorFrame += (tiempo/1000)
+        
+        if self.bala.estaEspera() and not self.disparando:
+            for jugador in grupoJugadores:
+                if self.areaDeteccion.colliderect(jugador.rect):
+                    self.disparando = True
+                    break
+            
+        Torreta.update(self,tiempo,grupoJugadores)

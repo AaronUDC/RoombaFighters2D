@@ -40,14 +40,15 @@ class Salon(EscenaPygame):
         self.jugador = director.jugador
         self.jugador.establecerPosicion((600,570))
 
-        self.bala = Pelo(360,310)
-        self.bala.establecerPosicion((360, 310))
+        posicionGato = (360,310)
+        self.bala = Pelo(posicionGato)
 
-        self.gato = Gato()
-        self.gato.establecerPosicion((340, 340))
+        self.gato = Gato(self.bala,Rect(160,160,384,288))
+        (posX,posY) = posicionGato
+        self.gato.establecerPosicion((posX-self.gato.rect.width/2,posY+self.gato.rect.height/2))
 
         self.grupoJugadores = pygame.sprite.Group(self.jugador)
-        self.grupoEnemigos = pygame.sprite.Group(self.gato)
+        self.grupoTorretas= pygame.sprite.Group(self.gato)
 
         self.numBasuras, self.basuras = iniBasuras(8, 4, 2)
         self.fSpawn = 60
@@ -60,7 +61,7 @@ class Salon(EscenaPygame):
         self.grupoThunders = pygame.sprite.Group(self.thunder)
 
         self.marcadorPuntuacion = Puntos(None,(50,30))
-        self.marcadorTiempo = Temporizador(None, (500,30), 5)
+        self.marcadorTiempo = Temporizador(None, (500,30), 50)
         pygame.display.update()
 
     def update(self,tiempo):
@@ -70,8 +71,8 @@ class Salon(EscenaPygame):
 
         self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras, self.grupoThunders)
 
-        self.bala.update(tiempo,self.mascaraCol,self.grupoJugadores)
-        self.grupoEnemigos.update(tiempo,self.mascaraCol,self.grupoJugadores)
+        self.bala.update(tiempo,self.grupoJugadores)
+        self.grupoTorretas.update(tiempo,self.grupoJugadores)
 
         self.marcadorPuntuacion.update(tiempo, self.jugador)
         self.marcadorTiempo.update(tiempo)
@@ -109,7 +110,7 @@ class Salon(EscenaPygame):
         pantalla.blit(self.obstaculos,self.obstaculos.get_rect())
         self.grupoJugadores.draw(pantalla)
         self.bala.draw(pantalla)
-        self.grupoEnemigos.draw(pantalla)
+        self.grupoTorretas.draw(pantalla)
 
         
         self.marcadorPuntuacion.dibujar(pantalla)

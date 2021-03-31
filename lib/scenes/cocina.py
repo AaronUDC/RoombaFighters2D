@@ -57,10 +57,10 @@ class Cocina(EscenaPygame):
         #Enemigos
 
         #lo que lanza el bebe
-        self.bala = Vomito(725, 325)
+        self.bala = Vomito((700, 350))
         self.bala.establecerPosicion((700, 350))
         #cambiar posicion del bebe
-        self.bebe = Bebe()
+        self.bebe = Bebe(self.bala,Rect(544,128,224,384))
         self.bebe.establecerPosicion((700, 350))
 
         self.grupoEnemigos = pygame.sprite.Group(self.bebe)
@@ -94,8 +94,8 @@ class Cocina(EscenaPygame):
         self.gestorbasura.update(tiempo,self.mascaraCol, self.basuras, (ANCHO_PANTALLA,ALTO_PANTALLA))
         self.thunderGestor.update(tiempo, self.mascaraCol, self.thunder, (ANCHO_PANTALLA,ALTO_PANTALLA))
         self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras, self.grupoThunders)
-        self.bala.update(tiempo, self.mascaraCol, self.grupoJugadores)
-        self.bebe.update(tiempo)
+        self.bala.update(tiempo, self.grupoJugadores)
+        self.bebe.update(tiempo, self.grupoJugadores)
         
         
         self.marcadorPuntuacion.update(tiempo, self.jugador)
