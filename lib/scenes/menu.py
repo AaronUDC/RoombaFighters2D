@@ -101,7 +101,7 @@ class PantallaInicialGUI(PantallaGUI):
         self.elementosGUI.append(botonSalir)
 
         # Creamos el texto y lo metemos en la lista
-        textoJugar = TextoJugarFase(self, 'Jugar en el salón', Salon, (ANCHO_PANTALLA/2+ 10,ALTO_PANTALLA/2-10))
+        textoJugar = TextoJugarFase(self, 'Jugar en el salón', Cocina, (ANCHO_PANTALLA/2+ 10,ALTO_PANTALLA/2-10))
         textoSalir = TextoSalir(self, (ANCHO_PANTALLA/2+ 10 ,ALTO_PANTALLA/2 + 90))
         self.elementosGUI.append(textoJugar)
         self.elementosGUI.append(textoSalir)

@@ -65,7 +65,7 @@ class Cocina(EscenaPygame):
 
         self.grupoEnemigos = pygame.sprite.Group(self.bebe)
 
-
+        #Loro
         posicionJaula = (530,590)
         self.loro = Loro(self.jugador,posicionJaula, 5, 17, 20)
         self.loro.establecerPosicion(posicionJaula)

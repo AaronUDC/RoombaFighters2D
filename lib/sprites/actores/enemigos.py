@@ -13,7 +13,7 @@ class Enemigos(Actor):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         Actor.__init__(self, archivoImagen ,archivoCoordenadas, numImagenes, velocidadCarrera, velGiro);
 
-        self.hoja = GestorRecursos.CargarImagen(archivoImagen,-1)
+        '''self.hoja = GestorRecursos.CargarImagen(archivoImagen,-1)
         self.image = self.hoja.convert_alpha()
         self.rect = self.image.get_rect()
         self.current_frame = 0
@@ -21,11 +21,11 @@ class Enemigos(Actor):
         self.frame_width = 64
         self.frame_height = 64
         self.contador = 0
-        self.actualizarPostura()
+        self.actualizarPostura()'''
 
     def mover_cpu(self, movimientoAngular,movimientoLineal):
         
-        self.angulo = movimientoAngular
+        self.angulo = movimientoAngular%360
         adelanteX = math.cos(math.radians(self.angulo))
         adelanteY = math.sin(math.radians(self.angulo))
         self.adelante = (adelanteY, adelanteX)

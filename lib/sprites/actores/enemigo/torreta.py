@@ -9,10 +9,10 @@ from math import *
 
 class Torreta(Enemigos):
 
-    def __init__(self, archivoImagen, archivoCoordenadas):
+    def __init__(self, archivoImagen, archivoCoordenadas,numImagenes):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         self.activo = False
-        Enemigos.__init__(self, archivoImagen,archivoCoordenadas, [3,3,3], 10,10);
+        Enemigos.__init__(self, archivoImagen,archivoCoordenadas, numImagenes, 10,10);
 
     def mover_cpu(self, jugador):
 
@@ -36,23 +36,7 @@ class Gato(Torreta):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         self.activo = False
         self.tipo = 0
-        Torreta.__init__(self, 'personajes/enemigos/gato/gato.png','personajes/enemigos/gato//coordGato.txt');
-
-    """def mover_cpu(self, jugador):
-
-        (centroJX,centroJY) = jugador.rect.center
-        (centroGX,centroGY) = self.rect.center
-        radian = math.atan2(centroGX - centroJX, centroGY - centroJY)
-        angulo = degrees(radian)
-        Enemigos.mover_cpu(self,angulo,0)"""
-
-
-    """def update(self, tiempo, mascaraEstaticos):
-        if self.angulo == DERECHA:
-            Enemigos.mover_cpu(self, self.angulo)
-        else:
-            Enemigos.mover_cpu(self, self.angulo)
-       Enemigos.update(self,tiempo)"""
+        Torreta.__init__(self, 'personajes/enemigos/gato/gato.png','personajes/enemigos/gato//coordGato.txt', [1,0,0]);
 
 class Bebe(Torreta):
 
@@ -60,19 +44,10 @@ class Bebe(Torreta):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         self.activo = False
         self.tipo = 1
-        Torreta.__init__(self, 'personajes/enemigos/bebe/BebeCabeza-Sheet.png','personajes/enemigos/bebe/coordBebe.txt');
-
-    """def mover_cpu(self, jugador):
-
-        (centroJX,centroJY) = jugador.rect.center
-        (centroGX,centroGY) = self.rect.center
-        radian = math.atan2(centroGX - centroJX, centroGY - centroJY)
-        angulo = degrees(radian)
-        Enemigos.mover_cpu(self,angulo,0)"""
-
+        Torreta.__init__(self, 'personajes/enemigos/bebe/BebeCabeza-Sheet.png','personajes/enemigos/bebe/coordBebe.txt',[3,0,0]);
 
     def update(self, tiempo):
-        #(posActX, posActY) = self.posicion
+        '''#(posActX, posActY) = self.posicion
         #MiSprite.establecerPosicion(self, (posActX,posActY))
         if self.current_frame >= self.frames - 1:
             self.current_frame = 0
@@ -84,5 +59,5 @@ class Bebe(Torreta):
                 self.contador += 1
         #new_area = pygame.Rect((self.current_frame * self.frame_width, 0, self.frame_width, self.frame_height))
         if (self.current_frame*64) % 64 == 0:
-            self.image = self.rot_center(self.hoja.subsurface(self.current_frame*64, 0, 64, 64), self.angulo)
+            self.image = self.rot_center(self.hoja.subsurface(self.current_frame*64, 0, 64, 64), self.angulo)'''
         Enemigos.update(self,tiempo)

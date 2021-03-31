@@ -12,7 +12,7 @@ class Bala(Enemigos):
 
     def __init__(self, archivoImagen, archivoCoordenadas,tipoBala):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Actor.__init__(self,archivoImagen, archivoCoordenadas, [3,3,3], 20, 10);
+        Actor.__init__(self,archivoImagen, archivoCoordenadas, [1,0,0], 20, 10);
         self.activo = True
         self.tipoBala = tipoBala
         self.mascara = pygame.mask.from_surface(self.image)

@@ -144,6 +144,8 @@ class Loro(EnemigoSeguidor):
                     self.velocidadCarrera = self.velocidadVolver
         
         elif self.estado == MOVERSE_JAULA:
+            ## Dirigimos al loro a la jaula y comprobamos si esta dentro
+            # Al llegar a la jaula, pasa al estado de espera
             EnemigoSeguidor.update(self,tiempo)
             (centroJX,centroJY) = self.posicionJaula
             centroJX += self.rect.width/2

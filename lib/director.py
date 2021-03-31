@@ -6,8 +6,6 @@ import sys
 from lib.escena import *
 from pygame.locals import *
 from lib.sprites.actores.jugador import *
-from lib.sprites.actores.enemigo.bala import *
-from lib.sprites.actores.enemigo.gato import *
 
 FPS = 60
 
