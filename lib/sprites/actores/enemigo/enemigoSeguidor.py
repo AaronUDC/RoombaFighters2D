@@ -86,12 +86,15 @@ class Loro(EnemigoSeguidor):
         self.velocidadPerseguir = velocidadPerseguir
         self.velocidadVolver = velocidadVolver
         
-        EnemigoSeguidor.__init__(self, 'personajes/enemigos/loro/Loro.png' ,'personajes/enemigos/loro/coordLoro.txt', [1,0,0], self.velocidadPerseguir, 5, objetivo)
+        EnemigoSeguidor.__init__(self, 'personajes/enemigos/loro/Loro.png' ,'personajes/enemigos/loro/coordLoro.txt', [8,0,0], self.velocidadPerseguir, 5, objetivo)
         self.posicionJaula = posicionJaula
         self.tiempoEspera = tiempoEspera
         self.esperaActual = 0
         self.visible = False
 
+        self.numFrames = 8
+        self.duracionFrame = 0.05
+        self.contadorFrame = 0
 
         self.estado = ESPERAR_JAULA
 
@@ -115,6 +118,17 @@ class Loro(EnemigoSeguidor):
 
 
     def update(self,tiempo,grupoJugadores):
+
+        if self.estado != ESPERAR_JAULA:
+            if self.contadorFrame > self.duracionFrame:
+                self.contadorFrame = 0
+                if self.numImagenPostura >= self.numFrames-1:
+                    self.numImagenPostura = 0
+                    self.disparando = False
+                else:
+                    self.numImagenPostura += 1
+            else:
+                self.contadorFrame += (tiempo/1000)
 
         if  self.estado == ESPERAR_JAULA:
             ## Estado de esperar en la jaula.
