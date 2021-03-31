@@ -1,6 +1,7 @@
 from lib.escena import *
 from pygame.locals import *
 from lib.sprites.actores.jugador import Jugador
+from lib.sprites.actores.enemigo.enemigoSeguidor import Loro
 from lib.sprites.sprite import MiSprite
 from lib.gestorRecursos import GestorRecursos
 from lib.sprites.recolectables.basura import *
@@ -27,6 +28,10 @@ class Cocina(EscenaPygame):
         self.obstaculos = pygame.transform.scale(self.obstaculos,(ANCHO_PANTALLA,ALTO_PANTALLA))
         self.obstaculos.set_colorkey(self.obstaculos.get_at((340, 430)), RLEACCEL)
 
+        self.jaula = GestorRecursos.CargarImagen('cocina/jaula.png', -1)
+        self.jaulaRect = self.jaula.get_rect()
+        self.jaulaRect.left = 518
+        self.jaulaRect.top = 520
         #Máscara
         self.mascaraImg = GestorRecursos.CargarImagen('cocina/mask.png', -1)
         self.mascaraImg.set_colorkey(self.mascaraImg.get_at((340, 430)), RLEACCEL)
@@ -34,8 +39,11 @@ class Cocina(EscenaPygame):
 
         #Jugador
         self.jugador = director.jugador
-        self.jugador.establecerPosicion((600,570))
+        self.jugador.establecerPosicion((188,138))
 
+        self.grupoJugadores = pygame.sprite.Group(self.jugador)
+
+        #Enemigos
     #lo que lanza el bebe
         #self.bala 
         #self.bala.establecerPosicion((450, 350))
@@ -43,9 +51,14 @@ class Cocina(EscenaPygame):
         #self.bebe = Bebe()
         #self.bebe.establecerPosicion((400, 400))
 
-        self.grupoJugadores = pygame.sprite.Group(self.jugador)
-        
 
+        posicionJaula = (530,590)
+        self.loro = Loro(self.jugador,posicionJaula, 5, 17, 20)
+        self.loro.establecerPosicion(posicionJaula)
+
+        self.grupoEnemigosVoladores = pygame.sprite.Group(self.loro)
+
+        #Recolectables
         self.numBasuras, self.basuras = iniBasuras(8, 4, 2)
         self.fSpawn = 60
         self.gestorbasura = GestorBasura(self.numBasuras, self.fSpawn, (1, 3), self.mascaraCol, self.basuras, (ANCHO_PANTALLA, ALTO_PANTALLA))
@@ -62,12 +75,16 @@ class Cocina(EscenaPygame):
 
     def update(self,tiempo):
 
+        self.loro.update(tiempo,self.grupoJugadores)
+        
         self.gestorbasura.update(tiempo,self.mascaraCol, self.basuras, (ANCHO_PANTALLA,ALTO_PANTALLA))
         self.thunderGestor.update(tiempo, self.mascaraCol, self.thunder, (ANCHO_PANTALLA,ALTO_PANTALLA))
         self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras, self.grupoThunders)
         
+        
         self.marcadorPuntuacion.update(tiempo, self.jugador)
         self.marcadorTiempo.update(tiempo)
+
         
 
     def eventos(self,listaEventos):
@@ -77,9 +94,11 @@ class Cocina(EscenaPygame):
                 self.salirPrograma()
         
         teclasPulsadas = pygame.key.get_pressed()
+        self.loro.mover_cpu()
+        
         self.jugador.mover(teclasPulsadas, K_UP, K_DOWN, K_LEFT, K_RIGHT)
-        #self.gato.mover_cpu(self.jugador)
-        #self.bala.mover_cpu(self.jugador)
+
+        
 
 
     def dibujar(self,pantalla):
@@ -92,11 +111,13 @@ class Cocina(EscenaPygame):
         self.thunder.dibujar(pantalla)
 
         self.grupoJugadores.draw(pantalla)
-        #self.grupoEnemigos.draw(pantalla)
-
         
-        pantalla.blit(self.obstaculos,self.obstaculos.get_rect())
 
+        pantalla.blit(self.obstaculos,self.obstaculos.get_rect())
+        
+        self.loro.dibujar(pantalla)
+        
+        pantalla.blit(self.jaula,self.jaulaRect)
         self.marcadorPuntuacion.dibujar(pantalla)
         self.marcadorTiempo.dibujar(pantalla)
         pygame.display.update()
