@@ -45,7 +45,7 @@ class Salon(EscenaPygame):
         self.bala.establecerPosicion((360, 310))
 
         self.gato = Gato()
-        self.gato.establecerPosicion((300, 370))
+        self.gato.establecerPosicion((340, 340))
 
         self.grupoJugadores = pygame.sprite.Group(self.jugador)
         self.grupoEnemigos = pygame.sprite.Group(self.gato)
@@ -61,7 +61,7 @@ class Salon(EscenaPygame):
         self.grupoThunders = pygame.sprite.Group(self.thunder)
 
         self.marcadorPuntuacion = Puntos(None,(50,30))
-        self.marcadorTiempo = Temporizador(None, (500,30), 20)
+        self.marcadorTiempo = Temporizador(None, (500,30), 5)
         pygame.display.update()
 
     def update(self,tiempo):
@@ -71,8 +71,8 @@ class Salon(EscenaPygame):
 
         self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras, self.grupoThunders)
 
-        self.bala.update(tiempo,self.mascaraCol,self.grupoJugadores)
-        self.grupoEnemigos.update(tiempo,self.mascaraCol,self.grupoJugadores)
+        self.bala.update(tiempo,self.mascaraCol,self.grupoJugadores,0)
+        self.grupoEnemigos.update(tiempo,self.mascaraCol,self.grupoJugadores,0,self.pantalla)
 
         self.marcadorPuntuacion.update(tiempo, self.jugador)
         self.marcadorTiempo.update(tiempo)
@@ -80,7 +80,7 @@ class Salon(EscenaPygame):
         if self.marcadorTiempo.tiempoLimite < 0:
             pantalla = Cocina(self.director)
             self.director.apilarEscena(pantalla)
-            
+
 
 
     def eventos(self,listaEventos):

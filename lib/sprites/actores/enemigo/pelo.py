@@ -13,7 +13,7 @@ class Pelo(Bala):
     def __init__(self,coordx,coordy):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         self.centroT = (coordx,coordy)
-        Bala.__init__(self, 'personajes/enemigos/bala/bala.png','personajes/enemigos/bala/coordBala.txt');
+        Bala.__init__(self, 'personajes/enemigos/bala/proyectiles.png','personajes/enemigos/bala/coordBala.txt');
 
     """def mover_cpu(self, jugador):
 

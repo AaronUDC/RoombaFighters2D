@@ -14,6 +14,7 @@ class Bala(Enemigos):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         Actor.__init__(self,archivoImagen, archivoCoordenadas, [3,3,3], 20, 10);
         self.activo = True
+        self.tipoBala = 0
         self.mascara = pygame.mask.from_surface(self.image)
 
     def mover_cpu(self,jugador):
@@ -46,8 +47,16 @@ class Bala(Enemigos):
             self.posicion = (centroGX, centroGY)
             # self.angulo = ((100 * self.velGiro) / 1 + angle)
 
-    def update(self, tiempo, mascaraEstaticos, grupoJugadores):
+    def actualizarPostura(self):
+        self.numImagenPostura = self.tipoBala
 
+    def update(self, tiempo, mascaraEstaticos, grupoJugadores,tipo):
+        if (tipo == 1):
+            self.tipoBala= 1
+            self.actualizarPostura()
+        else:
+            self.tipoBala = 0
+            self.actualizarPostura()
         if self.activo == True:
             (velocidadX,velocidadY) = self.velocidad
 

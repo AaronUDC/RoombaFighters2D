@@ -13,7 +13,8 @@ class Bebe(Torreta):
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         self.activo = False
-        Torreta.__init__(self, 'personajes/enemigos/gato/gato.png','personajes/enemigos/gato//coordGato.txt');
+        self.tipo = 1
+        Torreta.__init__(self, 'personajes/enemigos/bebe/BebeCabeza-Sheet.png','personajes/enemigos/bebe/coordBebe.txt');
 
     """def mover_cpu(self, jugador):
 

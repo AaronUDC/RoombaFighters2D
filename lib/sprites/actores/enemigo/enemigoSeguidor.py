@@ -29,7 +29,7 @@ class EnemigoSeguidor(Enemigos):
             velocidadY = -self.adelante[1] * self.velocidadCarrera
          
         self.velocidad = (velocidadX, velocidadY)    
-        Enemigos.update(self, tiempo)
+        Enemigos.update(self, tiempo,0)
 
 class Fantasma(EnemigoSeguidor):
 
