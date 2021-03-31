@@ -94,7 +94,7 @@ class PantallaInicialGUI(PantallaGUI):
         PantallaGUI.__init__(self, menu, 'gui/fondoSalon.png')
         
         # Creamos los botones y los metemos en la lista
-        botonJugarFase1 = BotonJugarFase(self, Salon, (ANCHO_PANTALLA/2,ALTO_PANTALLA/2))
+        botonJugarFase1 = BotonJugarFase(self, Cocina, (ANCHO_PANTALLA/2,ALTO_PANTALLA/2))
         botonSalir = BotonSalir(self,(ANCHO_PANTALLA/2,ALTO_PANTALLA/2+ 100))
 
         self.elementosGUI.append(botonJugarFase1)

@@ -10,10 +10,11 @@ from math import *
 
 class Bala(Enemigos):
 
-    def __init__(self, archivoImagen, archivoCoordenadas):
+    def __init__(self, archivoImagen, archivoCoordenadas,tipoBala):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         Actor.__init__(self,archivoImagen, archivoCoordenadas, [3,3,3], 20, 10);
         self.activo = True
+        self.tipoBala = tipoBala
         self.mascara = pygame.mask.from_surface(self.image)
 
     def mover_cpu(self,jugador):
@@ -46,6 +47,9 @@ class Bala(Enemigos):
             self.posicion = (centroGX, centroGY)
             # self.angulo = ((100 * self.velGiro) / 1 + angle)
 
+    def actualizarPostura(self):
+        self.numImagenPostura = self.tipoBala
+
     def update(self, tiempo, mascaraEstaticos, grupoJugadores):
 
         if self.activo == True:
@@ -70,3 +74,19 @@ class Bala(Enemigos):
     def draw(self,pantalla):
         if self.activo == True:
             pantalla.blit(self.image,self.rect)
+
+
+class Vomito(Bala):
+
+    def __init__(self,coordx,coordy):
+        # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
+        self.centroT = (coordx,coordy)
+        Bala.__init__(self, 'personajes/enemigos/bala/proyectiles.png','personajes/enemigos/bala/coordBala.txt',1);
+
+
+class Pelo(Bala):
+
+    def __init__(self,coordx,coordy):
+        # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
+        self.centroT = (coordx,coordy)
+        Bala.__init__(self, 'personajes/enemigos/bala/proyectiles.png','personajes/enemigos/bala/coordBala.txt',0);
