@@ -59,7 +59,7 @@ class Salon(EscenaPygame):
         self.grupoBasuras = pygame.sprite.Group(self.basuras)
 
         #PowerUps
-        self.simultaneouslyThunders = 1
+        '''self.simultaneouslyThunders = 1
         self.thunder = Thunder()
         self.thunderGestor = ThunderGestor(self.simultaneouslyThunders, 1, self.mascaraCol, self.thunder, (ANCHO_PANTALLA, ALTO_PANTALLA))
         self.grupoThunders = pygame.sprite.Group(self.thunder)
@@ -72,7 +72,7 @@ class Salon(EscenaPygame):
         self.simultaneouslyShields = 1
         self.shield = Shield()
         self.shieldGestor = ShieldGestor(self.simultaneouslyShields, 1, self.mascaraCol, self.shield, (ANCHO_PANTALLA, ALTO_PANTALLA))
-        self.grupoShields = pygame.sprite.Group(self.shield)
+        self.grupoShields = pygame.sprite.Group(self.shield)'''
 
         self.marcadorPuntuacion = Puntos(None,(50,30))
         self.marcadorTiempo = Temporizador(None, (500,30), 50)
@@ -81,16 +81,17 @@ class Salon(EscenaPygame):
     def update(self,tiempo):
 
         self.gestorbasura.update(tiempo,self.mascaraCol, self.basuras, (ANCHO_PANTALLA,ALTO_PANTALLA))
-        self.thunderGestor.update(tiempo, self.mascaraCol, self.thunder, (ANCHO_PANTALLA,ALTO_PANTALLA))
+        #self.thunderGestor.update(tiempo, self.mascaraCol, self.thunder, (ANCHO_PANTALLA,ALTO_PANTALLA))
 
+        self.grupoBasuras.update(tiempo,self.grupoJugadores)
 
         self.bala.update(tiempo,self.grupoJugadores)
         self.grupoTorretas.update(tiempo,self.grupoJugadores)
 
-        self.wrenchGestor.update(tiempo, self.mascaraCol, self.wrench, (ANCHO_PANTALLA,ALTO_PANTALLA))
-        self.shieldGestor.update(tiempo, self.mascaraCol, self.shield, (ANCHO_PANTALLA,ALTO_PANTALLA))
+        #self.wrenchGestor.update(tiempo, self.mascaraCol, self.wrench, (ANCHO_PANTALLA,ALTO_PANTALLA))
+        #self.shieldGestor.update(tiempo, self.mascaraCol, self.shield, (ANCHO_PANTALLA,ALTO_PANTALLA))
 
-        self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras, self.grupoThunders, self.grupoWrenches, self.grupoShields)
+        self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras,None,None,None)
 
         self.marcadorPuntuacion.update(tiempo, self.jugador)
         self.marcadorTiempo.update(tiempo)
@@ -120,9 +121,9 @@ class Salon(EscenaPygame):
         for basura in self.basuras:
             basura.dibujar(pantalla)
 
-        self.thunder.dibujar(pantalla)
-        self.wrench.dibujar(pantalla)
-        self.shield.dibujar(pantalla)
+        #self.thunder.dibujar(pantalla)
+        #self.wrench.dibujar(pantalla)
+        #self.shield.dibujar(pantalla)
 
         self.grupoJugadores.draw(pantalla)
 

@@ -91,7 +91,7 @@ class Jugador(Actor):
                 
         MiSprite.establecerPosicion(self, (posActX,posActY))
 
-
+        '''
         colisionesBasura = pygame.sprite.spritecollide(self, lBasuras, False, pygame.sprite.collide_circle_ratio(0.3))
         if colisionesBasura != None:
             for basura in colisionesBasura:
@@ -137,10 +137,23 @@ class Jugador(Actor):
                     #shield.shieldMusic(True)
                     self.powerupActual = 2
                     self.escudo = 3
-                    self.actualizarPostura()
+                    self.actualizarPostura()'''
 
+
+    ##Metodos para que otras entidades actuen sobre el jugador
     def perderVida(self):
         self.vida -= 1
         if (self.vida >= 1):
             self.actualizarPostura()
-        
+    
+    def curarVida(self):
+        if self.vida < self.maxVida:
+            self.vida += 1
+            self.actualizarPostura()
+
+    def obtenerPowerUp(self, powerup, tiempo):
+        self.tiempoPowerUp = tiempo
+        self.powerupActual = powerup
+
+    def ganarPuntos(self, puntos):
+        self.puntuacion += puntos

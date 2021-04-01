@@ -4,6 +4,7 @@ import pygame, sys, os, math, random
 from pygame.locals import *
 from lib.gestorRecursos import *
 from lib.sprites.recolectables.recolectables import *
+from lib.sprites.actores.jugador import Jugador
 
 
 class Basura(Recolectable):
@@ -13,12 +14,9 @@ class Basura(Recolectable):
 
         Recolectable.__init__(self, 'recolectables/basura/Basura-Sheet.png','recolectables/basura/coordBasura.txt', [3,0,0], tipo)
 
-        self.mask = pygame.mask.from_surface(self.image)
         self.tipo = tipo
         self.puntuacion = 0
-        self.random = random.randint(0, 90)
-        self.hoja = GestorRecursos.CargarImagen('recolectables/basura/Basura-Sheet.png',-1)
-        self.image = self.hoja.convert_alpha()
+        
         #self.coordenadasHoja = GestorRecursos.CargarArchivoCoordenadas('basura/coordBasura.txt')
         if tipo == 0:
             self.puntuacion = 10 
@@ -29,31 +27,9 @@ class Basura(Recolectable):
         else: 
             raise ValueError("Tipo de basura no soportado")
 
-
-
-    def dibujar(self, pantalla):
-        if self.activo:
-            if self.tipo == 0:
-                self.image = self.rot_center(self.hoja.subsurface(0,0,64,64).copy(),self.random)
-                pantalla.blit(self.image, self.rect)
-            if self.tipo == 1:
-                self.image = self.rot_center(self.hoja.subsurface(64,0,64,64).copy(),self.random)
-                pantalla.blit(self.image, self.rect)
-            if self.tipo == 2:
-                self.image = self.rot_center(self.hoja.subsurface(128,0,64,64).copy(),self.random)
-                pantalla.blit(self.image, self.rect)
-
-    def rot_center(self, image, angle):
-        """rotate an image while keeping its center and size"""
-        orig_rect = image.get_rect()
-        rot_image = pygame.transform.rotate(image, angle)
-        rot_rect = orig_rect.copy()
-        rot_rect.center = rot_image.get_rect().center
-        rot_image = rot_image.subsurface(rot_rect).copy()
-        return rot_image
-
-    def update (self, tiempo):
-        return
+    def update (self, tiempo, jugadores):
+        
+        Recolectable.update(self,tiempo,jugadores,0.3,Jugador.ganarPuntos,self.puntuacion)
 
 
 class GestorBasura():
