@@ -2,7 +2,7 @@
 
 import pygame, sys, os
 from pygame.locals import *
-
+from sounds import *
 
 # -------------------------------------------------
 # Clase GestorRecursos
@@ -10,7 +10,7 @@ from pygame.locals import *
 # En este caso se implementa como una clase vacía, solo con métodos de clase
 class GestorRecursos(object):
     recursos = {}
-            
+
     @classmethod
     def CargarImagen(cls, nombre, colorkey=None):
         # Si el nombre de archivo está entre los recursos ya cargados
@@ -35,6 +35,48 @@ class GestorRecursos(object):
             cls.recursos[nombre] = imagen
             # Se devuelve
             return imagen
+
+    @classmethod
+    def CargarSonido(cls, nombre):
+        # Si el nombre de archivo está entre los recursos ya cargados
+        if nombre in cls.recursos:
+            # Se devuelve ese recurso
+            return cls.recursos[nombre]
+        # Si no ha sido cargado anteriormente
+        else:
+            # Se carga el sonido indicando la carpeta en la que está
+            fullname = os.path.join('sounds', nombre)
+            try:
+                sonido = pygame.mixer.Sound(fullname)
+            except pygame.error as message:
+                print ('Cannot load sound:', fullname)
+                raise SystemExit(0) from message
+            sonido.play()
+            # Se almacena
+            cls.recursos[nombre] = sonido
+            # Se devuelve
+            return sonido
+
+    @classmethod
+    def CargarMusica(cls, nombre):
+        # Si el nombre de archivo está entre los recursos ya cargados
+        if nombre in cls.recursos:
+            # Se devuelve ese recurso
+            return cls.recursos[nombre]
+        # Si no ha sido cargado anteriormente
+        else:
+            # Se carga la imagen indicando la carpeta en la que está
+            fullname = os.path.join('sound', nombre)
+            try:
+                sonido = pygame.mixer.music.load(fullname)
+            except pygame.error as message:
+                print ('Cannot load sound:', fullname)
+                raise SystemExit(0) from message
+            pygame.mixer.music.play(-1)
+            # Se almacena
+            cls.recursos[nombre] = sonido
+            # Se devuelve
+            return sonido
 
     @classmethod
     def CargarArchivoCoordenadas(cls, nombre):

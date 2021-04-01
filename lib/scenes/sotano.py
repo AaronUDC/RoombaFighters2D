@@ -18,18 +18,18 @@ class Sotano(EscenaPygame):
         EscenaPygame.__init__(self,director)
 
         #Fondo de la escena
-        self.suelo = GestorRecursos.CargarImagen('sotano/suelo.png',-1)
+        self.suelo = GestorRecursos.CargarImagen('escenas/sotano/suelo.png',-1)
         self.suelo = pygame.transform.scale(self.suelo,(ANCHO_PANTALLA,ALTO_PANTALLA))
         self.suelo = self.suelo.convert_alpha()
         self.suelo.set_alpha(None)
 
         #Obstáculos
-        self.obstaculos = GestorRecursos.CargarImagen('sotano/obstaculos.png', -1)
+        self.obstaculos = GestorRecursos.CargarImagen('escenas/sotano/obstaculos.png', -1)
         self.obstaculos = pygame.transform.scale(self.obstaculos,(ANCHO_PANTALLA,ALTO_PANTALLA))
         self.obstaculos.set_colorkey(self.obstaculos.get_at((340, 430)), RLEACCEL)
 
         #Máscara
-        self.mascaraImg = GestorRecursos.CargarImagen('sotano/mask.png', -1)
+        self.mascaraImg = GestorRecursos.CargarImagen('escenas/sotano/mask.png', -1)
         self.mascaraImg.set_colorkey(self.mascaraImg.get_at((340, 430)), RLEACCEL)
         self.mascaraCol = pygame.mask.from_surface(self.mascaraImg)
 

@@ -4,6 +4,7 @@ import pygame, sys, os, math
 from pygame.locals import *
 from lib.gestorRecursos import *
 from lib.sprites.sprite import *
+from sounds import *
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -46,7 +47,3 @@ class Recolectables(MiSprite):
         textRect = textSurface.get_rect()
         textRect.midtop = (x, y)
         surface.blit(textSurface, textRect)'''
-
-    '''def update(self, tiempo):
-        MiSprite.update(self)
-        return'''

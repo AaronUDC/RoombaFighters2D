@@ -5,6 +5,7 @@ from pygame.locals import *
 from lib.gestorRecursos import *
 from lib.sprites.recolectables.recolectables import *
 from math import *
+from sounds import *
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -16,6 +17,7 @@ class Thunder(Recolectables):
         Recolectables.__init__(self, "powerups/powerUps.png", "powerups/coordPowerUps.txt", [2,0,0], "powerups/thunderEffect.mp3", "powerups/thunderMusic.mp3", 0)
         self.mask = pygame.mask.from_surface(self.image)
         self.activo = False
+        self.cantidad = 0
 
     def dibujar(self, pantalla):
         if self.activo:
@@ -43,50 +45,30 @@ class ThunderGestor():
         self.contador = 0.0
         random.seed()
 
-        if not thunder.activo:
+        if not thunder.activo and cantidad < 1:
             thunder.establecerPosicion((random.randint(0, tamanoV[0]), random.randint(0, tamanoV[1])))
             (thunderX, thunderY) = thunder.posicion
             if mascaraCol.overlap_area(thunder.mask, (int(thunderX), int(thunderY - thunder.image.get_height()))) == 0:
                 thunder.activo = True
+                thunder.cantidad = 1
+                self.drawSpeedBar
 
-    def update(self, tiempo, mascaraCol, thunder, tamanoV):
-        self.contador += tiempo/60
-        if self.contador > self.fSpawn:
-            self.contador = 0.0
-            if not thunder.activo:
-                thunder.establecerPosicion((random.randint(0, tamanoV[0]), random.randint(0, tamanoV[1])))
-                (thunderX, thunderY) = thunder.posicion
-                if mascaraCol.overlap_area(thunder.mask, (int(thunderX), int(thunderY - thunder.image.get_height()))) == 0:
-                    thunder.activo = True
-
-
-    
-
-    '''def increaseSpeeds(self): #TODO
-        #Crear función en clase jugador para modificar la velocidad y llamarla aquí
-        return True'''
-
-    '''def drawSpeedBar(self, surface, x, y, percentage):
+    def drawSpeedBar(self, surface, x, y, percentage): #No funciona
         barLength = 50
         barHeight = 10
         fill = (percentage / 100) * barHeight
         border = pygame.Rect(x, y, barLength, barHeight)
         fill = pygame.Rect(x, y, fill, barHeight)
         pygame.draw.rect(surface, YELLOW, fill)
-        pygame.draw.rect(surface, BLACK, border, 2)'''
+        pygame.draw.rect(surface, BLACK, border, 2)
 
-    '''def thunderCollision(self): #TODO
-        #obstaculos = pygame.sprite.spritecollide(self, grupoElementosEstaticos, False)
-        return True'''
-
-    '''def thunderEvent(self):
-        startTimeEvent = time.time()
-        endTimeEvent = startTimeEvent + 10
-        if self.thunderCollision:
-            #self.drawSpeedBar()
-            self.thunderSoundEffecst()
-            self.thunderMusic(True)
-            self.increaseSpeeds()
-            while time.time() < endTimeEvent:
-                pass
-            self.thunderMusic(False)'''
+    def update(self, tiempo, mascaraCol, thunder, tamanoV):
+        self.contador += tiempo/60
+        if self.contador > self.fSpawn:
+            self.contador = 0.0
+            apparition = random.randint(0, 100)
+            if not thunder.activo and apparition < 3:
+                thunder.establecerPosicion((random.randint(0, tamanoV[0]), random.randint(0, tamanoV[1])))
+                (thunderX, thunderY) = thunder.posicion
+                if mascaraCol.overlap_area(thunder.mask, (int(thunderX), int(thunderY - thunder.image.get_height()))) == 0:
+                    thunder.activo = True

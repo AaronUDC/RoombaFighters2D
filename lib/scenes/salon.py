@@ -7,6 +7,8 @@ from lib.sprites.sprite import MiSprite
 from lib.gestorRecursos import GestorRecursos
 from lib.sprites.recolectables.basura import *
 from lib.sprites.recolectables.powerups.speedUp import *
+from lib.sprites.recolectables.powerups.lifeUp import *
+from lib.sprites.recolectables.powerups.shieldUp import *
 from lib.ui.puntos import *
 from lib.ui.temporizador import * 
 from lib.scenes.cocina import *
@@ -21,18 +23,18 @@ class Salon(EscenaPygame):
 
 
         #Fondo de la escena
-        self.suelo = GestorRecursos.CargarImagen('salon/suelo.png',-1)
+        self.suelo = GestorRecursos.CargarImagen('escenas/salon/suelo.png',-1)
         self.suelo = pygame.transform.scale(self.suelo,(ANCHO_PANTALLA,ALTO_PANTALLA))
         self.suelo = self.suelo.convert_alpha()
         self.suelo.set_alpha(None)
 
         #Obstáculos
-        self.obstaculos = GestorRecursos.CargarImagen('salon/obstaculos.png', -1)
+        self.obstaculos = GestorRecursos.CargarImagen('escenas/salon/obstaculos.png', -1)
         self.obstaculos = pygame.transform.scale(self.obstaculos,(ANCHO_PANTALLA,ALTO_PANTALLA))
         self.obstaculos.set_colorkey(self.obstaculos.get_at((340, 430)), RLEACCEL)
 
         #Máscara
-        self.mascaraImg = GestorRecursos.CargarImagen('salon/mask.png', -1)
+        self.mascaraImg = GestorRecursos.CargarImagen('escenas/salon/mask.png', -1)
         self.mascaraImg.set_colorkey(self.mascaraImg.get_at((340, 430)), RLEACCEL)
         self.mascaraCol = pygame.mask.from_surface(self.mascaraImg)
 
@@ -50,15 +52,27 @@ class Salon(EscenaPygame):
         self.grupoJugadores = pygame.sprite.Group(self.jugador)
         self.grupoTorretas= pygame.sprite.Group(self.gato)
 
+        #Basura
         self.numBasuras, self.basuras = iniBasuras(8, 4, 2)
         self.fSpawn = 60
         self.gestorbasura = GestorBasura(self.numBasuras, self.fSpawn, (1, 3), self.mascaraCol, self.basuras, (ANCHO_PANTALLA, ALTO_PANTALLA))
         self.grupoBasuras = pygame.sprite.Group(self.basuras)
 
+        #PowerUps
         self.simultaneouslyThunders = 1
         self.thunder = Thunder()
         self.thunderGestor = ThunderGestor(self.simultaneouslyThunders, 1, self.mascaraCol, self.thunder, (ANCHO_PANTALLA, ALTO_PANTALLA))
         self.grupoThunders = pygame.sprite.Group(self.thunder)
+
+        self.simultaneouslyWrenches = 1
+        self.wrench = Wrench()
+        self.wrenchGestor = WrenchGestor(self.simultaneouslyWrenches, 1, self.mascaraCol, self.wrench, (ANCHO_PANTALLA, ALTO_PANTALLA))
+        self.grupoWrenches = pygame.sprite.Group(self.wrench)
+
+        self.simultaneouslyShields = 1
+        self.shield = Shield()
+        self.shieldGestor = ShieldGestor(self.simultaneouslyShields, 1, self.mascaraCol, self.shield, (ANCHO_PANTALLA, ALTO_PANTALLA))
+        self.grupoShields = pygame.sprite.Group(self.shield)
 
         self.marcadorPuntuacion = Puntos(None,(50,30))
         self.marcadorTiempo = Temporizador(None, (500,30), 50)
@@ -69,10 +83,14 @@ class Salon(EscenaPygame):
         self.gestorbasura.update(tiempo,self.mascaraCol, self.basuras, (ANCHO_PANTALLA,ALTO_PANTALLA))
         self.thunderGestor.update(tiempo, self.mascaraCol, self.thunder, (ANCHO_PANTALLA,ALTO_PANTALLA))
 
-        self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras, self.grupoThunders)
 
         self.bala.update(tiempo,self.grupoJugadores)
         self.grupoTorretas.update(tiempo,self.grupoJugadores)
+
+        self.wrenchGestor.update(tiempo, self.mascaraCol, self.wrench, (ANCHO_PANTALLA,ALTO_PANTALLA))
+        self.shieldGestor.update(tiempo, self.mascaraCol, self.shield, (ANCHO_PANTALLA,ALTO_PANTALLA))
+
+        self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras, self.grupoThunders, self.grupoWrenches, self.grupoShields)
 
         self.marcadorPuntuacion.update(tiempo, self.jugador)
         self.marcadorTiempo.update(tiempo)
@@ -103,6 +121,8 @@ class Salon(EscenaPygame):
             basura.dibujar(pantalla)
 
         self.thunder.dibujar(pantalla)
+        self.wrench.dibujar(pantalla)
+        self.shield.dibujar(pantalla)
 
         self.grupoJugadores.draw(pantalla)
 

@@ -21,30 +21,30 @@ class Cocina(EscenaPygame):
         EscenaPygame.__init__(self,director)
 
         #Fondo de la escena
-        self.suelo = GestorRecursos.CargarImagen('cocina/suelo.png',-1)
+        self.suelo = GestorRecursos.CargarImagen('escenas/cocina/suelo.png',-1)
         self.suelo = pygame.transform.scale(self.suelo,(ANCHO_PANTALLA,ALTO_PANTALLA))
         self.suelo = self.suelo.convert_alpha()
         self.suelo.set_alpha(None)
 
         #Obstáculos
-        self.obstaculos = GestorRecursos.CargarImagen('cocina/obstaculos.png', -1)
+        self.obstaculos = GestorRecursos.CargarImagen('escenas/cocina/obstaculos.png', -1)
         self.obstaculos = pygame.transform.scale(self.obstaculos,(ANCHO_PANTALLA,ALTO_PANTALLA))
         self.obstaculos.set_colorkey(self.obstaculos.get_at((340, 430)), RLEACCEL)
 
         #Jaula
-        self.jaula = GestorRecursos.CargarImagen('cocina/jaula.png', -1)
+        self.jaula = GestorRecursos.CargarImagen('escenas/cocina/jaula.png', -1)
         self.jaulaRect = self.jaula.get_rect()
         self.jaulaRect.left = 518
         self.jaulaRect.top = 520
 
         #Silla
-        self.silla = GestorRecursos.CargarImagen('cocina/Sillita.png', -1)
+        self.silla = GestorRecursos.CargarImagen('escenas/cocina/Sillita.png', -1)
         self.sillaRect = self.jaula.get_rect()
         self.sillaRect.left = 700
         self.sillaRect.top = 290
 
         #Máscara
-        self.mascaraImg = GestorRecursos.CargarImagen('cocina/mask.png', -1)
+        self.mascaraImg = GestorRecursos.CargarImagen('escenas/cocina/mask.png', -1)
         self.mascaraImg.set_colorkey(self.mascaraImg.get_at((340, 430)), RLEACCEL)
         self.mascaraCol = pygame.mask.from_surface(self.mascaraImg)
 
