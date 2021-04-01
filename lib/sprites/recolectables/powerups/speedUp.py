@@ -5,6 +5,7 @@ from pygame.locals import *
 from lib.gestorRecursos import *
 from lib.sprites.recolectables.recolectables import *
 from math import *
+from sounds import *
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -50,8 +51,9 @@ class ThunderGestor():
             if mascaraCol.overlap_area(thunder.mask, (int(thunderX), int(thunderY - thunder.image.get_height()))) == 0:
                 thunder.activo = True
                 thunder.cantidad = 1
+                self.drawSpeedBar
 
-    def drawSpeedBar(self, surface, x, y, percentage):
+    def drawSpeedBar(self, surface, x, y, percentage): #No funciona
         barLength = 50
         barHeight = 10
         fill = (percentage / 100) * barHeight
@@ -65,24 +67,8 @@ class ThunderGestor():
         if self.contador > self.fSpawn:
             self.contador = 0.0
             apparition = random.randint(0, 100)
-            if not thunder.activo and apparition < 50:
+            if not thunder.activo and apparition < 3:
                 thunder.establecerPosicion((random.randint(0, tamanoV[0]), random.randint(0, tamanoV[1])))
                 (thunderX, thunderY) = thunder.posicion
                 if mascaraCol.overlap_area(thunder.mask, (int(thunderX), int(thunderY - thunder.image.get_height()))) == 0:
                     thunder.activo = True
-
-    '''def thunderCollision(self): #TODO
-        #obstaculos = pygame.sprite.spritecollide(self, grupoElementosEstaticos, False)
-        return True'''
-
-    '''def thunderEvent(self):
-        startTimeEvent = time.time()
-        endTimeEvent = startTimeEvent + 10
-        if self.thunderCollision:
-            #self.drawSpeedBar()
-            self.thunderSoundEffecst()
-            self.thunderMusic(True)
-            self.increaseSpeeds()
-            while time.time() < endTimeEvent:
-                pass
-            self.thunderMusic(False)'''

@@ -2,7 +2,7 @@
 
 import pygame, sys, os
 from pygame.locals import *
-from lib.gestorRecursos import *
+from lib.gestorRecursos import GestorRecursos
 from lib.sprites.actores.actores import *
 from math import *
 
@@ -11,19 +11,23 @@ class Jugador(Actor):
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         Actor.__init__(self,'personajes/roomba/roomba.png','personajes/roomba/coordRoomba.txt', [3,3,3], 50, 50)
-        
+
         self.puntuacion = 0
         self.modificadorVel = 1
         self.modificadorGiro = 1
         self.powerupActual = 0
         self.vida = 3
         self.maxVida = 3
+        self.escudo = 0
         self.mascara = pygame.mask.from_surface(self.image)
-        
+
         self.actualizarPostura()
 
     def actualizarPostura(self):
-        self.numImagenPostura = self.maxVida - (self.vida)
+        if self.escudo == 0:
+            self.numImagenPostura = self.maxVida - (self.vida)
+        else:
+            self.numImagenPostura = self.maxVida - (self.escudo)
         self.numPostura = self.powerupActual
 
     def mover(self, teclasPulsadas, arriba, abajo, izquierda, derecha):
@@ -44,9 +48,7 @@ class Jugador(Actor):
             angular = QUIETO
         Actor.mover(self,lineal,angular)
 
-    def update(self, tiempo, mascaraEstaticos, lBasuras, thunder,bala):
-       
-
+    def update(self, tiempo, mascaraEstaticos, lBasuras, thunder, wrench, shield, bala):
         (velocidadX,velocidadY) = self.velocidad
 
         if self.movimientoLineal == ADELANTE: 
@@ -62,7 +64,6 @@ class Jugador(Actor):
             velocidadX = 0
             velocidadY = 0
 
-
         if self.movimientoAngular == IZQUIERDA:
             #Girar a la Izquierda
             self.girar(tiempo,self.modificadorGiro)
@@ -72,9 +73,8 @@ class Jugador(Actor):
         
         self.velocidad = (velocidadX, velocidadY)
 
+        (posAntX ,posAntY) = self.posicion
 
-        (posAntX ,posAntY ) = self.posicion
-        
         Actor.update(self,tiempo)
 
         (posActX, posActY) = self.posicion
@@ -99,17 +99,44 @@ class Jugador(Actor):
                     basura.activo = False
                     self.puntuacion += basura.puntuacion
                     #print(self.puntuacion)
-        
+
         thunderColision = pygame.sprite.spritecollide(self, thunder, False, pygame.sprite.collide_circle_ratio(0.6))
         if thunderColision != None:
             for thunder in thunderColision:
                 if thunder.activo == True:
                     thunder.activo = False
                     thunder.cantidad = 0
-                    thunder.thunderSoundEffect()
-                    thunder.thunderMusic(True)
+                    #self.music = GestorRecursos.CargarMusica("powerups/thunderMusic.wav")
+                    #thunder.thunderSoundEffect()
+                    #thunder.thunderMusic(True)
                     self.powerupActual = 1
                     self.modificadorVel = 2
+                    self.actualizarPostura()
+
+        wrenchColision = pygame.sprite.spritecollide(self, wrench, False, pygame.sprite.collide_circle_ratio(0.6))
+        if wrenchColision != None:
+            for wrench in wrenchColision:
+                if wrench.activo == True:
+                    wrench.activo = False
+                    wrench.cantidad = 0
+                    #wrench.wrenchSoundEffect()
+                    if self.escudo > 0:
+                        if self.escudo < self.maxVida:
+                            self.escudo += 1
+                    else:
+                        if self.vida < self.maxVida:
+                            self.vida += 1
+                    self.actualizarPostura()
+        
+        shieldColision = pygame.sprite.spritecollide(self, shield, False, pygame.sprite.collide_circle_ratio(0.6))
+        if shieldColision != None:
+            for shield in shieldColision:
+                if shield.activo == True:
+                    shield.activo = False
+                    shield.cantidad = 0
+                    #shield.shieldMusic(True)
+                    self.powerupActual = 2
+                    self.escudo = 3
                     self.actualizarPostura()
 
         balaColision = pygame.sprite.spritecollide(self, bala, False, pygame.sprite.collide_circle_ratio(0.6))
@@ -117,6 +144,12 @@ class Jugador(Actor):
             for bala in balaColision:
                 if bala.activo == True:
                     bala.activo = False
-                    self.vida -= 1
-                    if (self.vida >= 1):
+                    if self.escudo > 0:
+                            self.escudo -= 1
+                            if self.escudo == 0:
+                                self.powerupActual = 0
+                    else:
+                        if self.vida >= 1:
+                            self.vida -= 1
+                    if self.vida > 0 or self.escudo > 0:
                         self.actualizarPostura()

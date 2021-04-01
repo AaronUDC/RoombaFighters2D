@@ -4,6 +4,7 @@ import pygame, sys, os, math
 from pygame.locals import *
 from lib.gestorRecursos import *
 from lib.sprites.sprite import *
+from sounds import *
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -14,8 +15,8 @@ class Recolectables(MiSprite):
         MiSprite.__init__(self)
         self.hoja = GestorRecursos.CargarImagen(archivoImagen,-1)
         self.image = self.hoja.convert_alpha()
-        self.sound = GestorRecursos.CargarSonido(efectoSonido)
-        self.music = GestorRecursos.CargarMusica(archivoMusica)
+        #self.sound = GestorRecursos.CargarSonido(efectoSonido)
+        #self.music = GestorRecursos.CargarMusica(archivoMusica)
         self.rect = self.image.get_rect()
 
     '''def drawText (self, surface, text, size, x, y):
@@ -24,7 +25,3 @@ class Recolectables(MiSprite):
         textRect = textSurface.get_rect()
         textRect.midtop = (x, y)
         surface.blit(textSurface, textRect)'''
-
-    '''def update(self, tiempo):
-        MiSprite.update(self)
-        return'''

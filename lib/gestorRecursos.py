@@ -2,7 +2,7 @@
 
 import pygame, sys, os
 from pygame.locals import *
-
+from sounds import *
 
 # -------------------------------------------------
 # Clase GestorRecursos
@@ -51,6 +51,7 @@ class GestorRecursos(object):
             except pygame.error as message:
                 print ('Cannot load sound:', fullname)
                 raise SystemExit(0) from message
+            sonido.play()
             # Se almacena
             cls.recursos[nombre] = sonido
             # Se devuelve
@@ -71,6 +72,7 @@ class GestorRecursos(object):
             except pygame.error as message:
                 print ('Cannot load sound:', fullname)
                 raise SystemExit(0) from message
+            pygame.mixer.music.play(-1)
             # Se almacena
             cls.recursos[nombre] = sonido
             # Se devuelve
