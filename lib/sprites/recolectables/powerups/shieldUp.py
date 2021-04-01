@@ -6,10 +6,10 @@ from lib.gestorRecursos import *
 from lib.sprites.recolectables.recolectables import *
 from math import *
 
-class Shield(Recolectables):
+class Shield(Recolectable):
 
     def __init__(self):
-        Recolectables.__init__(self, "powerups/powerUps.png","powerups/coordPowerUps.txt", [2,0,0], "", "powerups/shieldMusic.mp3",1)
+        Recolectable.__init__(self, "recolectables/powerups/powerUps.png","recolectables/powerups/coordPowerUps.txt", [2,0,0],1)
         self.mask = pygame.mask.from_surface(self.image)
         self.activo = False
         self.cantidad = 0
@@ -20,7 +20,7 @@ class Shield(Recolectables):
 
     def shieldMusic(self, play):
         if play:
-            pygame.mixer.music.load("powerups/shieldMusic.mp3")
+            pygame.mixer.music.load("recolectables/powerups/shieldMusic.mp3")
             pygame.mixer.music.play(-1)
         else:
             pygame.mixer.stop()

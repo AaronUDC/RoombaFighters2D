@@ -9,14 +9,11 @@ from sounds import *
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
-class Recolectables(MiSprite):
+class Recolectable(MiSprite):
 
-    def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, efectoSonido, archivoMusica, tipo):
+    def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, tipo):
         MiSprite.__init__(self)
         self.hoja = GestorRecursos.CargarImagen(archivoImagen,-1)
-        self.sound = efectoSonido
-        self.music = archivoMusica
-
         self.numPostura = 0
         self.numImagenPostura = tipo
         self.coordenadasHoja = []
@@ -38,12 +35,12 @@ class Recolectables(MiSprite):
                                 self.coordenadasHoja[self.numPostura][self.numImagenPostura][1],
                                 self.coordenadasHoja[self.numPostura][self.numImagenPostura][2],
                                 self.coordenadasHoja[self.numPostura][self.numImagenPostura][3])
+
+
+        self.activo = False
+
+
+    def dibujar(self, pantalla):
+        if self.activo:
+            pantalla.blit(self.image, self.rect)
         
-
-
-    '''def drawText (self, surface, text, size, x, y):
-        font = pygame.font.SysFont("serif", size)
-        textSurface = font.render(text, True, WHITE)
-        textRect = textSurface.get_rect()
-        textRect.midtop = (x, y)
-        surface.blit(textSurface, textRect)'''

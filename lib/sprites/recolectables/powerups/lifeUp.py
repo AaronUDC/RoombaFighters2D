@@ -6,20 +6,14 @@ from lib.gestorRecursos import *
 from lib.sprites.recolectables.recolectables import *
 from math import *
 
-class Wrench(Recolectables):
+class Wrench(Recolectable):
 
     def __init__(self):
-        Recolectables.__init__(self, "powerups/wrench.png", "powerups/coordWrench.txt", [1,0,0], "powerups/wrenchEffect.mp3", "",0)
+        Recolectable.__init__(self, "recolectables/powerups/wrench.png", "recolectables/powerups/coordWrench.txt", [1,0,0],0)
         self.mask = pygame.mask.from_surface(self.image)
-        self.activo = False
-        self.cantidad = 0
-
-    def dibujar(self, pantalla):
-        if self.activo:
-            pantalla.blit(self.image, self.rect)
 
     def wrenchSoundEffect(self):
-        wrenchSound = pygame.mixer.Sound("powerups/wrenchEffect.mp3")
+        wrenchSound = pygame.mixer.Sound("recolectables/powerups/wrenchEffect.mp3")
         wrenchSound.play()
 
     def update(self, tiempo):

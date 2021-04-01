@@ -6,18 +6,18 @@ from lib.gestorRecursos import *
 from lib.sprites.recolectables.recolectables import *
 
 
-class Basura(Recolectables):
+class Basura(Recolectable):
 
     
     def __init__(self, tipo):
 
-        Recolectables.__init__(self, 'basura/Basura-Sheet.png','basura/coordBasura.txt', [3,0,0], "", "", tipo)
+        Recolectable.__init__(self, 'recolectables/basura/Basura-Sheet.png','recolectables/basura/coordBasura.txt', [3,0,0], tipo)
 
         self.mask = pygame.mask.from_surface(self.image)
         self.tipo = tipo
         self.puntuacion = 0
         self.random = random.randint(0, 90)
-        self.hoja = GestorRecursos.CargarImagen('basura/Basura-Sheet.png',-1)
+        self.hoja = GestorRecursos.CargarImagen('recolectables/basura/Basura-Sheet.png',-1)
         self.image = self.hoja.convert_alpha()
         #self.coordenadasHoja = GestorRecursos.CargarArchivoCoordenadas('basura/coordBasura.txt')
         if tipo == 0:
@@ -29,8 +29,6 @@ class Basura(Recolectables):
         else: 
             raise ValueError("Tipo de basura no soportado")
 
-
-        self.activo = False
 
 
     def dibujar(self, pantalla):

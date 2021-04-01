@@ -11,10 +11,10 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 YELLOW = (255, 255, 51)
 
-class Thunder(Recolectables):
+class Thunder(Recolectable):
 
     def __init__(self):
-        Recolectables.__init__(self, "powerups/powerUps.png", "powerups/coordPowerUps.txt", [2,0,0], "powerups/thunderEffect.mp3", "powerups/thunderMusic.mp3", 0)
+        Recolectable.__init__(self, "recolectables/powerups/powerUps.png", "recolectables/powerups/coordPowerUps.txt", [2,0,0], 0)
         self.mask = pygame.mask.from_surface(self.image)
         self.activo = False
         self.cantidad = 0
