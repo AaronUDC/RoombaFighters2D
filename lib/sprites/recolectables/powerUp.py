@@ -4,12 +4,13 @@ from lib.gestorRecursos import *
 from lib.sprites.recolectables.recolectables import Recolectable
 from lib.sprites.actores.jugador import Jugador
 
+SPEED_UP = 0
+SHIELD_UP = 1
 
 class PowerUp(Recolectable):
 
     def __init__(self, tipo, tiempoPowerUp):
         Recolectable.__init__(self,  "recolectables/powerups/powerUps.png", "recolectables/powerups/coordPowerUps.txt", [2,0,0], tipo)
-        self.mask = pygame.mask.from_surface(self.image)
         self.tiempoPowerUp = tiempoPowerUp
 
     def update(tiempo, jugadores, powerUp):
@@ -19,7 +20,7 @@ class PowerUp(Recolectable):
 class SpeedUp(PowerUp):
 
     def __init__(self):
-        PowerUp.__init__(self, 0, 10)
+        PowerUp.__init__(self, SPEED_UP, 10)
 
     def update(tiempo, jugadores): 
         #Le pasamos el powerUp concreto
@@ -28,7 +29,7 @@ class SpeedUp(PowerUp):
 class ShieldUp(PowerUp):
 
     def __init__(self):
-        PowerUp.__init__(self, 1, 20)
+        PowerUp.__init__(self, SHIELD_UP, 20)
 
     def update(tiempo,jugadores):
         #Le pasamos el powerUp concreto

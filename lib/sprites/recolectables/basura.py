@@ -14,9 +14,8 @@ class Basura(Recolectable):
 
         Recolectable.__init__(self, 'recolectables/basura/Basura-Sheet.png','recolectables/basura/coordBasura.txt', [3,0,0], tipo)
 
-        self.tipo = tipo
         self.puntuacion = 0
-        
+
         #self.coordenadasHoja = GestorRecursos.CargarArchivoCoordenadas('basura/coordBasura.txt')
         if tipo == 0:
             self.puntuacion = 10 
