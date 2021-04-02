@@ -129,7 +129,9 @@ class Cocina(EscenaPygame):
         self.marcadorTiempo.update(tiempo)
 
         if self.marcadorTiempo.tiempoLimite < 0:
-            self.director.salirEscena()
+            pantalla = GameOver(self.director)
+            self.director.apilarEscena(pantalla)
+
 
         if self.jugador.vida <= 0:
             pantalla = GameOver(self.director)
