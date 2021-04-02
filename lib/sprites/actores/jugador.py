@@ -6,6 +6,11 @@ from lib.gestorRecursos import GestorRecursos
 from lib.sprites.actores.actores import *
 from math import *
 
+
+NO_POWERUP = 0
+SPEED_UP = 1
+SHIELD_UP = 2
+
 class Jugador(Actor):
 
     def __init__(self):
@@ -13,21 +18,21 @@ class Jugador(Actor):
         Actor.__init__(self,'personajes/roomba/roomba.png','personajes/roomba/coordRoomba.txt', [3,3,3], 50, 50)
 
         self.puntuacion = 0
-        self.modificadorVel = 1
-        self.modificadorGiro = 1
-        self.powerupActual = 0
         self.vida = 3
         self.maxVida = 3
-        self.escudo = 0
         self.mascara = pygame.mask.from_surface(self.image)
+
+        self.powerupActual = 0
+        self.tiempoPowerUp = 0
+        
+        self.modificadorVel = 1
+        self.modificadorGiro = 1
+        self.escudo = False
 
         self.actualizarPostura()
 
     def actualizarPostura(self):
-        if self.escudo == 0:
-            self.numImagenPostura = self.maxVida - (self.vida)
-        else:
-            self.numImagenPostura = self.maxVida - (self.escudo)
+        self.numImagenPostura = self.maxVida - (self.vida)
         self.numPostura = self.powerupActual
 
     def mover(self, teclasPulsadas, arriba, abajo, izquierda, derecha):
@@ -91,60 +96,28 @@ class Jugador(Actor):
                 
         MiSprite.establecerPosicion(self, (posActX,posActY))
 
-        '''
-        colisionesBasura = pygame.sprite.spritecollide(self, lBasuras, False, pygame.sprite.collide_circle_ratio(0.3))
-        if colisionesBasura != None:
-            for basura in colisionesBasura:
-                if basura.activo == True:
-                    basura.activo = False
-                    self.puntuacion += basura.puntuacion
-                    #print(self.puntuacion)
-
-        thunderColision = pygame.sprite.spritecollide(self, thunder, False, pygame.sprite.collide_circle_ratio(0.6))
-        if thunderColision != None:
-            for thunder in thunderColision:
-                if thunder.activo == True:
-                    thunder.activo = False
-                    thunder.cantidad = 0
-                    #self.music = GestorRecursos.CargarMusica("powerups/thunderMusic.wav")
-                    #thunder.thunderSoundEffect()
-                    #thunder.thunderMusic(True)
-                    self.powerupActual = 1
-                    self.modificadorVel = 2
-                    self.actualizarPostura()
-
-        wrenchColision = pygame.sprite.spritecollide(self, wrench, False, pygame.sprite.collide_circle_ratio(0.6))
-        if wrenchColision != None:
-            for wrench in wrenchColision:
-                if wrench.activo == True:
-                    wrench.activo = False
-                    wrench.cantidad = 0
-                    #wrench.wrenchSoundEffect()
-                    if self.escudo > 0:
-                        if self.escudo < self.maxVida:
-                            self.escudo += 1
-                    else:
-                        if self.vida < self.maxVida:
-                            self.vida += 1
-                    self.actualizarPostura()
-        
-        shieldColision = pygame.sprite.spritecollide(self, shield, False, pygame.sprite.collide_circle_ratio(0.6))
-        if shieldColision != None:
-            for shield in shieldColision:
-                if shield.activo == True:
-                    shield.activo = False
-                    shield.cantidad = 0
-                    #shield.shieldMusic(True)
-                    self.powerupActual = 2
-                    self.escudo = 3
-                    self.actualizarPostura()'''
-
+        #Contador del powerUp
+        if self.powerupActual != NO_POWERUP:
+            self.tiempoPowerUp -= tiempo/1000
+            if self.tiempoPowerUp < 0:
+                self._resetPowerUp()
+                
+    def _resetPowerUp(self):
+        self.modificadorVel = 1
+        self.modificadorGiro = 1
+        self.escudo = False
+        self.tiempoPowerUp = -1
+        self.powerupActual = NO_POWERUP
+        self.actualizarPostura()
 
     ##Metodos para que otras entidades actuen sobre el jugador
     def perderVida(self):
-        self.vida -= 1
-        if (self.vida >= 1):
-            self.actualizarPostura()
+        if not self.escudo:
+            self.vida -= 1
+            if (self.vida >= 1):
+                self.actualizarPostura()
+        else:
+            self._resetPowerUp()
     
     def curarVida(self):
         if self.vida < self.maxVida:
@@ -152,8 +125,15 @@ class Jugador(Actor):
             self.actualizarPostura()
 
     def obtenerPowerUp(self, powerup, tiempo):
+        self._resetPowerUp()
         self.tiempoPowerUp = tiempo
         self.powerupActual = powerup
+        if powerup == SPEED_UP:
+            self.modificadorVel = 1.75
+            self.modificadorGiro = 2
+        elif powerup == SHIELD_UP:
+            self.escudo = True
+        self.actualizarPostura()
 
     def ganarPuntos(self, puntos):
         self.puntuacion += puntos

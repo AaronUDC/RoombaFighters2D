@@ -16,7 +16,7 @@ class Wrench(Recolectable):
         wrenchSound = pygame.mixer.Sound("recolectables/powerups/wrenchEffect.mp3")
         wrenchSound.play()
 
-    def update(self, tiempo):
+    def update(self, tiempo, jugadores):
         Recolectable.update(self,tiempo,jugadores, 0.3, Jugador.curarVida)
 
 class WrenchGestor():
