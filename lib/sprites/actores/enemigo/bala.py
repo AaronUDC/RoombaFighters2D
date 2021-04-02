@@ -54,6 +54,11 @@ class Bala(Enemigos):
             # La bala es visible, se queda en la posicion inicial e inicia el estado de avance
             self.establecerPosicion(self.posicionDisparo)
             self.visible = True
+            if self.numImagenPostura == 0:
+                sound = GestorRecursos.CargarSonido("others/maullido.mp3")
+            else:
+                sound = GestorRecursos.CargarSonido("others/baby.mp3")
+            sound.play()
             self.estado = ESTADO_AVANCE
 
         elif self.estado == ESTADO_AVANCE:
@@ -70,7 +75,8 @@ class Bala(Enemigos):
             jugadores = pygame.sprite.spritecollide(self, grupoJugadores, False, pygame.sprite.collide_circle_ratio(0.6))
             if jugadores != None:
                 for jugador in jugadores:
-                        jugador.perderVida()
+                        sound = GestorRecursos.CargarSonido("others/impacto.mp3")
+                        jugador.perderVida(sound)
                         self.estado = ESTADO_ESPERA
                         break
                 

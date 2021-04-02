@@ -13,9 +13,9 @@ class PowerUp(Recolectable):
         Recolectable.__init__(self,  "recolectables/powerups/powerUps.png", "recolectables/powerups/coordPowerUps.txt", [2,0,0], tipo)
         self.tiempoPowerUp = tiempoPowerUp
 
-    def update(self,tiempo, jugadores, powerUp):
+    def update(self,tiempo, jugadores, powerUp,sonido):
         #Llamamos al metodo de ganar un powerUp del jugador
-        Recolectable.update(self,tiempo,jugadores, 0.3,Jugador.obtenerPowerUp, powerUp, self.tiempoPowerUp)
+        Recolectable.update(self,tiempo,jugadores, 0.3,Jugador.obtenerPowerUp, powerUp, self.tiempoPowerUp,sonido)
 
 class SpeedUp(PowerUp):
 
@@ -24,7 +24,8 @@ class SpeedUp(PowerUp):
 
     def update(self,tiempo, jugadores):
         #Le pasamos el powerUp concreto
-        PowerUp.update(self, tiempo, jugadores, 1)
+        sonido =  GestorRecursos.CargarSonido("powerups/thunderEffect.mp3")
+        PowerUp.update(self, tiempo, jugadores, 1,sonido)
 
 class ShieldUp(PowerUp):
 
@@ -33,7 +34,8 @@ class ShieldUp(PowerUp):
 
     def update(self,tiempo,jugadores):
         #Le pasamos el powerUp concreto
-        PowerUp.update(self, tiempo, jugadores, 2)
+        sonido =  GestorRecursos.CargarSonido("powerups/shieldEffect.mp3")
+        PowerUp.update(self, tiempo, jugadores, 2,sonido)
 
 
 

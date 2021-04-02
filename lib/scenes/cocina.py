@@ -27,7 +27,8 @@ class Cocina(EscenaPygame):
         EscenaPygame.__init__(self,director)
 
         director.guardarPuntuacionAnterior()
-
+        musica = GestorRecursos.CargarMusica("main_themes/kitchen_theme.mp3")
+        pygame.mixer.music.play(-1)
         #Fondo de la escena
         self.suelo = GestorRecursos.CargarImagen('escenas/cocina/suelo.png',-1)
         self.suelo = pygame.transform.scale(self.suelo,(ANCHO_PANTALLA,ALTO_PANTALLA))

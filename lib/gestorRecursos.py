@@ -51,7 +51,7 @@ class GestorRecursos(object):
             except pygame.error as message:
                 print ('Cannot load sound:', fullname)
                 raise SystemExit(0) from message
-            sonido.play()
+            #sonido.play()
             # Se almacena
             cls.recursos[nombre] = sonido
             # Se devuelve
@@ -66,13 +66,13 @@ class GestorRecursos(object):
         # Si no ha sido cargado anteriormente
         else:
             # Se carga la imagen indicando la carpeta en la que está
-            fullname = os.path.join('sound', nombre)
+            fullname = os.path.join('sounds', nombre)
             try:
                 sonido = pygame.mixer.music.load(fullname)
             except pygame.error as message:
                 print ('Cannot load sound:', fullname)
                 raise SystemExit(0) from message
-            pygame.mixer.music.play(-1)
+            #pygame.mixer.music.play(-1)
             # Se almacena
             cls.recursos[nombre] = sonido
             # Se devuelve

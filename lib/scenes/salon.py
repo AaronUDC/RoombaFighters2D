@@ -29,6 +29,8 @@ class Salon(EscenaPygame):
         director.guardarPuntuacionAnterior()
 
         #Fondo de la escena
+        musica = GestorRecursos.CargarMusica("main_themes/salon_theme.mp3")
+        pygame.mixer.music.play(-1)
         self.suelo = GestorRecursos.CargarImagen('escenas/salon/suelo.png',-1)
         self.suelo = pygame.transform.scale(self.suelo,(ANCHO_PANTALLA,ALTO_PANTALLA))
         self.suelo = self.suelo.convert_alpha()

@@ -17,4 +17,5 @@ class Wrench(Recolectable):
         wrenchSound.play()
 
     def update(self, tiempo, jugadores):
-        Recolectable.update(self,tiempo,jugadores, 0.3, Jugador.curarVida)
+        sound = GestorRecursos.CargarSonido("powerups/wrenchEffect.mp3")
+        Recolectable.update(self,tiempo,jugadores, 0.3, Jugador.curarVida,sound)

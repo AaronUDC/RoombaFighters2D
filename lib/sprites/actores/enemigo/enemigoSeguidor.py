@@ -105,6 +105,8 @@ class Loro(EnemigoSeguidor):
             Enemigos.mover_cpu(self, 0,0)
         elif  self.estado == SEGUIR_JUGADOR:
             ## Seguir al jugador (Comportamiento base de enemigo seguidor)
+            sound = GestorRecursos.CargarSonido("others/parrot.mp3")
+            sound.play()
             EnemigoSeguidor.mover_cpu(self) 
         elif  self.estado == MOVERSE_JAULA:
             ## Volver a la jaula

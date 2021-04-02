@@ -50,7 +50,8 @@ class TextoSalir(TextoGUI):
 class PantallaInicialGUI(PantallaGUI):
     def __init__(self, menu):
         PantallaGUI.__init__(self, menu, 'gui/fondoSalon.png')
-        
+        musica = GestorRecursos.CargarMusica("main_themes/main_theme.mp3")
+        pygame.mixer.music.play(-1)
         self.logo = GestorRecursos.CargarImagen("gui/logo.png",-1)
         self.rectLogo = self.logo.get_rect()
         self.rectLogo.left = ANCHO_PANTALLA/2 - self.logo.get_width()/2

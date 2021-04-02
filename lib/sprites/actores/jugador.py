@@ -110,29 +110,34 @@ class Jugador(Actor):
         self.actualizarPostura()
 
     ##Metodos para que otras entidades actuen sobre el jugador
-    def perderVida(self):
+    def perderVida(self,sound):
         if not self.escudo:
             self.vida -= 1
+            sound.play()
             if (self.vida >= 1):
                 self.actualizarPostura()
         else:
             self._resetPowerUp()
     
-    def curarVida(self):
+    def curarVida(self,sound):
         if self.vida < self.maxVida:
             self.vida += 1
             self.actualizarPostura()
+            sound.play()
 
-    def obtenerPowerUp(self, powerup, tiempo):
+    def obtenerPowerUp(self, powerup, tiempo,sonido):
         self._resetPowerUp()
         self.tiempoPowerUp = tiempo
         self.powerupActual = powerup
         if powerup == SPEED_UP:
             self.modificadorVel = 1.75
             self.modificadorGiro = 2
+            sonido.play()
         elif powerup == SHIELD_UP:
             self.escudo = True
+            sonido.play()
         self.actualizarPostura()
 
-    def ganarPuntos(self, puntos):
+    def ganarPuntos(self, puntos,sonido):
         self.puntuacion += puntos
+        sonido.play()

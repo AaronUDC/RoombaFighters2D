@@ -27,8 +27,8 @@ class Basura(Recolectable):
             raise ValueError("Tipo de basura no soportado")
 
     def update (self, tiempo, jugadores):
-        
-        Recolectable.update(self,tiempo,jugadores,0.3,Jugador.ganarPuntos,self.puntuacion)
+        sonido = GestorRecursos.CargarSonido("others/basura.mp3")
+        Recolectable.update(self,tiempo,jugadores,0.3,Jugador.ganarPuntos,self.puntuacion,sonido)
 
 
 class GestorBasura():
