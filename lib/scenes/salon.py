@@ -142,7 +142,7 @@ class Salon(EscenaPygame):
 
         
         pantalla.blit(self.obstaculos,self.obstaculos.get_rect())
-        self.grupoJugadores.draw(pantalla)
+
         self.bala.draw(pantalla)
         self.grupoTorretas.draw(pantalla)
 
