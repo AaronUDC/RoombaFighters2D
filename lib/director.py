@@ -17,8 +17,7 @@ class Director():
         # Flag que nos indica cuando quieren salir de la escena de pygame
         self.salir_escena_pygame = False
         self.jugador = None
-        self.bala = None
-        self.gato = None
+        self.puntuacionAnterior = 0
 
     def buclePygame(self, escena):
 
@@ -57,6 +56,7 @@ class Director():
         # Estas dos lineas realmente no son necesarias, se ponen aqui por seguridad,
         
         self.jugador = Jugador()
+        self.puntuacionAnterior = self.jugador.puntuacion
         #self.bala = Bala()
         #self.gato = Gato()
         # Mientras haya escenas en la pila, ejecutaremos la de arriba
@@ -112,3 +112,24 @@ class Director():
         # Ponemos la escena pasada en la cima de la pila
         #  (por encima de la actual)
         self.pila.append(escena)
+
+    def volverAlMenu(self):
+        self.pararEscena()
+        #El menu es la primera escena,
+        # volvemos atras hasta tener una escena en la pila 
+        while(len(self.pila) > 1):
+            self.pila.pop()
+    
+    def guardarPuntuacionAnterior(self):
+        self.puntuacionAnterior = self.jugador.puntuacion
+    
+    def resetPuntuacionAAnterior(self):
+        self.jugador.puntuacion = self.puntuacionAnterior
+    
+    def resetJugador(self):
+        self.jugador = Jugador()
+    
+    def resetVidaJugador(self):
+        self.jugador.vida = self.jugador.maxVida
+        self.jugador.actualizarPostura()
+

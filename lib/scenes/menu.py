@@ -7,6 +7,7 @@ from lib.escena import *
 from lib.scenes.salon import Salon
 from lib.gestorRecursos import *
 from lib.ui.ui import *
+from lib.ui.pantallaGUI import * 
 from lib.scenes.cocina import Cocina
 from lib.scenes.sotano import Sotano
 
@@ -45,54 +46,16 @@ class TextoSalir(TextoGUI):
 # -------------------------------------------------
 # Clase PantallaGUI y las distintas pantallas
 
-class PantallaGUI:
-    def __init__(self, menu, nombreImagen):
-        self.menu = menu
-        # Se carga la imagen de fondo
-        self.imagen = GestorRecursos.CargarImagen(nombreImagen)
-        self.imagen = pygame.transform.scale(self.imagen, (ANCHO_PANTALLA, ALTO_PANTALLA))
-
-        self.logo = GestorRecursos.CargarImagen("gui/logo.png",-1)
-        self.rectLogo = self.logo.get_rect()
-        self.rectLogo.left = ANCHO_PANTALLA/2 - self.logo.get_width()/2
-        self.rectLogo.bottom = 150
-        # Se tiene una lista de elementos GUI
-        self.elementosGUI = []
-        # Se tiene una lista de animaciones
-        self.animaciones = []
-
-    def update(self,*args):
-        return
-
-    def eventos(self, lista_eventos):
-        for evento in lista_eventos:
-            if evento.type == MOUSEBUTTONDOWN:
-                self.elementoClic = None
-                for elemento in self.elementosGUI:
-                    if elemento.posicionEnElemento(evento.pos):
-                        self.elementoClic = elemento
-            if evento.type == MOUSEBUTTONUP:
-                for elemento in self.elementosGUI:
-                    if elemento.posicionEnElemento(evento.pos):
-                        if (elemento == self.elementoClic):
-                            elemento.accion()
-
-    def dibujar(self, pantalla):
-        # Dibujamos primero la imagen de fondo
-        pantalla.blit(self.imagen, self.imagen.get_rect())
-
-        pantalla.blit(self.logo,self.rectLogo)
-        # Después las animaciones
-        for animacion in self.animaciones:
-            animacion.dibujar(pantalla)
-        # Después los botones
-        for elemento in self.elementosGUI:
-            elemento.dibujar(pantalla)
 
 class PantallaInicialGUI(PantallaGUI):
     def __init__(self, menu):
         PantallaGUI.__init__(self, menu, 'gui/fondoSalon.png')
         
+        self.logo = GestorRecursos.CargarImagen("gui/logo.png",-1)
+        self.rectLogo = self.logo.get_rect()
+        self.rectLogo.left = ANCHO_PANTALLA/2 - self.logo.get_width()/2
+        self.rectLogo.bottom = 150
+
         # Creamos los botones y los metemos en la lista
         botonJugarFase1 = BotonJugarFase(self, Salon, (ANCHO_PANTALLA/2,ALTO_PANTALLA/2))
         botonSalir = BotonSalir(self,(ANCHO_PANTALLA/2,ALTO_PANTALLA/2+ 100))
@@ -111,6 +74,11 @@ class PantallaInicialGUI(PantallaGUI):
         for boton in self.elementosGUI:
             if isinstance(boton, Boton):
                 boton.update((x,y))
+
+    def dibujar(self,pantalla):
+        PantallaGUI.dibujar(self,pantalla)
+        
+        pantalla.blit(self.logo,self.rectLogo)
 
 
 # -------------------------------------------------

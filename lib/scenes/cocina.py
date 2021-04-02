@@ -16,6 +16,7 @@ from lib.sprites.recolectables.powerUp import *
 from lib.sprites.recolectables.basura import *
 from lib.ui.puntos import *
 from lib.ui.temporizador import * 
+from lib.scenes.gameOver import GameOver
 
 BLANCO = (255,255,255)
 
@@ -24,6 +25,8 @@ class Cocina(EscenaPygame):
     def __init__(self,director):
 
         EscenaPygame.__init__(self,director)
+
+        director.guardarPuntuacionAnterior()
 
         #Fondo de la escena
         self.suelo = GestorRecursos.CargarImagen('escenas/cocina/suelo.png',-1)
@@ -126,6 +129,10 @@ class Cocina(EscenaPygame):
 
         if self.marcadorTiempo.tiempoLimite < 0:
             self.director.salirEscena()
+
+        if self.jugador.vida <= 0:
+            pantalla = GameOver(self.director)
+            self.director.apilarEscena(pantalla)
 
         
 

@@ -16,6 +16,7 @@ from lib.sprites.recolectables.basura import *
 from lib.ui.puntos import *
 from lib.ui.temporizador import * 
 from lib.scenes.sotano import *
+from lib.scenes.gameOver import GameOver
 
 BLANCO = (255,255,255)
 
@@ -24,7 +25,8 @@ class Salon(EscenaPygame):
     def __init__(self,director):
 
         EscenaPygame.__init__(self,director)
-
+        
+        director.guardarPuntuacionAnterior()
 
         #Fondo de la escena
         self.suelo = GestorRecursos.CargarImagen('escenas/salon/suelo.png',-1)
@@ -104,7 +106,11 @@ class Salon(EscenaPygame):
         if self.marcadorTiempo.tiempoLimite < 0:
             pantalla = Sotano(self.director)
             self.director.cambiarEscena(pantalla)
+            
 
+        if self.jugador.vida <= 0:
+            pantalla = GameOver(self.director)
+            self.director.apilarEscena(pantalla)
 
 
     def eventos(self,listaEventos):
