@@ -10,12 +10,12 @@ from lib.gestorRecolectables import GestorBasuraR
 from lib.gestorRecolectables import GestorThunder
 from lib.gestorRecolectables import GestorShield
 from lib.gestorRecolectables import GestorWrenches
-from lib.sprites.recolectables.powerups.speedUp import *
-from lib.sprites.recolectables.powerups.lifeUp import *
-from lib.sprites.recolectables.powerups.shieldUp import *
+from lib.sprites.recolectables.lifeUp import *
+from lib.sprites.recolectables.powerUp import *
+from lib.sprites.recolectables.basura import *
 from lib.ui.puntos import *
 from lib.ui.temporizador import * 
-from lib.scenes.cocina import *
+from lib.scenes.sotano import *
 
 BLANCO = (255,255,255)
 
@@ -64,7 +64,7 @@ class Salon(EscenaPygame):
 
         #PowerUps
         self.simultaneouslyThunders = 1
-        self.thunder = [Thunder()]
+        self.thunder = [SpeedUp()]
         self.thunderGestor = GestorThunder(self.simultaneouslyThunders, self.fSpawn, (1, 3), self.thunder, (ANCHO_PANTALLA, ALTO_PANTALLA), self.mascaraCol)
         self.grupoThunders = pygame.sprite.Group(self.thunder)
 
@@ -74,38 +74,36 @@ class Salon(EscenaPygame):
         self.grupoWrenches = pygame.sprite.Group(self.wrench)
 
         self.simultaneouslyShields = 1
-        self.shield = [Shield()]
+        self.shield = [ShieldUp()]
         self.shieldGestor = GestorShield(self.simultaneouslyShields, self.fSpawn, (1, 3), self.shield, (ANCHO_PANTALLA, ALTO_PANTALLA), self.mascaraCol)
         self.grupoShields = pygame.sprite.Group(self.shield)
 
         self.marcadorPuntuacion = Puntos(None,(50,30))
-        self.marcadorTiempo = Temporizador(None, (500,30), 50)
+        self.marcadorTiempo = Temporizador(None, (500,30), 10)
         pygame.display.update()
 
     def update(self,tiempo):
+        self.bala.update(tiempo,self.grupoJugadores)
+        self.grupoTorretas.update(tiempo,self.grupoJugadores)
 
         self.gestorbasura.update(tiempo,self.mascaraCol, (ANCHO_PANTALLA,ALTO_PANTALLA), self.basuras)
         self.thunderGestor.update(tiempo, self.mascaraCol, (ANCHO_PANTALLA,ALTO_PANTALLA), self.thunder)
+        self.wrenchGestor.update(tiempo, self.mascaraCol, (ANCHO_PANTALLA,ALTO_PANTALLA), self.wrench)
+        self.shieldGestor.update(tiempo, self.mascaraCol, (ANCHO_PANTALLA,ALTO_PANTALLA), self.shield)
 
         self.grupoBasuras.update(tiempo,self.grupoJugadores)
         self.grupoThunders.update(tiempo, self.grupoJugadores)
         self.grupoShields.update(tiempo, self.grupoJugadores)
         self.grupoWrenches.update(tiempo, self.grupoJugadores)
 
-        self.bala.update(tiempo,self.grupoJugadores)
-        self.grupoTorretas.update(tiempo,self.grupoJugadores)
-
-        self.wrenchGestor.update(tiempo, self.mascaraCol, (ANCHO_PANTALLA,ALTO_PANTALLA), self.wrench)
-        self.shieldGestor.update(tiempo, self.mascaraCol, (ANCHO_PANTALLA,ALTO_PANTALLA), self.shield)
-
-        self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras,self.thunder,self.wrench,self.shield)
+        self.grupoJugadores.update(tiempo,self.mascaraCol)
 
         self.marcadorPuntuacion.update(tiempo, self.jugador)
         self.marcadorTiempo.update(tiempo)
 
         if self.marcadorTiempo.tiempoLimite < 0:
-            pantalla = Cocina(self.director)
-            self.director.apilarEscena(pantalla)
+            pantalla = Sotano(self.director)
+            self.director.cambiarEscena(pantalla)
 
 
 

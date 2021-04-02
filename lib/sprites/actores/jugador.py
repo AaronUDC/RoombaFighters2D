@@ -52,7 +52,7 @@ class Jugador(Actor):
             angular = QUIETO
         Actor.mover(self,lineal,angular)
 
-    def update(self, tiempo, mascaraEstaticos, lBasuras, thunder, wrench, shield):
+    def update(self, tiempo, mascaraEstaticos):
         (velocidadX,velocidadY) = self.velocidad
 
         if self.movimientoLineal == ADELANTE: 
