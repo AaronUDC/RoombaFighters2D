@@ -49,7 +49,8 @@ class Fantasma(EnemigoSeguidor):
 
         if jugadores != None:
             for jugador in jugadores:
-                jugador.perderVida()
+                sound = GestorRecursos.CargarSonido("others/impacto.mp3")
+                jugador.perderVida(sound)
 
                 #Lado de la pantalla al que se teletransportara
                 cuadrante = random.randint(0,3)
@@ -153,7 +154,8 @@ class Loro(EnemigoSeguidor):
             jugadores = pygame.sprite.spritecollide(self, grupoJugadores, False, pygame.sprite.collide_circle_ratio(0.3))
             if jugadores != None:
                 for jugador in jugadores:
-                    jugador.perderVida()
+                    sound = GestorRecursos.CargarSonido("others/impacto.mp3")
+                    jugador.perderVida(sound)
                     
                     #Cambiar al estado de volver a la jaula
                     self.estado = MOVERSE_JAULA
