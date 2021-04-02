@@ -6,7 +6,6 @@ from lib.gestorRecursos import GestorRecursos
 from lib.sprites.actores.actores import *
 from math import *
 
-
 NO_POWERUP = 0
 SPEED_UP = 1
 SHIELD_UP = 2
@@ -24,7 +23,7 @@ class Jugador(Actor):
 
         self.powerupActual = 0
         self.tiempoPowerUp = 0
-        
+
         self.modificadorVel = 1
         self.modificadorGiro = 1
         self.escudo = False
@@ -96,12 +95,12 @@ class Jugador(Actor):
                 
         MiSprite.establecerPosicion(self, (posActX,posActY))
 
-        #Contador del powerUp
+        # Contador del powerUp
         if self.powerupActual != NO_POWERUP:
-            self.tiempoPowerUp -= tiempo/1000
+            self.tiempoPowerUp -= tiempo / 1000
             if self.tiempoPowerUp < 0:
                 self._resetPowerUp()
-                
+
     def _resetPowerUp(self):
         self.modificadorVel = 1
         self.modificadorGiro = 1

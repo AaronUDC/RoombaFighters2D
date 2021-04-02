@@ -4,10 +4,17 @@ from lib.sprites.actores.jugador import Jugador
 from lib.sprites.actores.enemigo.enemigoSeguidor import Loro
 from lib.sprites.sprite import MiSprite
 from lib.gestorRecursos import GestorRecursos
+from lib.gestorRecolectables import GestorRecolectables
+from lib.gestorRecolectables import GestorBasuraR
+from lib.gestorRecolectables import GestorThunder
+from lib.gestorRecolectables import GestorShield
+from lib.gestorRecolectables import GestorWrenches
 from lib.sprites.actores.enemigo.torreta import Bebe
 from lib.sprites.actores.enemigo.bala import Vomito
 from lib.sprites.recolectables.basura import *
 from lib.sprites.recolectables.powerups.speedUp import *
+from lib.sprites.recolectables.powerups.lifeUp import *
+from lib.sprites.recolectables.powerups.shieldUp import *
 from lib.ui.puntos import *
 from lib.scenes.sotano import *
 from lib.ui.temporizador import * 
@@ -73,15 +80,26 @@ class Cocina(EscenaPygame):
         self.grupoEnemigosVoladores = pygame.sprite.Group(self.loro)
 
         #Recolectables
-        self.numBasuras, self.basuras = iniBasuras(8, 4, 2)
+        self.numBasuras, self.basuras = GestorRecolectables.iniBasuras(10, 10, 10)
         self.fSpawn = 60
-        self.gestorbasura = GestorBasura(self.numBasuras, self.fSpawn, (1, 3), self.mascaraCol, self.basuras, (ANCHO_PANTALLA, ALTO_PANTALLA))
+        self.gestorbasura = GestorBasuraR(self.numBasuras, self.fSpawn, (1, 3), self.basuras, (ANCHO_PANTALLA, ALTO_PANTALLA), self.mascaraCol)
         self.grupoBasuras = pygame.sprite.Group(self.basuras)
 
+        #PowerUps
         self.simultaneouslyThunders = 1
-        self.thunder = Thunder()
-        self.thunderGestor = ThunderGestor(self.simultaneouslyThunders, 1, self.mascaraCol, self.thunder, (ANCHO_PANTALLA, ALTO_PANTALLA))
+        self.thunder = [Thunder()]
+        self.thunderGestor = GestorThunder(self.simultaneouslyThunders, self.fSpawn, (1, 3), self.thunder, (ANCHO_PANTALLA, ALTO_PANTALLA), self.mascaraCol)
         self.grupoThunders = pygame.sprite.Group(self.thunder)
+
+        self.simultaneouslyWrenches = 1
+        self.wrench = [Wrench()]
+        self.wrenchGestor = GestorWrenches(self.simultaneouslyThunders, self.fSpawn, (1, 3), self.wrench, (ANCHO_PANTALLA, ALTO_PANTALLA), self.mascaraCol)
+        self.grupoWrenches = pygame.sprite.Group(self.wrench)
+
+        self.simultaneouslyShields = 1
+        self.shield = [Shield()]
+        self.shieldGestor = GestorShield(self.simultaneouslyShields, self.fSpawn, (1, 3), self.shield, (ANCHO_PANTALLA, ALTO_PANTALLA), self.mascaraCol)
+        self.grupoShields = pygame.sprite.Group(self.shield)
 
         self.marcadorPuntuacion = Puntos(None,(50,30))  
         self.marcadorTiempo = Temporizador(None, (500,30), 60)
@@ -91,9 +109,15 @@ class Cocina(EscenaPygame):
 
         self.loro.update(tiempo,self.grupoJugadores)
         
-        self.gestorbasura.update(tiempo,self.mascaraCol, self.basuras, (ANCHO_PANTALLA,ALTO_PANTALLA))
-        self.thunderGestor.update(tiempo, self.mascaraCol, self.thunder, (ANCHO_PANTALLA,ALTO_PANTALLA))
-        self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras, self.grupoThunders)
+        self.gestorbasura.update(tiempo,self.mascaraCol, (ANCHO_PANTALLA,ALTO_PANTALLA), self.basuras)
+        self.thunderGestor.update(tiempo, self.mascaraCol, (ANCHO_PANTALLA,ALTO_PANTALLA),self.thunder)
+        self.wrenchGestor.update(tiempo, self.mascaraCol, (ANCHO_PANTALLA, ALTO_PANTALLA), self.wrench)
+        self.shieldGestor.update(tiempo, self.mascaraCol, (ANCHO_PANTALLA,ALTO_PANTALLA), self.shield)
+        self.grupoBasuras.update(tiempo,self.grupoJugadores)
+        self.grupoThunders.update(tiempo, self.grupoJugadores)
+        self.grupoShields.update(tiempo, self.grupoJugadores)
+        self.grupoWrenches.update(tiempo, self.grupoJugadores)
+        self.grupoJugadores.update(tiempo,self.mascaraCol, self.grupoBasuras, self.thunder,self.wrench,self.shield)
         self.bala.update(tiempo, self.grupoJugadores)
         self.bebe.update(tiempo, self.grupoJugadores)
         
@@ -124,7 +148,9 @@ class Cocina(EscenaPygame):
         for basura in self.basuras:
             basura.dibujar(pantalla)
 
-        self.thunder.dibujar(pantalla)
+        self.thunder[0].dibujar(pantalla)
+        self.wrench[0].dibujar(pantalla)
+        self.shield[0].dibujar(pantalla)
         
         
         pantalla.blit(self.silla,self.sillaRect)

@@ -13,7 +13,7 @@ class PowerUp(Recolectable):
         Recolectable.__init__(self,  "recolectables/powerups/powerUps.png", "recolectables/powerups/coordPowerUps.txt", [2,0,0], tipo)
         self.tiempoPowerUp = tiempoPowerUp
 
-    def update(self, tiempo, jugadores, powerUp):
+    def update(self,tiempo, jugadores, powerUp):
         #Llamamos al metodo de ganar un powerUp del jugador
         Recolectable.update(self,tiempo,jugadores, 0.3,Jugador.obtenerPowerUp, powerUp, self.tiempoPowerUp)
 
@@ -22,7 +22,7 @@ class SpeedUp(PowerUp):
     def __init__(self):
         PowerUp.__init__(self, SPEED_UP, 10)
 
-    def update(self, tiempo, jugadores): 
+    def update(self,tiempo, jugadores):
         #Le pasamos el powerUp concreto
         PowerUp.update(self, tiempo, jugadores, 1)
 
@@ -31,7 +31,7 @@ class ShieldUp(PowerUp):
     def __init__(self):
         PowerUp.__init__(self, SHIELD_UP, 20)
 
-    def update(self, tiempo,jugadores):
+    def update(self,tiempo,jugadores):
         #Le pasamos el powerUp concreto
         PowerUp.update(self, tiempo, jugadores, 2)
 

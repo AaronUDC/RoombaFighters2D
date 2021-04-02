@@ -4,6 +4,7 @@ import pygame, sys, os, time, random
 from pygame.locals import *
 from lib.gestorRecursos import *
 from lib.sprites.recolectables.recolectables import *
+from lib.sprites.actores.jugador import Jugador
 from math import *
 from sounds import *
 
@@ -34,8 +35,8 @@ class Thunder(Recolectable):
         else:
             pygame.mixer.stop()
 
-    def update(self, tiempo):
-        return
+    def update(self, tiempo,jugadores):
+        Recolectable.update(self,tiempo,jugadores,0.3,Jugador.obtenerPowerUp,1,10)
 
 class ThunderGestor():
 
