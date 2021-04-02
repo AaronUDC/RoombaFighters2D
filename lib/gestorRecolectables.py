@@ -70,8 +70,7 @@ class GestorThunder(GestorRecolectables):
         GestorRecolectables.__init__(self, cantidad, fSpawn, spawnCount, listaBasuras)
         #Spawn inicial
         ##Poner valores mas altos para el spawn inicial
-        total = random.randint(10, 20)
-        self.spawnRecolectables(1, mascaraCol, rectPantalla,listaBasuras)
+        #self.spawnRecolectables(1, mascaraCol, rectPantalla,listaBasuras)
 
     def update(self,tiempo,mascaraCol, rectPantalla, listaBasuras):
         self.contador += tiempo / 60
@@ -86,8 +85,7 @@ class GestorShield(GestorRecolectables):
         GestorRecolectables.__init__(self, cantidad, fSpawn, spawnCount, listaBasuras)
         #Spawn inicial
         ##Poner valores mas altos para el spawn inicial
-        total = random.randint(0, 2)
-        self.spawnRecolectables(1, mascaraCol, rectPantalla,listaBasuras)
+        #self.spawnRecolectables(1, mascaraCol, rectPantalla,listaBasuras)
 
     def update(self,tiempo,mascaraCol, rectPantalla, listaBasuras):
         self.contador += tiempo / 60
@@ -102,8 +100,7 @@ class GestorWrenches(GestorRecolectables):
         GestorRecolectables.__init__(self, cantidad, fSpawn, spawnCount, listaBasuras)
         #Spawn inicial
         ##Poner valores mas altos para el spawn inicial
-        total = random.randint(0, 2)
-        self.spawnRecolectables(1, mascaraCol, rectPantalla,listaBasuras)
+        #self.spawnRecolectables(1, mascaraCol, rectPantalla,listaBasuras)
 
     def update(self,tiempo,mascaraCol, rectPantalla, listaBasuras):
         self.contador += tiempo / 60

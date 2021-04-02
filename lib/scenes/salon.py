@@ -79,7 +79,7 @@ class Salon(EscenaPygame):
         self.grupoShields = pygame.sprite.Group(self.shield)
 
         self.marcadorPuntuacion = Puntos(None,(50,30))
-        self.marcadorTiempo = Temporizador(None, (500,30), 10)
+        self.marcadorTiempo = Temporizador(None, (500,30), 60)
         pygame.display.update()
 
     def update(self,tiempo):

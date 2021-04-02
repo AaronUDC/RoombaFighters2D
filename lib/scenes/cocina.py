@@ -55,7 +55,7 @@ class Cocina(EscenaPygame):
 
         #Jugador
         self.jugador = director.jugador
-        self.jugador.establecerPosicion((188,138))
+        self.jugador.establecerPosicion((240,240))
 
         self.grupoJugadores = pygame.sprite.Group(self.jugador)
 
@@ -100,7 +100,7 @@ class Cocina(EscenaPygame):
         self.grupoShields = pygame.sprite.Group(self.shield)
 
         self.marcadorPuntuacion = Puntos(None,(50,30))  
-        self.marcadorTiempo = Temporizador(None, (500,30), 10)
+        self.marcadorTiempo = Temporizador(None, (500,30), 60)
         pygame.display.update()
 
     def update(self,tiempo):
