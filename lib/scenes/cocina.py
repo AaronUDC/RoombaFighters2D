@@ -14,8 +14,7 @@ from lib.sprites.actores.enemigo.bala import Vomito
 from lib.sprites.recolectables.lifeUp import *
 from lib.sprites.recolectables.powerUp import *
 from lib.sprites.recolectables.basura import *
-from lib.ui.puntos import *
-from lib.ui.temporizador import * 
+from lib.ui.gameHUD import *
 from lib.scenes.gameOver import GameOver
 from lib.scenes.victory import Victory
 
@@ -83,29 +82,28 @@ class Cocina(EscenaPygame):
         self.grupoEnemigosVoladores = pygame.sprite.Group(self.loro)
 
         #Recolectables
-        self.numBasuras, self.basuras = GestorRecolectables.iniBasuras(10, 10, 10)
-        self.fSpawn = 60
-        self.gestorbasura = GestorBasuraR(self.numBasuras, self.fSpawn, (1, 3), self.basuras, (ANCHO_PANTALLA, ALTO_PANTALLA), self.mascaraCol)
+        self.numBasuras, self.basuras = GestorRecolectables.iniBasuras(15, 10, 5)
+        self.gestorbasura = GestorBasuraR(self.numBasuras, 5, (6, 10), self.basuras, (ANCHO_PANTALLA, ALTO_PANTALLA), self.mascaraCol)
         self.grupoBasuras = pygame.sprite.Group(self.basuras)
 
         #PowerUps
         self.simultaneouslyThunders = 1
         self.thunder = [SpeedUp()]
-        self.thunderGestor = GestorThunder(self.simultaneouslyThunders, self.fSpawn, (1, 3), self.thunder, (ANCHO_PANTALLA, ALTO_PANTALLA), self.mascaraCol)
+        self.thunderGestor = GestorThunder(self.simultaneouslyThunders, 25, (1, 3), self.thunder, (ANCHO_PANTALLA, ALTO_PANTALLA), self.mascaraCol)
         self.grupoThunders = pygame.sprite.Group(self.thunder)
 
         self.simultaneouslyWrenches = 1
         self.wrench = [Wrench()]
-        self.wrenchGestor = GestorWrenches(self.simultaneouslyThunders, self.fSpawn, (1, 3), self.wrench, (ANCHO_PANTALLA, ALTO_PANTALLA), self.mascaraCol)
+        self.wrenchGestor = GestorWrenches(self.simultaneouslyThunders, 20, (1, 3), self.wrench, (ANCHO_PANTALLA, ALTO_PANTALLA), self.mascaraCol)
         self.grupoWrenches = pygame.sprite.Group(self.wrench)
 
         self.simultaneouslyShields = 1
         self.shield = [ShieldUp()]
-        self.shieldGestor = GestorShield(self.simultaneouslyShields, self.fSpawn, (1, 3), self.shield, (ANCHO_PANTALLA, ALTO_PANTALLA), self.mascaraCol)
+        self.shieldGestor = GestorShield(self.simultaneouslyShields, 25, (1, 3), self.shield, (ANCHO_PANTALLA, ALTO_PANTALLA), self.mascaraCol)
         self.grupoShields = pygame.sprite.Group(self.shield)
 
-        self.marcadorPuntuacion = Puntos(None,(50,30))  
-        self.marcadorTiempo = Temporizador(None, (500,30), 6)
+        self.marcadorPuntuacion = Puntos((0,0,0),None,(50,30))  
+        self.marcadorTiempo = Temporizador((0,0,0),None, (500,30), 60)
         pygame.display.update()
 
     def update(self,tiempo):

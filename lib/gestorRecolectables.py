@@ -15,6 +15,9 @@ class GestorRecolectables():
         self.listaRecolectables = listaRecolectables
         random.seed()
 
+        ##Desfase aleatorio
+        self.contador = float(random.randint(0,fSpawn))
+
     def update(self, tiempo, mascaraCol, rectPantalla):
 
         self.contador += (tiempo/1000)
@@ -58,7 +61,7 @@ class GestorBasuraR(GestorRecolectables):
         self.spawnRecolectables(total, mascaraCol, rectPantalla,listaBasuras)
 
     def update(self,tiempo,mascaraCol, rectPantalla, listaBasuras):
-        self.contador += tiempo / 60
+        self.contador += tiempo / 1000
         if self.contador > self.fSpawn:
             self.contador = 0.0
             total = random.randint(self.spawnCount[0], self.spawnCount[1])
@@ -73,7 +76,7 @@ class GestorThunder(GestorRecolectables):
         #self.spawnRecolectables(1, mascaraCol, rectPantalla,listaBasuras)
 
     def update(self,tiempo,mascaraCol, rectPantalla, listaBasuras):
-        self.contador += tiempo / 60
+        self.contador += tiempo / 1000
         if self.contador > self.fSpawn:
             self.contador = 0.0
             total = random.randint(self.spawnCount[0], self.spawnCount[1])
@@ -88,7 +91,7 @@ class GestorShield(GestorRecolectables):
         #self.spawnRecolectables(1, mascaraCol, rectPantalla,listaBasuras)
 
     def update(self,tiempo,mascaraCol, rectPantalla, listaBasuras):
-        self.contador += tiempo / 60
+        self.contador += tiempo / 1000
         if self.contador > self.fSpawn:
             self.contador = 0.0
             total = random.randint(self.spawnCount[0], self.spawnCount[1])
@@ -103,7 +106,7 @@ class GestorWrenches(GestorRecolectables):
         #self.spawnRecolectables(1, mascaraCol, rectPantalla,listaBasuras)
 
     def update(self,tiempo,mascaraCol, rectPantalla, listaBasuras):
-        self.contador += tiempo / 60
+        self.contador += tiempo / 1000
         if self.contador > self.fSpawn:
             self.contador = 0.0
             total = random.randint(self.spawnCount[0], self.spawnCount[1])

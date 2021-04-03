@@ -14,9 +14,9 @@ ESTADO_AVANCE = 2
 class Bala(Enemigos):
 
 
-    def __init__(self, archivoImagen, archivoCoordenadas,tipoBala, posicionDisparo):
+    def __init__(self, archivoImagen, archivoCoordenadas,tipoBala, posicionDisparo, velocidad):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Actor.__init__(self,archivoImagen, archivoCoordenadas, [2,0,0], 20, 10);
+        Actor.__init__(self,archivoImagen, archivoCoordenadas, [2,0,0], velocidad, 10);
         self.visible = True
         self.numImagenPostura = tipoBala
         self.posicionDisparo = posicionDisparo
@@ -104,11 +104,11 @@ class Vomito(Bala):
 
     def __init__(self,posicionDisparo):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Bala.__init__(self, 'personajes/enemigos/bala/proyectiles.png','personajes/enemigos/bala/coordBala.txt',1, posicionDisparo);
+        Bala.__init__(self, 'personajes/enemigos/bala/proyectiles.png','personajes/enemigos/bala/coordBala.txt',1, posicionDisparo, 20);
 
 
 class Pelo(Bala):
 
     def __init__(self,posicionDisparo):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Bala.__init__(self, 'personajes/enemigos/bala/proyectiles.png','personajes/enemigos/bala/coordBala.txt',0, posicionDisparo);
+        Bala.__init__(self, 'personajes/enemigos/bala/proyectiles.png','personajes/enemigos/bala/coordBala.txt',0, posicionDisparo, 70);
