@@ -52,21 +52,21 @@ class PantallaInicialGUI(PantallaGUI):
         PantallaGUI.__init__(self, menu, 'gui/fondoSalon.png')
         musica = GestorRecursos.CargarMusica("main_themes/main_theme.mp3")
         pygame.mixer.music.play(-1)
-        self.logo = GestorRecursos.CargarImagen("gui/logo.png",-1)
+        self.logo = GestorRecursos.CargarImagen("gui/Logo.png",-1)
         self.rectLogo = self.logo.get_rect()
         self.rectLogo.left = ANCHO_PANTALLA/2 - self.logo.get_width()/2
-        self.rectLogo.bottom = 150
+        self.rectLogo.bottom = 200
 
         # Creamos los botones y los metemos en la lista
         botonJugarFase1 = BotonJugarFase(self, Salon, (ANCHO_PANTALLA/2,ALTO_PANTALLA/2))
-        botonSalir = BotonSalir(self,(ANCHO_PANTALLA/2,ALTO_PANTALLA/2+ 100))
+        botonSalir = BotonSalir(self,(ANCHO_PANTALLA/2,ALTO_PANTALLA/2+ 50))
 
         self.elementosGUI.append(botonJugarFase1)
         self.elementosGUI.append(botonSalir)
 
         # Creamos el texto y lo metemos en la lista
         textoJugar = TextoJugarFase(self, 'Limpiar la casa', Salon, (ANCHO_PANTALLA/2+ 10,ALTO_PANTALLA/2-10))
-        textoSalir = TextoSalir(self, (ANCHO_PANTALLA/2+ 10 ,ALTO_PANTALLA/2 + 90))
+        textoSalir = TextoSalir(self, (ANCHO_PANTALLA/2+ 10 ,ALTO_PANTALLA/2 + 40))
         self.elementosGUI.append(textoJugar)
         self.elementosGUI.append(textoSalir)
 
