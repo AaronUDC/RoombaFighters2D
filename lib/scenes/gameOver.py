@@ -86,7 +86,7 @@ class TextoGameOver(TextoGUI):
 
 
 
-class PantallaGameOver(PantallaGUI):
+class PantallaGameOverSalon(PantallaGUI):
     
     def __init__(self, menu):
         PantallaGUI.__init__(self, menu, 'gui/fondoSalon.png')
@@ -128,16 +128,103 @@ class PantallaGameOver(PantallaGUI):
     def dibujar(self,pantalla):
         PantallaGUI.dibujar(self,pantalla)
 
+
+class PantallaGameOverCocina(PantallaGUI):
+
+    def __init__(self, menu):
+        PantallaGUI.__init__(self, menu, 'gui/fondoCocina.png')
+
+        # Creamos los botones y los metemos en la lista
+        botonRejugar = BotonVolverMenu(self, (ANCHO_PANTALLA / 2, ALTO_PANTALLA / 2))
+        botonMenu = BotonVolverMenu(self, (ANCHO_PANTALLA / 2, ALTO_PANTALLA / 2 + 50))
+        botonSalir = BotonSalir(self, (ANCHO_PANTALLA / 2, ALTO_PANTALLA / 2 + 100))
+
+        self.elementosGUI.append(botonRejugar)
+        self.elementosGUI.append(botonMenu)
+        self.elementosGUI.append(botonSalir)
+
+        # Creamos el texto y lo metemos en la lista
+        textoRejugar = TextoRestartFase(self, (ANCHO_PANTALLA / 2 + 10, ALTO_PANTALLA / 2 - 10))
+        textoMenu = TextoVolverMenu(self, (ANCHO_PANTALLA / 2 + 10, ALTO_PANTALLA / 2 + 40))
+        textoSalir = TextoSalir(self, (ANCHO_PANTALLA / 2 + 10, ALTO_PANTALLA / 2 + 90))
+
+        self.elementosGUI.append(textoRejugar)
+        self.elementosGUI.append(textoMenu)
+        self.elementosGUI.append(textoSalir)
+
+        tituloPuntuacion = TextoPuntuacionTitulo(self, (100, 400))
+        puntuacion = TextoPuntuacion(self, (100, 430), menu.director.jugador.puntuacion)
+        self.elementosGUI.append(tituloPuntuacion)
+        self.elementosGUI.append(puntuacion)
+
+        textoGameOver = TextoGameOver(self, (ANCHO_PANTALLA / 3, 100))
+        self.elementosGUI.append(textoGameOver)
+
+    def update(self, *args):
+        x, y = pygame.mouse.get_pos()
+        for boton in self.elementosGUI:
+            if isinstance(boton, Boton):
+                boton.update((x, y))
+
+    def dibujar(self, pantalla):
+        PantallaGUI.dibujar(self, pantalla)
+
+
+class PantallaGameOverSotano(PantallaGUI):
+
+    def __init__(self, menu):
+        PantallaGUI.__init__(self, menu, 'gui/fondoSotano.png')
+
+        # Creamos los botones y los metemos en la lista
+        botonRejugar = BotonVolverMenu(self, (ANCHO_PANTALLA / 2, ALTO_PANTALLA / 2))
+        botonMenu = BotonVolverMenu(self, (ANCHO_PANTALLA / 2, ALTO_PANTALLA / 2 + 50))
+        botonSalir = BotonSalir(self, (ANCHO_PANTALLA / 2, ALTO_PANTALLA / 2 + 100))
+
+        self.elementosGUI.append(botonRejugar)
+        self.elementosGUI.append(botonMenu)
+        self.elementosGUI.append(botonSalir)
+
+        # Creamos el texto y lo metemos en la lista
+        textoRejugar = TextoRestartFase(self, (ANCHO_PANTALLA / 2 + 10, ALTO_PANTALLA / 2 - 10))
+        textoMenu = TextoVolverMenu(self, (ANCHO_PANTALLA / 2 + 10, ALTO_PANTALLA / 2 + 40))
+        textoSalir = TextoSalir(self, (ANCHO_PANTALLA / 2 + 10, ALTO_PANTALLA / 2 + 90))
+
+        self.elementosGUI.append(textoRejugar)
+        self.elementosGUI.append(textoMenu)
+        self.elementosGUI.append(textoSalir)
+
+        tituloPuntuacion = TextoPuntuacionTitulo(self, (100, 400))
+        puntuacion = TextoPuntuacion(self, (100, 430), menu.director.jugador.puntuacion)
+        self.elementosGUI.append(tituloPuntuacion)
+        self.elementosGUI.append(puntuacion)
+
+        textoGameOver = TextoGameOver(self, (ANCHO_PANTALLA / 3, 100))
+        self.elementosGUI.append(textoGameOver)
+
+    def update(self, *args):
+        x, y = pygame.mouse.get_pos()
+        for boton in self.elementosGUI:
+            if isinstance(boton, Boton):
+                boton.update((x, y))
+
+    def dibujar(self, pantalla):
+        PantallaGUI.dibujar(self, pantalla)
+
 class GameOver(EscenaPygame):
 
-    def __init__(self, director):
+    def __init__(self, director,fondo):
         # Llamamos al constructor de la clase padre
         EscenaPygame.__init__(self, director);
         # Creamos la lista de pantallas
         self.listaPantallas = []
         # Creamos las pantallas que vamos a tener
         #   y las metemos en la lista
-        self.listaPantallas.append(PantallaGameOver(self))
+        if fondo == "salon":
+            self.listaPantallas.append(PantallaGameOverSalon(self))
+        elif fondo == "sotano":
+            self.listaPantallas.append(PantallaGameOverSotano(self))
+        elif fondo == "cocina":
+            self.listaPantallas.append(PantallaGameOverCocina(self))
         # En que pantalla estamos actualmente
         self.mostrarPantallaInicial()
 

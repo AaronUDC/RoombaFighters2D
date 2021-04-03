@@ -17,6 +17,7 @@ from lib.sprites.recolectables.basura import *
 from lib.ui.puntos import *
 from lib.ui.temporizador import * 
 from lib.scenes.gameOver import GameOver
+from lib.scenes.victory import Victory
 
 BLANCO = (255,255,255)
 
@@ -104,7 +105,7 @@ class Cocina(EscenaPygame):
         self.grupoShields = pygame.sprite.Group(self.shield)
 
         self.marcadorPuntuacion = Puntos(None,(50,30))  
-        self.marcadorTiempo = Temporizador(None, (500,30), 60)
+        self.marcadorTiempo = Temporizador(None, (500,30), 6)
         pygame.display.update()
 
     def update(self,tiempo):
@@ -129,12 +130,12 @@ class Cocina(EscenaPygame):
         self.marcadorTiempo.update(tiempo)
 
         if self.marcadorTiempo.tiempoLimite < 0:
-            pantalla = GameOver(self.director)
+            pantalla = Victory(self.director,"cocina")
             self.director.apilarEscena(pantalla)
 
 
         if self.jugador.vida <= 0:
-            pantalla = GameOver(self.director)
+            pantalla = GameOver(self.director,"cocina")
             self.director.apilarEscena(pantalla)
 
         

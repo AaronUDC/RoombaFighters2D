@@ -111,7 +111,7 @@ class Sotano(EscenaPygame):
             self.director.cambiarEscena(pantalla)
 
         if self.jugador.vida <= 0:
-            pantalla = GameOver(self.director)
+            pantalla = GameOver(self.director,"sotano")
             self.director.apilarEscena(pantalla)
 
     def eventos(self,listaEventos):

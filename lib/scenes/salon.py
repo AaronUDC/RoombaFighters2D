@@ -111,7 +111,7 @@ class Salon(EscenaPygame):
             
 
         if self.jugador.vida <= 0:
-            pantalla = GameOver(self.director)
+            pantalla = GameOver(self.director,"salon")
             self.director.apilarEscena(pantalla)
 
 
