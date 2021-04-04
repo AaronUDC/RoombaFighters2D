@@ -58,7 +58,9 @@ class Bala(Enemigos):
                 sound = GestorRecursos.CargarSonido("others/maullido.mp3")
             else:
                 sound = GestorRecursos.CargarSonido("others/baby.mp3")
-            sound.play()
+            pygame.mixer.set_reserved(1)
+            canal_reservado_0 = pygame.mixer.Channel(0)
+            canal_reservado_0.play(sound)
             self.estado = ESTADO_AVANCE
 
         elif self.estado == ESTADO_AVANCE:

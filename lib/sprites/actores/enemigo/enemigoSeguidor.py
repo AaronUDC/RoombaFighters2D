@@ -70,6 +70,8 @@ class Fantasma(EnemigoSeguidor):
 
 
                 self.establecerPosicion((newPosX, newPosY))
+                soundGhost = GestorRecursos.CargarSonido("others/ghost.mp3")
+                soundGhost.play()
 
         EnemigoSeguidor.update(self,tiempo)
 

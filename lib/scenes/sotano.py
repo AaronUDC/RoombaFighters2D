@@ -46,7 +46,7 @@ class Sotano(EscenaPygame):
         #Jugador
         self.jugador = director.jugador
         self.jugador.establecerPosicion((600,570))
-
+        self.jugador.origen = ((600,570))
         #fantasma
         self.fantasma = Fantasma(self.jugador)
         self.fantasma.establecerPosicion((300,400))

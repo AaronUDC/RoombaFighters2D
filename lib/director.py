@@ -130,6 +130,12 @@ class Director():
         self.jugador = Jugador()
     
     def resetVidaJugador(self):
+        self.jugador.establecerPosicion(self.jugador.origen)
         self.jugador.vida = self.jugador.maxVida
+        """self.jugador.powerupActual = 0
+        self.jugador.modificadorVel = 1
+        self.jugador.modificadorGiro = 1
+        self.jugador.escudo = False"""
+        self.jugador._resetPowerUp()
         self.jugador.actualizarPostura()
 

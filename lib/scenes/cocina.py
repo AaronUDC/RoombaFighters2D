@@ -60,6 +60,7 @@ class Cocina(EscenaPygame):
         #Jugador
         self.jugador = director.jugador
         self.jugador.establecerPosicion((240,240))
+        self.jugador.origen = (240,240)
 
         self.grupoJugadores = pygame.sprite.Group(self.jugador)
 

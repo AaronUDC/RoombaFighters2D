@@ -27,6 +27,7 @@ class Jugador(Actor):
         self.modificadorVel = 1
         self.modificadorGiro = 1
         self.escudo = False
+        self.origen = (0,0)
 
         self.actualizarPostura()
 
@@ -113,7 +114,9 @@ class Jugador(Actor):
     def perderVida(self,sound):
         if not self.escudo:
             self.vida -= 1
-            sound.play()
+            pygame.mixer.set_reserved(1)
+            canal_reservado_0 = pygame.mixer.Channel(0)
+            canal_reservado_0.play(sound)
             if (self.vida >= 1):
                 self.actualizarPostura()
         else:
@@ -123,21 +126,28 @@ class Jugador(Actor):
         if self.vida < self.maxVida:
             self.vida += 1
             self.actualizarPostura()
-            sound.play()
+            pygame.mixer.set_reserved(1)
+            canal_reservado_0 = pygame.mixer.Channel(0)
+            canal_reservado_0.play(sound)
 
     def obtenerPowerUp(self, powerup, tiempo,sonido):
         self._resetPowerUp()
         self.tiempoPowerUp = tiempo
         self.powerupActual = powerup
+        pygame.mixer.set_reserved(2)
+        canal_reservado_0 = pygame.mixer.Channel(0)
+        canal_reservado_1 = pygame.mixer.Channel(1)
         if powerup == SPEED_UP:
             self.modificadorVel = 1.75
             self.modificadorGiro = 2
-            sonido.play()
+            canal_reservado_0.play(sonido)
         elif powerup == SHIELD_UP:
             self.escudo = True
-            sonido.play()
+            canal_reservado_1.play(sonido)
         self.actualizarPostura()
 
     def ganarPuntos(self, puntos,sonido):
         self.puntuacion += puntos
-        sonido.play()
+        pygame.mixer.set_reserved(1)
+        canal_reservado_0 = pygame.mixer.Channel(0)
+        canal_reservado_0.play(sonido)
