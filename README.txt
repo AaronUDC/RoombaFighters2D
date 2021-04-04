@@ -1,1 +1,1 @@
-iuuuu
+Inicializar el juego ejecutando main con python 3.9.1 y pygame 2.0.1
